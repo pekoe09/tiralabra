@@ -1,6 +1,6 @@
 #Tietorakenteiden harjoitustyö 
 
-Lyhimmän reitin löytäminen maantieteellisten paikkojen muodostamassa verkostossa.
+Lyhimmän reitin löytäminen maantieteellisten paikkojen muodostamassa verkossa.
 
 ## Dokumentaatio
 
