@@ -1,4 +1,4 @@
-#Tietorakenteiden harjoitustyö# 
+#Tietorakenteiden harjoitustyö 
 
 Lyhimmän reitin löytäminen maantieteellisten paikkojen muodostamassa verkostossa.
 
