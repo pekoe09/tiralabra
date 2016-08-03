@@ -8,49 +8,40 @@ public class App
     public static void main( String[] args )
     {        
         Scanner in = new Scanner(System.in);
-        printPrompt();
+        Messenger.printPrompt();
         String input = in.nextLine().trim().toLowerCase();
         while(!input.equals("q")) {
             if(input.equals("="))  {
-                printAllResults();
+                Messenger.printAllResults();
             } else {
                 String[] params = input.split(" ");
                 if(params.length != 3) {
-                    printParamError();
-                } else {        
-                    List<PlaceNode> graphData = null;
+                    Messenger.printParamError();
+                } else {  
+                    PlaceGraphMapper mapper = new PlaceGraphMapper();
+                    boolean fileHasErrors = false;
+                    
                     try {
-                        graphData = FileReader.readGraphFile(params[0]);
+                        FileReader.readGraphFile(params[0], mapper);
                     } catch (IllegalArgumentException exc) {
-                        printFileError(exc.getMessage(), params[0]);
+                        Messenger.printFileError(exc.getMessage(), params[0]);
+                        fileHasErrors = true;
                     }
-                    runAlgos(graphData);
+                    
+                    if (!fileHasErrors) {
+                        runAlgos(mapper.getData());
+                    }
                 }
             }
-            printPrompt();
+            Messenger.printPrompt();
             input = in.nextLine().trim().toLowerCase();
         }      
-        System.out.println("Tack och välkommen åter!");
-        return;
+        Messenger.printGoodbye();
+        System.exit(0);
     }
 
-    private static void printAllResults() {
-       System.out.println("Kaikki tulokset...");
-    }
-
-    private static void printParamError() {
-        System.out.println("Parametrivirhe!");
-    }
-
-    private static void printPrompt() {
-        System.out.println("Ohje: [tiedostopolku] [lähtöpaikka] [kohdepaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset");
-    }  
-
-    private static void printFileError(String message, String filepath) {
-        System.out.printf("Datatiedoston %s luku ei onnistunut:", filepath);
-    }
-
-    private static void runAlgos(List<PlaceNode> graphData) {
+    public static void runAlgos(List<PlaceNode> graphData) {
         System.out.println("Suoritetaan algoritmit...");
     }
+
 }

@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class FileReader {
 
-    static List<PlaceNode> readGraphFile(String filePath) {
+    static void readGraphFile(String filePath, IDataMapper mapper) {
         
         Scanner in;
         try {
@@ -17,31 +17,15 @@ public class FileReader {
             throw new IllegalArgumentException("Tiedostoa ei voi avata!");
         }
         
-        String placeRow;
-        PlaceNode newPlace;
-        List<PlaceNode> graphData = new ArrayList<>();
+        String dataRow;        
         Integer rowCounter = 0;
-        while(in.hasNextLine()) {
-            placeRow = in.nextLine();
-            rowCounter++;
-            String[] placeData = placeRow.split(";");
-            if(placeData.length < 3) {
-                throw new IllegalArgumentException(
-                        String.format("Virhe tiedostossa: rivillä %d on liian vähän tietoa:\n %s", rowCounter, placeRow));
-            }
-            String placeName = placeData[0];
-            try {
-                Double latitude = Double.parseDouble(placeData[1]);
-                Double longitude = Double.parseDouble(placeData[2]);
-                newPlace = new PlaceNode(placeName, latitude, longitude);
-            } catch(Exception exc) {
-                newPlace = null;
-                throw new IllegalArgumentException(
-                        String.format("Virhe tiedostossa: rivillä %d epäkuranttia dataa:\n %s", rowCounter, placeRow));
-            }
-            graphData.add(newPlace);
-        }
 
-        return graphData;
+        while(in.hasNextLine()) {
+            dataRow = in.nextLine();
+            rowCounter++;
+            mapper.mapData(dataRow, rowCounter);
+        }
+        
+        in.close();
     }    
 }
