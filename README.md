@@ -1,5 +1,8 @@
 #Tietorakenteiden harjoitustyö 
 
+[![Build Status](https://travis-ci.org/pekoe09/tiralabra.svg?branch=master)](https://travis-ci.org/pekoe09/tiralabra)
+[![Coverage Status](https://coveralls.io/repos/github/pekoe09/tiralabra/badge.svg?branch=master)](https://coveralls.io/github/pekoe09/tiralabra?branch=master)
+
 Lyhimmän reitin löytäminen maantieteellisten paikkojen muodostamassa verkossa.
 
 ## Dokumentaatio
