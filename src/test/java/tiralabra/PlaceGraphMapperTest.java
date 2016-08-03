@@ -1,32 +1,11 @@
 package tiralabra;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PlaceGraphMapperTest {
     
-    public PlaceGraphMapperTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
+    public PlaceGraphMapperTest() { }    
     
     @Test
     public void placeGraphMapperIsCreatedProperly() {
@@ -46,7 +25,7 @@ public class PlaceGraphMapperTest {
 
 
     @Test(expected = IllegalArgumentException.class)
-    public void placeDataAddingErrorsIfNoName() {        
+    public void placeDataAddingThrowsExceptionIfNoName() {        
         String[] placeData = {" ", "60.532", "23.169"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
@@ -54,7 +33,7 @@ public class PlaceGraphMapperTest {
     }    
 
     @Test(expected = IllegalArgumentException.class)
-    public void placeDataAddingErrorsIfWrongLatitude() {        
+    public void placeDataAddingThrowsExceptionIfWrongLatitude() {        
         String[] placeData = {"Raatala", "a", "23.169"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
@@ -62,7 +41,7 @@ public class PlaceGraphMapperTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void placeDataAddingErrorsIfNoLatitude() {        
+    public void placeDataAddingThrowsExceptionIfNoLatitude() {        
         String[] placeData = {"Raatala", "", "23.169"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
@@ -70,7 +49,7 @@ public class PlaceGraphMapperTest {
     }  
     
     @Test(expected = IllegalArgumentException.class)
-    public void placeDataAddingErrorsIfWrongLongitude() {        
+    public void placeDataAddingThrowsExceptionIfWrongLongitude() {        
         String[] placeData = {"Raatala", "60.532", "a"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
@@ -78,32 +57,48 @@ public class PlaceGraphMapperTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void placeDataAddingErrorsIfNoLongitude() {        
+    public void placeDataAddingThrowsExceptionIfNoLongitude() {        
         String[] placeData = {"Raatala", "60.532", ""};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
         instance.addPlace(placeData);        
-    } 
-//    @Test
-//    public void jotain() {
-//        System.out.println("mapData");
-//        String data = "";
-//        Integer rowCounter = null;
-//        PlaceGraphMapper instance = new PlaceGraphMapper();
-//        instance.mapData(data, rowCounter);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
-//    @Test
-//    public void testGetData() {
-//        System.out.println("getData");
-//        PlaceGraphMapper instance = new PlaceGraphMapper();
-//        List<PlaceNode> expResult = null;
-//        List<PlaceNode> result = instance.getData();
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    }     
     
+    @Test
+    public void mapDataCanAddPlace() {
+        String data = "Raatala;60.532;23.169";
+        Integer rowCounter = 1;
+        PlaceGraphMapper instance = new PlaceGraphMapper();
+        
+        instance.mapData(data, rowCounter);
+        assertEquals("Paikkaa ei ole lisätty paikkalistalle", 1, instance.getData().size());
+        assertEquals("Paikan nimi on väärin", "Raatala", instance.getData().get(0).getName());
+    }    
+        
+    @Test(expected = IllegalArgumentException.class)
+    public void mapDataThrowsErrorIfDataIsNull() {
+        String data = null;
+        Integer rowCounter = 1;
+        PlaceGraphMapper instance = new PlaceGraphMapper();
+        
+        instance.mapData(data, rowCounter);
+    }
+         
+    @Test(expected = IllegalArgumentException.class)
+    public void mapDataThrowsErrorIfDataIsTooSparse() {
+        String data = "Raatala;60.532";
+        Integer rowCounter = 1;
+        PlaceGraphMapper instance = new PlaceGraphMapper();
+        
+        instance.mapData(data, rowCounter);
+    }   
+ 
+    @Test(expected = IllegalArgumentException.class)
+    public void mapDataThrowsErrorIfDataIsInvalid() {
+        String data = "Raatala;60.532;180.1";
+        Integer rowCounter = 1;
+        PlaceGraphMapper instance = new PlaceGraphMapper();
+        
+        instance.mapData(data, rowCounter);
+    }     
 }

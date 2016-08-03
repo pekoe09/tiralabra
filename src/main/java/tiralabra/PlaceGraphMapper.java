@@ -12,7 +12,10 @@ public class PlaceGraphMapper implements IDataMapper {
     }
 
     @Override
-    public void mapData(String data, Integer rowCounter) {      
+    public void mapData(String data, Integer rowCounter) {   
+        if(data == null) {
+            throw new IllegalArgumentException("Dataa ei ole!");
+        }
         String[] placeData = data.split(";");
         if(placeData.length < 3) {
             throw new IllegalArgumentException(
