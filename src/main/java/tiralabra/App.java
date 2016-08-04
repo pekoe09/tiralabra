@@ -22,7 +22,7 @@ public class App
                     boolean fileHasErrors = false;
                     
                     try {
-                        FileHandler.readGraphFile(params[0], mapper);
+                        GraphFileHandler.readGraphFile(params[0], mapper);
                     } catch (IllegalArgumentException exc) {
                         Messenger.printFileError(exc.getMessage(), params[0]);
                         fileHasErrors = true;

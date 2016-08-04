@@ -70,7 +70,7 @@ public class PlaceGraphMapperTest {
         Integer rowCounter = 1;
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
-        instance.mapData(data, rowCounter);
+        instance.mapData(data, rowCounter, ReadTarget.NODE_BASIC_DATA);
         assertEquals("Paikkaa ei ole lisätty paikkalistalle", 1, instance.getData().size());
         assertEquals("Paikan nimi on väärin", "Raatala", instance.getData().get(0).getName());
     }    
@@ -81,7 +81,7 @@ public class PlaceGraphMapperTest {
         Integer rowCounter = 1;
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
-        instance.mapData(data, rowCounter);
+        instance.mapData(data, rowCounter, ReadTarget.NODE_BASIC_DATA);
     }
          
     @Test(expected = IllegalArgumentException.class)
@@ -90,7 +90,7 @@ public class PlaceGraphMapperTest {
         Integer rowCounter = 1;
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
-        instance.mapData(data, rowCounter);
+        instance.mapData(data, rowCounter, ReadTarget.NODE_BASIC_DATA);
     }   
  
     @Test(expected = IllegalArgumentException.class)
@@ -99,6 +99,6 @@ public class PlaceGraphMapperTest {
         Integer rowCounter = 1;
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
-        instance.mapData(data, rowCounter);
+        instance.mapData(data, rowCounter, ReadTarget.NODE_BASIC_DATA);
     }     
 }

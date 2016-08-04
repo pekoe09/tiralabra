@@ -4,7 +4,8 @@ public class PlaceNode {
     
     private String name;
     private Double latitude;
-    private Double longitude;
+    private Double longitude;    
+    private NeighbourNode[] neighbours;
     
     public PlaceNode(String name, Double latitude, Double longitude) {
         setName(name);
@@ -49,6 +50,14 @@ public class PlaceNode {
             throw new IllegalArgumentException(String.format("Pituusaste (%f) on suurempi kuin 180", longitude));
         }
         this.longitude = longitude;
+    }
+
+    public NeighbourNode[] getNeighbours() {
+        return neighbours;
+    }
+
+    public void setNeighbours(NeighbourNode[] neighbours) {
+        this.neighbours = neighbours;
     }
     
 }
