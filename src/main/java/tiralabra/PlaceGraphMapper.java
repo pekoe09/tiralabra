@@ -53,27 +53,18 @@ public class PlaceGraphMapper implements IDataMapper {
     }    
 
     public void addNeighbours(String[] placeData) {
-        PlaceNode place = findPlace(graph, (String)placeData[0]);        
+        PlaceNode place = GraphUtils.findPlace(graph, (String)placeData[0]);        
         NeighbourNode[] neighbours = new NeighbourNode[placeData.length - BASIC_FIELDS];
         for(int i = BASIC_FIELDS; i < placeData.length; i++) {
             String[] neighbourData = placeData[i].split("/");
-            PlaceNode neighbour = findPlace(graph, neighbourData[0]);
+            PlaceNode neighbour = GraphUtils.findPlace(graph, neighbourData[0]);
             try {
                 double distance = Double.parseDouble(neighbourData[1]);
                 neighbours[i - BASIC_FIELDS] = new NeighbourNode(neighbour, distance);   
-            } catch (NumberFormatException exc) {
+            } catch (NumberFormatException | ArrayIndexOutOfBoundsException exc) {
                 throw new IllegalArgumentException(String.format("Naapurin %s etäisyys on virheellinen", neighbourData[0]));
             }                     
         }
         place.setNeighbours(neighbours);
-    }
-
-    public PlaceNode findPlace(List<PlaceNode> graph, String name) {
-        for(int i = 0; i < graph.size(); i++) {
-            if(graph.get(i).getName().equals(name)) {
-                return graph.get(i);
-            }
-        }
-        throw new IllegalArgumentException(String.format("Paikkaa %s ei löydy", name));
     }
 }

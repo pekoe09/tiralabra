@@ -1,9 +1,6 @@
 package tiralabra;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,7 +15,7 @@ public class PlaceNodeTest {
     
     @Before
     public void setUp() {        
-        testNode = new PlaceNode(name, latitude, longitude);
+        testNode = new PlaceNode(name, latitude, longitude);        
     }
     
     @Test
@@ -134,5 +131,17 @@ public class PlaceNodeTest {
     public void placeNodeThrowsExceptionIfLongitudeGreaterThanMaximum() {
         Double newLatitude = 180.1;
         testNode.setLatitude(newLatitude);
+    }
+    
+    @Test
+    public void neighboursCanBeSet() {
+        NeighbourNode neighbour1 = new NeighbourNode(new PlaceNode("joku", 20.0, 3.0), 5);
+        NeighbourNode neighbour2 = new NeighbourNode(new PlaceNode("muu", 10.0, 15.0), 5);
+        NeighbourNode[] newNeighbours = {neighbour1, neighbour2};
+        
+        testNode.setNeighbours(newNeighbours);
+        assertNotNull("Naapuritaulukkoa ei ole", testNode.getNeighbours());
+        assertEquals("Naapurien määrä on väärin", newNeighbours.length, testNode.getNeighbours().length);
+        assertEquals("Naapuri on väärä", neighbour1.getNeighbour().getName(), testNode.getNeighbours()[0].getNeighbour().getName());
     }
 }

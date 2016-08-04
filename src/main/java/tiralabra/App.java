@@ -19,17 +19,29 @@ public class App
                     Messenger.printParamError();
                 } else {  
                     PlaceGraphMapper mapper = new PlaceGraphMapper();
-                    boolean fileHasErrors = false;
-                    
+                    String filePath = params[0];
+                    String startPlaceName = params[1];
+                    String endPlaceName = params[2];
+                    boolean errorsEncountered = false;
+
                     try {
-                        GraphFileHandler.readGraphFile(params[0], mapper);
+                        GraphFileHandler.readGraphFile(filePath, mapper);
                     } catch (IllegalArgumentException exc) {
-                        Messenger.printFileError(exc.getMessage(), params[0]);
-                        fileHasErrors = true;
-                    }
+                        Messenger.printFileError(exc.getMessage(), filePath);
+                        errorsEncountered = true;
+                    }                   
                     
-                    if (!fileHasErrors) {
-                        runAlgos(mapper.getData());
+                    if (!errorsEncountered) {
+                        try {
+                            GraphUtils.findPlace(mapper.getData(), startPlaceName);
+                            GraphUtils.findPlace(mapper.getData(), endPlaceName); 
+                        } catch (Exception exc) {
+                            Messenger.printError(exc.getMessage());
+                            errorsEncountered = true;
+                        }
+                        if (!errorsEncountered) {
+                            runAlgos(mapper.getData());
+                        }
                     }
                 }
             }
