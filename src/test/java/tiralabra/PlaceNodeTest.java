@@ -12,10 +12,14 @@ public class PlaceNodeTest {
     String name = "Raatala";
     Double latitude = 60.532;
     Double longitude = 23.169;
+    double startDistance = 3.5;
+    double endDistance = 4.5;
     
     @Before
     public void setUp() {        
-        testNode = new PlaceNode(name, latitude, longitude);        
+        testNode = new PlaceNode(name, latitude, longitude);      
+        testNode.setStartDistance(startDistance);
+        testNode.setEndDistance(endDistance);
     }
     
     @Test
@@ -143,5 +147,41 @@ public class PlaceNodeTest {
         assertNotNull("Naapuritaulukkoa ei ole", testNode.getNeighbours());
         assertEquals("Naapurien määrä on väärin", newNeighbours.length, testNode.getNeighbours().length);
         assertEquals("Naapuri on väärä", neighbour1.getNeighbour().getName(), testNode.getNeighbours()[0].getNeighbour().getName());
+    }
+    
+    @Test
+    public void startDistanceCanGeGot() {
+        assertTrue("Etäisyyttä aloitussolmuun ei voi lukea", Math.abs(startDistance - testNode.getStartDistance())  <0.00001);
+    }
+    
+    @Test
+    public void startDistanceCanBeSet(){
+        double newStartDistance = 12.0;
+        
+        testNode.setStartDistance(newStartDistance);
+        assertTrue("Etäisyyttä aloitussolmuun ei voi asettaa", Math.abs(testNode.getStartDistance() - newStartDistance) < 0.000001);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void placeNodeThrowsExceptionIfStartDistanceNegative() {
+        testNode.setStartDistance(-0.01);
+    }
+    
+    @Test
+    public void endDistanceCanBeGot() {
+        assertTrue("Etäisyyttä maalisolmuun ei voi lukea", Math.abs(testNode.getEndDistance() - endDistance) < 0.00001);
+    }
+    
+    @Test
+    public void endDistanceCanBeSet() {
+        double newEndDistance = 12.0;
+        
+        testNode.setEndDistance(newEndDistance);
+        assertTrue("Etäisyyttä maalisolmuun ei voi asettaa", Math.abs(testNode.getEndDistance() - newEndDistance) < 0.000001);
+    }
+        
+    @Test(expected = IllegalArgumentException.class)
+    public void placeNodeThrowsExceptionIfEndDistanceNegative() {
+        testNode.setEndDistance(-0.01);
     }
 }

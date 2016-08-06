@@ -6,6 +6,9 @@ public class PlaceNode {
     private Double latitude;
     private Double longitude;    
     private NeighbourNode[] neighbours;
+    private double startDistance;
+    private double endDistance;
+    private PlaceNode pathPredecessor;
     
     public PlaceNode(String name, Double latitude, Double longitude) {
         setName(name);
@@ -59,5 +62,43 @@ public class PlaceNode {
     public void setNeighbours(NeighbourNode[] neighbours) {
         this.neighbours = neighbours;
     }
+
+    public double getStartDistance() {
+        return startDistance;
+    }
+
+    public void setStartDistance(double startDistance) {
+        if(startDistance < 0) {
+            throw new IllegalArgumentException(String.format("Etäisyys (%f) on negatiivinen", startDistance));
+        }
+        this.startDistance = startDistance;
+    }
+
+    public double getEndDistance() {
+        return endDistance;
+    }
+
+    public void setEndDistance(double endDistance) {
+        if(endDistance < 0) {
+            throw new IllegalArgumentException(String.format("Etäisyys (%f) on negatiivinen", endDistance));
+        }
+        this.endDistance = endDistance;
+    }
+
+    public PlaceNode getPathPredecessor() {
+        return pathPredecessor;
+    }
+
+    public void setPathPredecessor(PlaceNode pathPredecessor) {
+        this.pathPredecessor = pathPredecessor;
+    }   
     
+    public double getDistanceToNeighbour(String neighbourName) {
+        for (int i = 0; i < this.neighbours.length; i++) {
+            if(this.neighbours[i].getNeighbour().getName().equals(neighbourName)){
+                return this.neighbours[i].getDistance();
+            }
+        }
+        return Integer.MAX_VALUE;
+    }
 }

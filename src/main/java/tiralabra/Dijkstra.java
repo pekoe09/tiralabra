@@ -1,14 +1,40 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package tiralabra;
 
-/**
- *
- * @author juha
- */
+import java.util.List;
+
 public class Dijkstra {
     
+    public void run(List<PlaceNode> graph, PlaceNode startNode) {
+        initialize(graph, startNode);
+        PlaceNode[] solvedNodes = new PlaceNode[graph.size()]; 
+        int solvedNodeIndex = 0;
+        MinHeap heap = new MinHeap();
+        for (PlaceNode node : graph) {
+            heap.insert(node, node.getStartDistance());
+        }
+        while (!heap.isEmpty()) {
+            PlaceNode nearestNode = heap.del_min();
+            solvedNodes[solvedNodeIndex] = nearestNode;
+            solvedNodeIndex++;
+            for(NeighbourNode neighbour : nearestNode.getNeighbours()) {
+                relax(nearestNode, neighbour.getNeighbour());
+                heap.decrease_key(neighbour.getNeighbour(), neighbour.getNeighbour().getStartDistance());
+            }
+        }
+    }
+    
+    public void initialize(List<PlaceNode> graph, PlaceNode startNode) {
+        for(PlaceNode node : graph){
+            node.setStartDistance(Double.MAX_VALUE);
+            node.setPathPredecessor(null);
+        }
+        startNode.setStartDistance(0.0);
+    }
+    
+    public void relax(PlaceNode node, PlaceNode neighbour) {
+        double distanceToNeighbour = node.getDistanceToNeighbour(neighbour.getName());
+        if (neighbour.getStartDistance() > node.getStartDistance() + distanceToNeighbour) {
+            neighbour.setStartDistance(node.getStartDistance() + distanceToNeighbour);
+        }
+    }
 }
