@@ -4,22 +4,19 @@ import java.util.List;
 
 public class Dijkstra {
     
+    PlaceNode[] solvedNodes;
+    int solvedNodeIndex;
+    
     public void run(List<PlaceNode> graph, PlaceNode startNode) {
         initialize(graph, startNode);
-        PlaceNode[] solvedNodes = new PlaceNode[graph.size()]; 
-        int solvedNodeIndex = 0;
-        MinHeap heap = new MinHeap();
+        solvedNodes = new PlaceNode[graph.size()]; 
+        solvedNodeIndex = 0;
+        MinHeap heap = new MinHeap(graph.size());
         for (PlaceNode node : graph) {
             heap.insert(node, node.getStartDistance());
         }
         while (!heap.isEmpty()) {
-            PlaceNode nearestNode = heap.del_min();
-            solvedNodes[solvedNodeIndex] = nearestNode;
-            solvedNodeIndex++;
-            for(NeighbourNode neighbour : nearestNode.getNeighbours()) {
-                relax(nearestNode, neighbour.getNeighbour());
-                heap.decrease_key(neighbour.getNeighbour(), neighbour.getNeighbour().getStartDistance());
-            }
+            solveNode(heap);
         }
     }
     
@@ -35,6 +32,16 @@ public class Dijkstra {
         double distanceToNeighbour = node.getDistanceToNeighbour(neighbour.getName());
         if (neighbour.getStartDistance() > node.getStartDistance() + distanceToNeighbour) {
             neighbour.setStartDistance(node.getStartDistance() + distanceToNeighbour);
+        }
+    }
+    
+    public void solveNode(MinHeap heap) {
+        PlaceNode nearestNode = heap.del_min();
+        solvedNodes[solvedNodeIndex] = nearestNode;
+        solvedNodeIndex++;
+        for(NeighbourNode neighbour : nearestNode.getNeighbours()) {
+            relax(nearestNode, neighbour.getNeighbour());
+            heap.decrease_key(neighbour.getNeighbour(), neighbour.getNeighbour().getStartDistance());
         }
     }
 }

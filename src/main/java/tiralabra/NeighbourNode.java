@@ -31,5 +31,4 @@ public class NeighbourNode {
         }
         this.distance = distance;
     }
-
 }

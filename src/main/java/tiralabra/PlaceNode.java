@@ -9,6 +9,7 @@ public class PlaceNode {
     private double startDistance;
     private double endDistance;
     private PlaceNode pathPredecessor;
+    private int heapindex;
     
     public PlaceNode(String name, Double latitude, Double longitude) {
         setName(name);
@@ -91,6 +92,14 @@ public class PlaceNode {
 
     public void setPathPredecessor(PlaceNode pathPredecessor) {
         this.pathPredecessor = pathPredecessor;
+    }  
+
+    public int getHeapindex() {
+        return heapindex;
+    }
+
+    public void setHeapindex(int heapindex) {
+        this.heapindex = heapindex;
     }   
     
     public double getDistanceToNeighbour(String neighbourName) {
