@@ -5,8 +5,19 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * GraphFileHandler-luokan tehtävänä on käsitellä verkon tiedot sisältävä data-tiedosto
+ * ja lukea sen sisältö.
+ */
 public class GraphFileHandler {
 
+    /**
+     * ReadGraphFile-metodi avaa luettavan tiedoston ja kutsuu readLines-metodia, joka suorittaa
+     * sisäänluvun.
+     * @param filePath  Luettavan tiedoston sijaintipolku.
+     * @param mapper    IDataMapper-rajapinnan toteuttava luokka, joka tulkitsee sisäänluetut tiedot.
+     * @throws IllegalArgumentException Jos tiedoston avaaminen/sulkeminen ei onnistu.
+     */
     public static void readGraphFile(String filePath, IDataMapper mapper) {        
         try {
             FileReader reader = new FileReader(filePath);
@@ -22,6 +33,15 @@ public class GraphFileHandler {
         }          
     }    
     
+    /**
+     * ReadLines-metodi lukee datatiedoston sisällön rivi riviltä sisään ja kutsuu mapper-olion metodia
+     * jokaisen rivin kohdalla, jotta mapper tulkitsisi luetut tiedot.
+     * @param reader    BufferedReader, joka on linkattu avattuun datatiedostoon.
+     * @param mapper    IDataMapper-rajapinnan toteuttava luokka, joka tulkitsee luetut tiedot.
+     * @param target    ReadTarget-enumin arvo: NODE_BASIC_DATA kun luetaan paikkojen omat tiedot sisään
+     * (ensimmäinen kierros) ja NODE_NEIGHBOUR_DATA kun luetaan paikkojen naapuruustiedot (toinen kierros).
+     * @throws IllegalArgumentException Jos rivin sisäänluvussa tapahtui virhe.
+     */
     public static void readLines(BufferedReader reader, IDataMapper mapper, ReadTarget target) {                
         Integer rowCounter = 0;
 

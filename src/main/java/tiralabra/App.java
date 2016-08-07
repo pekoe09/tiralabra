@@ -52,6 +52,12 @@ public class App
         System.exit(0);
     }
 
+    /**
+     * Tämä metodi vastaa algoritmien ajamisesta, niiden tulosten tallentamisesta sekä esittämisestä.
+     * 
+     * @param graphData Paikkatiedot List-rakenteessa, jonka elementteinä on PlaceNode-
+     * olioita.
+     */
     public static void runAlgos(List<PlaceNode> graphData) {
         System.out.println("Suoritetaan algoritmit...");
     }
