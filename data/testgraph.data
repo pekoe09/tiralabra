@@ -1,0 +1,6 @@
+Paikka0;0.0;0.0;Paikka1/1.0;Paikka2/2.0;Paikka3/3.0;Paikka4/4;Paikka5/5
+Paikka1;1.0;1.0;Paikka0/1.0;Paikka4/1.0
+Paikka2;2.0;2.0;Paikka0/2.0
+Paikka3;3.0;3.0;Paikka0/3.0
+Paikka4;4.0;4.0;Paikka0/4.0;Paikka5/1.0
+Paikka5;5.0;5.0;Paikka0/5.0;Paikka4/1.0

@@ -40,7 +40,7 @@ public class App
                             errorsEncountered = true;
                         }
                         if (!errorsEncountered) {
-                            runAlgos(mapper.getData());
+                            runAlgos(mapper.getData(), startPlaceName);
                         }
                     }
                 }
@@ -57,9 +57,12 @@ public class App
      * 
      * @param graphData Paikkatiedot List-rakenteessa, jonka elementteinä on PlaceNode-
      * olioita.
+     * @param startPlaceName Polun aloituspaikan nimi.
      */
-    public static void runAlgos(List<PlaceNode> graphData) {
+    public static void runAlgos(List<PlaceNode> graphData, String startPlaceName) {
         System.out.println("Suoritetaan algoritmit...");
+        Dijkstra dijkstra = new Dijkstra();
+        dijkstra.run(graphData, GraphUtils.findPlace(graphData, startPlaceName));
     }
 
 }

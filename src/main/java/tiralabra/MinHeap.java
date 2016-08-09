@@ -31,7 +31,7 @@ public class MinHeap {
         if(heapindex < 0) {
             throw new IllegalArgumentException("indeksi ei voi olla negatiivinen");
         }
-        return 2 * heapindex;
+        return 2 * (heapindex + 1) - 1;
     }
     
     /**
@@ -44,7 +44,7 @@ public class MinHeap {
         if(heapindex < 0) {
             throw new IllegalArgumentException("indeksi ei voi olla negatiivinen");
         }
-        return 2 * heapindex + 1;
+        return 2 * (heapindex + 1);
     }
     
     /**
@@ -57,7 +57,7 @@ public class MinHeap {
         if(heapindex < 0) {
             throw new IllegalArgumentException("indeksi ei voi olla negatiivinen");
         }
-        return heapindex / 2;
+        return (heapindex + 1)/ 2 - 1;
     }
 
     /**
@@ -71,10 +71,12 @@ public class MinHeap {
         int heapindex = heapsize - 1;
         while(heapindex > 0 && heap[parent(heapindex)].getDistance() > distance) {
             heap[heapindex] = heap[parent(heapindex)];
+            heap[heapindex].getNeighbour().setHeapindex(heapindex);
             heapindex = parent(heapindex);
         }
         node.setHeapindex(heapindex);
         heap[heapindex] = newnode;
+        System.out.println("lisätty kekoon " + node.getName() + "(indeksitieto=" + node.getHeapindex() + "); heapsize=" + heapsize + "; heap.length=" + heap.length);
     }
     
     /**

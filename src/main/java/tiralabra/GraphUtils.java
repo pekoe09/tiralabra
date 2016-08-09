@@ -17,7 +17,7 @@ public class GraphUtils {
      */
     public static PlaceNode findPlace(List<PlaceNode> graph, String name) {
         for(int i = 0; i < graph.size(); i++) {
-            if(graph.get(i).getName().equals(name)) {
+            if(graph.get(i).getName().toLowerCase().equals(name.toLowerCase())) {
                 return graph.get(i);
             }
         }
