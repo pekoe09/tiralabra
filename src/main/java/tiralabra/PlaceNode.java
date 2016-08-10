@@ -16,6 +16,7 @@ public class PlaceNode {
     private double endDistance;
     private PlaceNode pathPredecessor;
     private int heapindex;
+    private boolean isInHeap;
     
     /**
      * Konstruktori asettaa paikan nimen sekä koordinaattitiedot.
@@ -27,6 +28,7 @@ public class PlaceNode {
         setName(name);
         setLatitude(latitude);
         setLongitude(longitude);
+        setIsInHeap(false);
     }
 
     /**
@@ -187,6 +189,14 @@ public class PlaceNode {
      */
     public void setHeapindex(int heapindex) {
         this.heapindex = heapindex;
+    }   
+
+    public boolean getIsInHeap() {
+        return isInHeap;
+    }
+
+    public void setIsInHeap(boolean isInHeap) {
+        this.isInHeap = isInHeap;
     }   
     
     /**

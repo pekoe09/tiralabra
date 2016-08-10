@@ -2,7 +2,8 @@ package tiralabra;
 
 /**
  * Minimikeko, joka tallentaa PlaceNode-olioina kuvattuja paikkoja niihin
- * liitetyn etäisyystiedon mukaisessa prioriteettijärjestyksessä.
+ * liitetyn etäisyystiedon mukaisessa prioriteettijärjestyksessä; PlaceNode-etäisyys-pari
+ * kuvataan NeighbourNode-oliona.
  */
 public class MinHeap {
     
@@ -12,6 +13,7 @@ public class MinHeap {
     /**
      * Minimikeko-olion konstruktori.
      * @param size Minimikekoon tallennettavaksi aiottujen PlaceNode-olioiden lukumäärä.
+     * @throws IllegalArgumentException Jos keon kooksi annetaan negatiivinen luku.
      */
     public MinHeap(int size) {
         if(size < 0) {
@@ -23,8 +25,8 @@ public class MinHeap {
     
     /**
      * Palauttaa annetun indeksin mukaisen keon alkion vasemman lapsen indeksin keon taulukossa.
-     * @param heapindex Tutkittavan alkion indeksi keon taulukossa.
-     * @return Tutkittavan alkion vasemman lapsen indeksi keon taulukossa.
+     * @param heapindex Tutkittavan alkion 0-pohjainen indeksi keon taulukossa.
+     * @return Tutkittavan alkion vasemman lapsen 0-pohjainen indeksi keon taulukossa.
      * @throws IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
      */
     public int left(int heapindex) {
@@ -36,8 +38,8 @@ public class MinHeap {
     
     /**
      * Palauttaa annetun indeksin mukaisen keon alkion oikean lapsen indeksin keon taulukossa.
-     * @param heapindex Tutkittavan alkion indeksi keon taulukossa.
-     * @return Tutkittavan alkion oikean lapsen indeksi keon taulukossa.
+     * @param heapindex Tutkittavan alkion 0-pohjainen indeksi keon taulukossa.
+     * @return Tutkittavan alkion oikean lapsen 0-pohjainen indeksi keon taulukossa.
      * @throws IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
      */
     public int right(int heapindex) {
@@ -49,8 +51,8 @@ public class MinHeap {
     
     /**
      * Palauttaa annetun indeksin mukaisen keon alkion vanhemman indeksin keon taulukossa.
-     * @param heapindex Tutkittavan alkion indeksi keon taulukossa.
-     * @return Tutkittavan alkion vanhemman indeksi keon taulukossa.
+     * @param heapindex Tutkittavan alkion 0-pohjainen indeksi keon taulukossa.
+     * @return Tutkittavan alkion vanhemman 0-pohjainen indeksi keon taulukossa.
      * @throws IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
      */
     public int parent(int heapindex) {
@@ -62,10 +64,15 @@ public class MinHeap {
 
     /**
      * Lisää annetun PlaceNode-olion kekoon ja asettaa sen avaintiedoksi annetun etäisyystiedon.
-     * @param node  PlaceNode-olio, joka halutaan lisätä  kekoon.
+     * @param node  PlaceNode-olio, joka halutaan lisätä kekoon.
      * @param distance PlaceNode-olioon liittyvä etäisyystieto, jota käytetään sen avaimena keossa.
+     * HUOM! Etäisyystiedon on oltava positiivinen.
+     * @throws IllegalArgumentException Jos etäisyystieto on negatiivinen.
      */
     public void insert(PlaceNode node, double distance) {
+        if(distance < 0) {
+            throw new IllegalArgumentException("Etäisyystieto ei voi olla negatiivinen");
+        }
         NeighbourNode newnode = new NeighbourNode(node, distance);
         heapsize++;
         int heapindex = heapsize - 1;
@@ -75,32 +82,36 @@ public class MinHeap {
             heapindex = parent(heapindex);
         }
         node.setHeapindex(heapindex);
+        node.setIsInHeap(true);
         heap[heapindex] = newnode;
-        System.out.println("lisätty kekoon " + node.getName() + "(indeksitieto=" + node.getHeapindex() + "); heapsize=" + heapsize + "; heap.length=" + heap.length);
     }
     
     /**
      * Metodi, joka korjaa kekoehdon jos se on rikki annetun indeksin kohdalla.
-     * @param heapindex Keon taulukon indeksi, jonka kohdalta kekoehtoa korjataan.
+     * @param heapindex Keon taulukon 0-pohjainen indeksi, jonka kohdalta kekoehtoa korjataan.
+     * @throws IllegalArgumentException Jos annettu taulukon indeksi on negatiivinen.
      */
     public void heapify(int heapindex) {
+        if(heapindex < 0) {
+            throw new IllegalArgumentException("Indeksi ei voi olla negatiivinen");
+        }
         int left = left(heapindex);
         int right = right(heapindex);
-        if(right <= this.heapsize) {
+        if(right <= this.heapsize - 1) {
             int smallest = (heap[left].getDistance() < heap[right].getDistance()) ? left : right;
             if(heap[heapindex].getDistance() > heap[smallest].getDistance()) {
                 exchange(heapindex, smallest);
                 heapify(smallest);
             }
-        } else if(left == heapsize && heap[heapindex].getDistance() > heap[left].getDistance()) {
+        } else if(left == heapsize - 1 && heap[heapindex].getDistance() > heap[left].getDistance()) {
             exchange(heapindex, left);
         }
     }
     
     /**
      * Vaihtaa kahden keon alkion paikkaa päittäin ja päivittää niihin liitetyn kekoindeksitiedon.
-     * @param index1    Ensimmäisen päittäin vaihdettavan alkion indeksi keon taulukossa.
-     * @param index2    Toisen päittäin vaihdettavan alkion indeksi keon taulukossa.
+     * @param index1    Ensimmäisen päittäin vaihdettavan alkion 0-pohjainen indeksi keon taulukossa.
+     * @param index2    Toisen päittäin vaihdettavan alkion 0-pohjainen indeksi keon taulukossa.
      * @throws IllegalArgumentException Jos jompi kumpi annetuista indekseistä on negatiivinen.
      */
     public void exchange(int index1, int index2) {
@@ -127,9 +138,14 @@ public class MinHeap {
      * pienin etäisyystieto kaikista keossa olevista alkioista) ja siirtää jäljellä 
      * olevia alkioita niin että kekoehto säilyy.
      * @return Keon prioriteettijärjestyksessä ensimmäinen alkio.
+     * @throws IndexOutOfBoundsException Jos keossa ei ole alkioita jäljellä.
      */
     public PlaceNode del_min() {
+        if(heapsize == 0) {
+            throw new IndexOutOfBoundsException("Keko on tyhjä");
+        }
         PlaceNode closest = heap[0].getNeighbour();
+        closest.setIsInHeap(false);
         heap[0] = heap[heapsize - 1];
         heap[0].getNeighbour().setHeapindex(0);
         heapsize--;
@@ -139,14 +155,26 @@ public class MinHeap {
 
     /**
      * Pienentää annettuun PlaceNode-alkioon liitettyä etäisyystietoa ja korjaa tämän
-     * jälkeen kekoa niin että kekoehto säilyy,
+     * jälkeen kekoa niin että kekoehto säilyy.
      * @param neighbour PlaceNode-olio, johon liitettyä etäisyystietoa on tarkoitus muuttaa.
-     * @param distance Uusi etäisyystieto
+     * @param distance Uusi etäisyystieto; ei voi olla negatiivinen luku.
+     * @throws IllegalArgumentException Jos annettu alkio on null tai annettu etäisyys on negatiivinen
      */
     public void decrease_key(PlaceNode neighbour, double distance) {
-        if(distance < heap[neighbour.getHeapindex()].getDistance()) {
-            heap[neighbour.getHeapindex()].setDistance(distance);
-            heapify(neighbour.getHeapindex());
+        if(neighbour == null) {
+            throw new IllegalArgumentException("Muutettava alkio ei voi olla null");
+        }
+        if(distance < 0) {
+            throw new IllegalArgumentException("Etäisyys ei voi olla negatiivinen");
+        }
+        if(neighbour.getIsInHeap() && distance < heap[neighbour.getHeapindex()].getDistance()) {
+            int i = neighbour.getHeapindex();
+            System.out.println("Asetetaan " + neighbour.getName() + " etäisyys: " + distance);
+            heap[i].setDistance(distance);
+            while(i > 0 && heap[parent(i)].getDistance() > heap[i].getDistance()) {
+                exchange(i, parent(i));
+                i = parent(i);
+            }
         }
     }
 

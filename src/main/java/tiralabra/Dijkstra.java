@@ -7,8 +7,12 @@ import java.util.List;
  */
 public class Dijkstra {
     
-    PlaceNode[] solvedNodes;
-    int solvedNodeIndex;
+    private PlaceNode[] solvedNodes;
+    private int solvedNodeIndex;
+    
+    public Dijkstra() {
+        this.solvedNodes = new PlaceNode[10];
+    }
     
     /**
      * Run-metodilla suoritetaan Dijkstra-algoritmin mukainen lyhimmän polun etsintä
@@ -36,8 +40,15 @@ public class Dijkstra {
      * edeltäjäsolmutieto nulliksi.
      * @param graph     Verkko ilmaistuna PlaceNode-olioita sisältävänä List-oliona.
      * @param startNode Aloitussolmuna käytettävä PlaceNode.
+     * @throws IllegalArgumentException Jos verkko tai aloitussolmu on null.
      */
     public void initialize(List<PlaceNode> graph, PlaceNode startNode) {
+        if(graph == null) {
+            throw new IllegalArgumentException("Verkko ei voi olla null");
+        }
+        if(startNode == null) {
+            throw new IllegalArgumentException("Aloitussolmu ei voi olla null");
+        }
         for(PlaceNode node : graph){
             node.setStartDistance(Double.MAX_VALUE);
             node.setPathPredecessor(null);
@@ -51,8 +62,12 @@ public class Dijkstra {
      * välinen etäisyys, tämä summa asetetaan naapurin aloitussolmuetäisyydeksi.
      * @param node      Tutkittava solmu.
      * @param neighbour Tutkittavan solmun vierussolmu.
+     * @throws IllegalArgumentException Jos tutkittava solmu tai sen vierussolmu on null.
      */
     public void relax(PlaceNode node, PlaceNode neighbour) {
+        if(node == null || neighbour == null) {
+            throw new IllegalArgumentException("Solmu ei voi olla null");
+        }
         double distanceToNeighbour = node.getDistanceToNeighbour(neighbour.getName());
         if (neighbour.getStartDistance() > node.getStartDistance() + distanceToNeighbour) {
             neighbour.setStartDistance(node.getStartDistance() + distanceToNeighbour);
@@ -62,14 +77,29 @@ public class Dijkstra {
     /**
      * Metodi, joka tutkii minimikeon kärjessä olevaa solmua ja selvittää sen naapureiden etäisyyden aloitussolmusta.
      * @param heap Minimikeko, joka sisältää verkon solmut aloitussolmuetäisyyden mukaisessa järjestyksessä.
+     * @throws IllegalArgumentException Jos keko on null.
      */
     public void solveNode(MinHeap heap) {
+        if(heap == null) {
+            throw new IllegalArgumentException("Keko ei voi olla null");
+        }
         PlaceNode nearestNode = heap.del_min();
         solvedNodes[solvedNodeIndex] = nearestNode;
         solvedNodeIndex++;
         for(NeighbourNode neighbour : nearestNode.getNeighbours()) {
             relax(nearestNode, neighbour.getNeighbour());
+            System.out.println("Vähennetään etäisyyttä: " + neighbour.getNeighbour().getName() 
+                + " " + neighbour.getNeighbour().getStartDistance());
             heap.decrease_key(neighbour.getNeighbour(), neighbour.getNeighbour().getStartDistance());
         }
     }
+
+    public PlaceNode[] getSolvedNodes() {
+        return solvedNodes;
+    }
+
+    public int getSolvedNodeIndex() {
+        return solvedNodeIndex;
+    }
+    
 }
