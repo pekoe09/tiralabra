@@ -40,7 +40,7 @@ public class App
                             errorsEncountered = true;
                         }
                         if (!errorsEncountered) {
-                            runAlgos(mapper.getData(), startPlaceName);
+                            runAlgos(mapper.getData(), startPlaceName, endPlaceName);
                         }
                     }
                 }
@@ -59,10 +59,14 @@ public class App
      * olioita.
      * @param startPlaceName Polun aloituspaikan nimi.
      */
-    public static void runAlgos(List<PlaceNode> graphData, String startPlaceName) {
+    public static void runAlgos(List<PlaceNode> graphData, String startPlaceName, String endPlaceName) {
         System.out.println("Suoritetaan algoritmit...");
+        PlaceNode startPlace = GraphUtils.findPlace(graphData, startPlaceName);
+        PlaceNode endPlace = GraphUtils.findPlace(graphData, endPlaceName);
+        
         Dijkstra dijkstra = new Dijkstra();
-        dijkstra.run(graphData, GraphUtils.findPlace(graphData, startPlaceName));
+        dijkstra.run(graphData, startPlace);
+        Path shortestDijkstraPath = dijkstra.getShortestPath(startPlace, endPlace);
+        Messenger.printShortestPath(shortestDijkstraPath, startPlace, endPlace);
     }
-
 }

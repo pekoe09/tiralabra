@@ -7,6 +7,22 @@ import java.util.List;
  */
 public class Messenger {
     
+    public static void printShortestPath(Path path, PlaceNode startNode, PlaceNode endNode) {
+        System.out.println("Lyhin polku paikasta " + startNode.getName() + " paikkaan " + endNode.getName() + ":");
+        System.out.println("0. " + startNode.getName());
+        int stageCounter = 0;
+        double totalDistance = 0.0;
+        String previousPlaceName = startNode.getName();
+        while(!path.isEmpty()) {
+            stageCounter++;
+            PlaceNode nextPlace = path.pop();
+            double distance = nextPlace.getDistanceToNeighbour(previousPlaceName);
+            System.out.println(stageCounter + ". " + nextPlace.getName() + " välimatka " + distance);
+        }
+        System.out.println((stageCounter + 1) + ". " + endNode.getName() + " välimatka " + endNode.getDistanceToNeighbour(previousPlaceName));
+        System.out.println("Kokonaisvälimatka: " + totalDistance);
+    }
+    
     /**
      * Näyttää kaikki polunetsintätulokset ohjelman käynnistyksestä lähtien.
      */

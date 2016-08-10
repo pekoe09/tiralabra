@@ -9,6 +9,7 @@ public class Dijkstra {
     
     private PlaceNode[] solvedNodes;
     private int solvedNodeIndex;
+    private int nodeAmount;
     
     public Dijkstra() {
         this.solvedNodes = new PlaceNode[10];
@@ -24,6 +25,7 @@ public class Dijkstra {
         initialize(graph, startNode);
         solvedNodes = new PlaceNode[graph.size()]; 
         solvedNodeIndex = 0;
+        nodeAmount = graph.size();
         MinHeap heap = new MinHeap(graph.size());
         for (PlaceNode node : graph) {
             heap.insert(node, node.getStartDistance());
@@ -71,6 +73,7 @@ public class Dijkstra {
         double distanceToNeighbour = node.getDistanceToNeighbour(neighbour.getName());
         if (neighbour.getStartDistance() > node.getStartDistance() + distanceToNeighbour) {
             neighbour.setStartDistance(node.getStartDistance() + distanceToNeighbour);
+            neighbour.setPathPredecessor(node);
         }
     }
     
@@ -92,6 +95,16 @@ public class Dijkstra {
                 + " " + neighbour.getNeighbour().getStartDistance());
             heap.decrease_key(neighbour.getNeighbour(), neighbour.getNeighbour().getStartDistance());
         }
+    }
+    
+    public Path getShortestPath(PlaceNode startNode, PlaceNode endNode) {
+        Path path = new Path(nodeAmount);
+        PlaceNode predecessorNode = endNode.getPathPredecessor();
+        while (predecessorNode != startNode) {
+            path.push(predecessorNode);
+            predecessorNode = predecessorNode.getPathPredecessor();
+        }
+        return path;
     }
 
     public PlaceNode[] getSolvedNodes() {
