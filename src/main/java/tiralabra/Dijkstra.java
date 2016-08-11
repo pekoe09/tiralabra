@@ -91,8 +91,6 @@ public class Dijkstra {
         solvedNodeIndex++;
         for(NeighbourNode neighbour : nearestNode.getNeighbours()) {
             relax(nearestNode, neighbour.getNeighbour());
-            System.out.println("Vähennetään etäisyyttä: " + neighbour.getNeighbour().getName() 
-                + " " + neighbour.getNeighbour().getStartDistance());
             heap.decrease_key(neighbour.getNeighbour(), neighbour.getNeighbour().getStartDistance());
         }
     }

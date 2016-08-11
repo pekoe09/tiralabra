@@ -169,7 +169,6 @@ public class MinHeap {
         }
         if(neighbour.getIsInHeap() && distance < heap[neighbour.getHeapindex()].getDistance()) {
             int i = neighbour.getHeapindex();
-            System.out.println("Asetetaan " + neighbour.getName() + " etäisyys: " + distance);
             heap[i].setDistance(distance);
             while(i > 0 && heap[parent(i)].getDistance() > heap[i].getDistance()) {
                 exchange(i, parent(i));

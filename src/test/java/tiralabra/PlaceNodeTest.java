@@ -14,12 +14,15 @@ public class PlaceNodeTest {
     Double longitude = 23.169;
     double startDistance = 3.5;
     double endDistance = 4.5;
+    NeighbourNode neighbour1, neighbour2;
     
     @Before
     public void setUp() {        
         testNode = new PlaceNode(name, latitude, longitude);      
         testNode.setStartDistance(startDistance);
         testNode.setEndDistance(endDistance);
+        neighbour1 = new NeighbourNode(new PlaceNode("joku", 20.0, 3.0), 5);
+        neighbour2 = new NeighbourNode(new PlaceNode("muu", 10.0, 15.0), 5);
     }
     
     @Test
@@ -139,8 +142,6 @@ public class PlaceNodeTest {
     
     @Test
     public void neighboursCanBeSet() {
-        NeighbourNode neighbour1 = new NeighbourNode(new PlaceNode("joku", 20.0, 3.0), 5);
-        NeighbourNode neighbour2 = new NeighbourNode(new PlaceNode("muu", 10.0, 15.0), 5);
         NeighbourNode[] newNeighbours = {neighbour1, neighbour2};
         
         testNode.setNeighbours(newNeighbours);
@@ -183,5 +184,25 @@ public class PlaceNodeTest {
     @Test(expected = IllegalArgumentException.class)
     public void placeNodeThrowsExceptionIfEndDistanceNegative() {
         testNode.setEndDistance(-0.01);
+    }
+    
+    @Test
+    public void distanceToNeighbourCanBeGot() {
+        NeighbourNode[] newNeighbours = {neighbour1, neighbour2};        
+        testNode.setNeighbours(newNeighbours);
+        
+        double distance = testNode.getDistanceToNeighbour(neighbour1.getNeighbour().getName());
+        
+        assertTrue("Etäisyys naapuriin on väärä", Math.abs(distance - neighbour1.getDistance()) < 0.00001);
+    }
+    
+    @Test
+    public void distanceToNeighbourReturnsMaxValueIfNeighbourNotFound() {
+        NeighbourNode[] newNeighbours = {neighbour1, neighbour2};        
+        testNode.setNeighbours(newNeighbours);
+        
+        double distance = testNode.getDistanceToNeighbour("random");
+        
+        assertTrue("Olemattomalla naapurilla ei palauteta Double.MAX_VALUE:ta", Math.abs(distance - Double.MAX_VALUE) < 0.00001);
     }
 }

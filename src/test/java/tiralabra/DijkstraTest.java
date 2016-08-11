@@ -176,4 +176,28 @@ public class DijkstraTest {
     public void solveNodeThrowsExceptionIfHeapIsNull() {
         dijkstra.solveNode(null);
     }
+    
+    @Test
+    public void shortestPathCanBeGot() {
+        List<PlaceNode> graph = new ArrayList<>();
+        graph.add(node0);
+        graph.add(node1);
+        graph.add(node2);
+        graph.add(node3);
+        graph.add(node4);
+        graph.add(node5);
+        dijkstra.run(graph, node2);
+        
+//        for(PlaceNode node : dijkstra.getSolvedNodes()) {
+//            System.out.println(node.getName() + " " + node.getStartDistance()
+//            + " edeltäjä: " + node.getPathPredecessor().getName());
+//        }
+        
+        Path path = dijkstra.getShortestPath(node2, node4);
+        assertNotNull("Polkua ei saatu", path);
+//        while(!path.isEmpty()) {
+//            PlaceNode nextPlace = path.pop();
+//            System.out.println(nextPlace.getName() + " " + nextPlace.getStartDistance());
+//        }
+    }
 }

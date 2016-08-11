@@ -210,6 +210,6 @@ public class PlaceNode {
                 return this.neighbours[i].getDistance();
             }
         }
-        return Integer.MAX_VALUE;
+        return Double.MAX_VALUE;
     }
 }
