@@ -49,7 +49,7 @@ public class Dijkstra {
             throw new IllegalArgumentException("Verkko ei voi olla null");
         }
         if(startNode == null) {
-            throw new IllegalArgumentException("Aloitussolmu ei voi olla null");
+            throw new IllegalArgumentException("Lähtösolmu ei voi olla null");
         }
         for(PlaceNode node : graph){
             node.setStartDistance(Double.MAX_VALUE);
