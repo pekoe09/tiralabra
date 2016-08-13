@@ -1,5 +1,7 @@
-package tiralabra;
+package tiralabra.datainput;
 
+import tiralabra.domain.PlaceNode;
+import tiralabra.enums.ReadTarget;
 import java.util.List;
 
 /**

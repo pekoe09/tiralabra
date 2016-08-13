@@ -1,5 +1,6 @@
-package tiralabra;
+package tiralabra.datainput;
 
+import tiralabra.enums.ReadTarget;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

@@ -1,5 +1,8 @@
 package tiralabra;
 
+import tiralabra.datainput.PlaceGraphMapper;
+import tiralabra.domain.PlaceNode;
+import tiralabra.enums.ReadTarget;
 import org.junit.Test;
 import static org.junit.Assert.*;
 

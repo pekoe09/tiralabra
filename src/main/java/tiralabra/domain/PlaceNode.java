@@ -1,4 +1,4 @@
-package tiralabra;
+package tiralabra.domain;
 
 /**
  * Paikkaa kuvaava olio. Sisältää kenttinä paikan nimen, leveys- ja pituusastekoordinaatit,

@@ -1,5 +1,9 @@
 package tiralabra;
 
+import tiralabra.datainput.PlaceGraphMapper;
+import tiralabra.datainput.GraphFileHandler;
+import tiralabra.domain.PlaceNode;
+import tiralabra.enums.AlgorithmAlternative;
 import java.util.List;
 import java.util.Scanner;
 
@@ -64,9 +68,15 @@ public class App
         PlaceNode startPlace = GraphUtils.findPlace(graphData, startPlaceName);
         PlaceNode endPlace = GraphUtils.findPlace(graphData, endPlaceName);
         
-        Dijkstra dijkstra = new Dijkstra();
+        PathAlgorithm dijkstra = new PathAlgorithm();
         dijkstra.run(graphData, startPlace, endPlace, AlgorithmAlternative.DIJKSTRA);
         PathStack shortestDijkstraPath = dijkstra.getShortestPath(startPlace, endPlace);
+        
+        PathAlgorithm aStar = new PathAlgorithm();
+        aStar.run(graphData, startPlace, endPlace, AlgorithmAlternative.ASTAR);
+        PathStack shortestAStarPath = aStar.getShortestPath(startPlace, endPlace);
+        
         Messenger.printShortestPath(shortestDijkstraPath, startPlace, endPlace);
+        Messenger.printShortestPath(shortestAStarPath, startPlace, endPlace);
     }
 }

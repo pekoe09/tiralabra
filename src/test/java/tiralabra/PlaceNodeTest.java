@@ -1,5 +1,7 @@
 package tiralabra;
 
+import tiralabra.domain.NeighbourNode;
+import tiralabra.domain.PlaceNode;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

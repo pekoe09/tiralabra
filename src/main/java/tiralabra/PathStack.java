@@ -1,5 +1,7 @@
 package tiralabra;
 
+import tiralabra.domain.PlaceNode;
+
 /**
  * Pinorakenne paikkasolmuista muodostuvan polun tallentamiseen.
  */

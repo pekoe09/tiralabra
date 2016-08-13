@@ -1,5 +1,8 @@
 package tiralabra;
 
+import tiralabra.domain.NeighbourNode;
+import tiralabra.domain.PlaceNode;
+
 /**
  * Minimikeko, joka tallentaa PlaceNode-olioina kuvattuja paikkoja niihin
  * liitetyn etäisyystiedon mukaisessa prioriteettijärjestyksessä; PlaceNode-etäisyys-pari

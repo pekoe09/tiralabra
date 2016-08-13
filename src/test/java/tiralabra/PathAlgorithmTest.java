@@ -1,21 +1,24 @@
 package tiralabra;
 
+import tiralabra.domain.NeighbourNode;
+import tiralabra.domain.PlaceNode;
+import tiralabra.enums.AlgorithmAlternative;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class DijkstraTest {
+public class PathAlgorithmTest {
     
-    Dijkstra dijkstra;
+    PathAlgorithm dijkstra;
     PlaceNode node0, node1, node2, node3, node4, node5;
     
-    public DijkstraTest() { }
+    public PathAlgorithmTest() { }
     
     @Before
     public void setUp() {
-        dijkstra = new Dijkstra(); 
+        dijkstra = new PathAlgorithm(); 
         
         node0 = new PlaceNode("paikka0", 0.0, 0.0);
         node1 = new PlaceNode("paikka1", 1.0, 1.0);        
@@ -77,6 +80,16 @@ public class DijkstraTest {
         testGraph.add(node3);
         testGraph.add(node4);
         dijkstra.initialize(testGraph, null, node4, AlgorithmAlternative.DIJKSTRA);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void initializeThrowsExceptionIfEndNodeIsNullWithAStartAlgorithm() {
+        List<PlaceNode> testGraph = new ArrayList<>();
+        testGraph.add(node1);
+        testGraph.add(node2);
+        testGraph.add(node3);
+        testGraph.add(node4);
+        dijkstra.initialize(testGraph, node0, null, AlgorithmAlternative.ASTAR);
     }
 
     @Test
@@ -178,6 +191,61 @@ public class DijkstraTest {
     }
     
     @Test
+    public void nodeIsSolvedReturnsTrueWhenNodeSolved() {
+        MinHeap heap = new MinHeap(5); 
+        node1.setStartDistance(1.0);
+        node2.setStartDistance(2.0);
+        node3.setStartDistance(3.0);
+        node4.setStartDistance(4.0);
+        node5.setStartDistance(5.0);
+        heap.insert(node5, 5.0);
+        heap.insert(node2, 2.0);
+        heap.insert(node1, 1.0);
+        heap.insert(node4, 4.0);
+        heap.insert(node3, 3.0);
+        
+        NeighbourNode[] heapArray = heap.getHeap();
+        dijkstra.solveNode(heap, AlgorithmAlternative.ASTAR);
+        PlaceNode[] solvedNodes = dijkstra.getSolvedNodes();
+ 
+        boolean nodeFound = false;
+        for(int i = 0; i < solvedNodes.length; i++) {
+            if(solvedNodes[i].getName().equals(node1.getName())) {
+                nodeFound = true;
+                break;
+            }
+        }
+        assertTrue("Solmua ei ole ratkaistujen solmujen joukossa", nodeFound);
+        assertTrue("Solmua ei tunnisteta ratkaistuksi", dijkstra.nodeIsSolved(node1));        
+    }
+    
+    @Test
+    public void nodeIsSolvedReturnsFalseWhenNodeIsNotSolved() {
+        MinHeap heap = new MinHeap(5); 
+        node1.setStartDistance(1.0);
+        node2.setStartDistance(2.0);
+        node3.setStartDistance(3.0);
+        node4.setStartDistance(4.0);
+        node5.setStartDistance(5.0);
+        heap.insert(node5, 5.0);
+        heap.insert(node2, 2.0);
+        heap.insert(node1, 1.0);
+        heap.insert(node4, 4.0);
+        heap.insert(node3, 3.0);
+        
+        NeighbourNode[] heapArray = heap.getHeap();        
+        dijkstra.solveNode(heap, AlgorithmAlternative.ASTAR);
+        PlaceNode[] solvedNodes = dijkstra.getSolvedNodes();
+ 
+        assertTrue("Solmua väitetään ratkaistuksi", !dijkstra.nodeIsSolved(node2));  
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void nodeIsSolvedThrowsExceptionIfNodeIsNull() {
+        boolean result = dijkstra.nodeIsSolved(null);
+    }
+    
+    @Test
     public void shortestPathCanBeGot() {
         List<PlaceNode> graph = new ArrayList<>();
         graph.add(node0);
@@ -199,5 +267,30 @@ public class DijkstraTest {
 //            PlaceNode nextPlace = path.pop();
 //            System.out.println(nextPlace.getName() + " " + nextPlace.getStartDistance());
 //        }
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void getShortestPathThrowsExceptionIfStartNodeIsNull() {
+        PathStack path = dijkstra.getShortestPath(null, node0);
+    }
+        
+    @Test(expected = IllegalArgumentException.class)
+    public void getShortestPathThrowsExceptionIfEndNodeIsNull() {
+        PathStack path = dijkstra.getShortestPath(node0, null);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void runThrowsExceptionIfGraphIsNull() {
+        dijkstra.run(null, node1, node2, AlgorithmAlternative.DIJKSTRA);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void runThrowsExceptionIfStartNodeIsNull() {
+        dijkstra.run(new ArrayList<PlaceNode>(), null, node2, AlgorithmAlternative.DIJKSTRA);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void runThrowsExceptionIfEndNodeIsNullRunningAStar() {
+        dijkstra.run(new ArrayList<PlaceNode>(), node1, null, AlgorithmAlternative.ASTAR);
     }
 }

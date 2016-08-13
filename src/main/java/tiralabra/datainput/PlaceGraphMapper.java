@@ -1,7 +1,12 @@
-package tiralabra;
+package tiralabra.datainput;
 
+import tiralabra.datainput.IDataMapper;
+import tiralabra.domain.NeighbourNode;
+import tiralabra.domain.PlaceNode;
+import tiralabra.enums.ReadTarget;
 import java.util.ArrayList;
 import java.util.List;
+import tiralabra.GraphUtils;
 
 /**
  * IDataMapper-rajapinnan toteuttava luokka, jonka tehtävänä on tulkita datatiedostosta

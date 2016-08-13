@@ -1,17 +1,20 @@
 package tiralabra;
 
+import tiralabra.domain.NeighbourNode;
+import tiralabra.domain.PlaceNode;
+import tiralabra.enums.AlgorithmAlternative;
 import java.util.List;
 
 /**
  * DIJKSTRA-luokka sisältää DIJKSTRA-algoritmin logiikan.
  */
-public class Dijkstra {
+public class PathAlgorithm {
     
     private PlaceNode[] solvedNodes;
     private int solvedNodeIndex;
     private int nodeAmount;
     
-    public Dijkstra() {
+    public PathAlgorithm() {
         this.solvedNodes = new PlaceNode[10];
     }
     
@@ -23,6 +26,8 @@ public class Dijkstra {
      * @param endNode   Polun päätepisteenä oleva paikka PlaceNode-oliona.
      * @param algorithm Algoritmivaihtoehto, joka halutaan ajaa 
      * (AlgorithmAlternative.DIJKSTRA tai AlgorithmAlternative.ASTAR).
+     * @throws          IllegalArgumentException Jos verkko tai aloitussolmu on null tai jos
+     * lopetussolmu on null kun yritetään suorittaa A*-algoritmia.
      */
     public void run(List<PlaceNode> graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
         if(graph == null) {
@@ -139,7 +144,8 @@ public class Dijkstra {
             throw new IllegalArgumentException("Etsittävä solmu ei voi olla null");
         }
         for(int i = 0; i < solvedNodes.length; i++) {
-            if(solvedNodes[i].getName().equals(node.getName())) {
+            if(solvedNodes[i] != null && 
+                    solvedNodes[i].getName().equals(node.getName())) {
                 return true;
             }
         }

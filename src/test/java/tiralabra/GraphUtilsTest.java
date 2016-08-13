@@ -1,5 +1,6 @@
 package tiralabra;
 
+import tiralabra.domain.PlaceNode;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;

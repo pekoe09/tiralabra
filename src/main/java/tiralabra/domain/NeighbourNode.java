@@ -1,4 +1,6 @@
-package tiralabra;
+package tiralabra.domain;
+
+import tiralabra.domain.PlaceNode;
 
 public class NeighbourNode {
     

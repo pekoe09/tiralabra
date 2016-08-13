@@ -1,4 +1,4 @@
-package tiralabra;
+package tiralabra.enums;
 
 public enum ReadTarget {
     NODE_BASIC_DATA,
