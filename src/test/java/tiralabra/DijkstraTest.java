@@ -53,7 +53,7 @@ public class DijkstraTest {
         testGraph.add(node3);
         testGraph.add(node4);
         
-        dijkstra.initialize(testGraph, node2);
+        dijkstra.initialize(testGraph, node2, node4, AlgorithmAlternative.DIJKSTRA);
         for(PlaceNode node : testGraph) {
             if(node == node2) {
                 assertTrue("Aloitussolmulla etäisyystieto ei ole nolla", Math.abs(node.getStartDistance()) < 0.00001);
@@ -66,7 +66,7 @@ public class DijkstraTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void initializeThrowsExceptionIfGraphIsNull() {
-        dijkstra.initialize(null, node2);
+        dijkstra.initialize(null, node2, node4, AlgorithmAlternative.DIJKSTRA);
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -76,7 +76,7 @@ public class DijkstraTest {
         testGraph.add(node2);
         testGraph.add(node3);
         testGraph.add(node4);
-        dijkstra.initialize(testGraph, null);
+        dijkstra.initialize(testGraph, null, node4, AlgorithmAlternative.DIJKSTRA);
     }
 
     @Test
@@ -138,7 +138,7 @@ public class DijkstraTest {
                 " paikan etäisyys: " + place.getStartDistance() + " naapurin etäisyys: " + neighbour.getDistance());
         }
         
-        dijkstra.solveNode(heap);
+        dijkstra.solveNode(heap, AlgorithmAlternative.DIJKSTRA);
         
         System.out.println("Kierros 1:");
         for(int i = 0; i < heap.getHeapsize(); i++) {
@@ -147,7 +147,7 @@ public class DijkstraTest {
             System.out.println("Kekoindeksi " + i + ": " + place.getName() + " " + place.getHeapindex() +
                 " paikan etäisyys: " + place.getStartDistance() + " naapurin etäisyys: " + neighbour.getDistance());
         }
-        dijkstra.solveNode(heap);
+        dijkstra.solveNode(heap, AlgorithmAlternative.DIJKSTRA);
         System.out.println("Kierros 2:");
         for(int i = 0; i < heap.getHeapsize(); i++) {
             NeighbourNode neighbour = heapArray[i];
@@ -174,7 +174,7 @@ public class DijkstraTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void solveNodeThrowsExceptionIfHeapIsNull() {
-        dijkstra.solveNode(null);
+        dijkstra.solveNode(null, AlgorithmAlternative.DIJKSTRA);
     }
     
     @Test
@@ -186,14 +186,14 @@ public class DijkstraTest {
         graph.add(node3);
         graph.add(node4);
         graph.add(node5);
-        dijkstra.run(graph, node2, node4, AlgorithmAlternative.Dijkstra);
+        dijkstra.run(graph, node2, node4, AlgorithmAlternative.DIJKSTRA);
         
 //        for(PlaceNode node : dijkstra.getSolvedNodes()) {
 //            System.out.println(node.getName() + " " + node.getStartDistance()
 //            + " edeltäjä: " + node.getPathPredecessor().getName());
 //        }
         
-        Path path = dijkstra.getShortestPath(node2, node4);
+        PathStack path = dijkstra.getShortestPath(node2, node4);
         assertNotNull("Polkua ei saatu", path);
 //        while(!path.isEmpty()) {
 //            PlaceNode nextPlace = path.pop();

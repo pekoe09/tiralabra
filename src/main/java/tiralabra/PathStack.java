@@ -3,7 +3,7 @@ package tiralabra;
 /**
  * Pinorakenne paikkasolmuista muodostuvan polun tallentamiseen.
  */
-public class Path {
+public class PathStack {
     
     PlaceNode[] places;
     int top;
@@ -14,7 +14,7 @@ public class Path {
      * Oltava suurempi kuin 0.
      * @throws IllegalArgumentException Jos annettu pituus on pienempi kuin 1.
      */
-    public Path(int size) {
+    public PathStack(int size) {
         if(size < 1) {
             throw new IllegalArgumentException("Polun pituuden on oltava suurempi kuin 0");
         }

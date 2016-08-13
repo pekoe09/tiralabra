@@ -7,7 +7,7 @@ import java.util.List;
  */
 public class Messenger {
     
-    public static void printShortestPath(Path path, PlaceNode startNode, PlaceNode endNode) {
+    public static void printShortestPath(PathStack path, PlaceNode startNode, PlaceNode endNode) {
         System.out.println("Lyhin polku paikasta " + startNode.getName() + " paikkaan " + endNode.getName() + ":");
         System.out.println("0. " + startNode.getName());
         int stageCounter = 0;

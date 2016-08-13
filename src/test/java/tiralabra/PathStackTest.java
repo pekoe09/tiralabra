@@ -4,11 +4,11 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class PathTest {
+public class PathStackTest {
     
     PlaceNode newPlace, nextPlace, lastPlace;
     
-    public PathTest() {
+    public PathStackTest() {
     }
     
     @Before
@@ -21,7 +21,7 @@ public class PathTest {
     @Test
     public void pathConstructedProperly() {
         int size = 27;
-        Path path = new Path(size);
+        PathStack path = new PathStack(size);
         
         assertNotNull("Paikkataulukkoa ei ole luotu", path.getPlaces());
         assertEquals("Paikkataulukon koko on väärä", size, path.getPlaces().length);
@@ -30,17 +30,17 @@ public class PathTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void pathConstructorThrowsExceptionIfSizeIsZero() {
-        Path path = new Path(0);
+        PathStack path = new PathStack(0);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void pathConstructorThrowsExceptionIfSizeIsNegative() {
-        Path path = new Path(-1);
+        PathStack path = new PathStack(-1);
     }
     
     @Test
     public void placesCanBePushedIntoPath() {
-        Path path = new Path(3);
+        PathStack path = new PathStack(3);
         
         path.push(newPlace);        
         assertEquals("Paikkataulukon koko on väärä", 3, path.getPlaces().length);
@@ -60,13 +60,13 @@ public class PathTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void pushingNullPlaceThrowsException() {
-        Path path = new Path(3);
+        PathStack path = new PathStack(3);
         path.push(null);
     }
 
     @Test
     public void placesCanBePoppedFromPath() {
-        Path path = new Path(3);
+        PathStack path = new PathStack(3);
         path.push(newPlace);
         path.push(nextPlace);
         path.push(lastPlace);
@@ -92,20 +92,20 @@ public class PathTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void poppingFromEmptyPathThrowsException() {
-        Path path = new Path(3);
+        PathStack path = new PathStack(3);
         path.pop();
     }
 
     @Test
     public void isEmptyReturnsTrueForEmptyPath() {
-        Path path = new Path(3);
+        PathStack path = new PathStack(3);
         boolean isEmpty = path.isEmpty();
         assertTrue("Polkua väitetään virheellisesti ei-tyhjäksi", isEmpty);
     }
     
     @Test
     public void isEmptyReturnsFalseForNonEmptyPath() {
-        Path path = new Path(3);
+        PathStack path = new PathStack(3);
         path.push(newPlace);
         boolean isEmpty = path.isEmpty();
         assertTrue("Polkua väitetään virheellisesti tyhjäksi", !isEmpty);

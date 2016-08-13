@@ -65,8 +65,8 @@ public class App
         PlaceNode endPlace = GraphUtils.findPlace(graphData, endPlaceName);
         
         Dijkstra dijkstra = new Dijkstra();
-        dijkstra.run(graphData, startPlace, endPlace, AlgorithmAlternative.Dijkstra);
-        Path shortestDijkstraPath = dijkstra.getShortestPath(startPlace, endPlace);
+        dijkstra.run(graphData, startPlace, endPlace, AlgorithmAlternative.DIJKSTRA);
+        PathStack shortestDijkstraPath = dijkstra.getShortestPath(startPlace, endPlace);
         Messenger.printShortestPath(shortestDijkstraPath, startPlace, endPlace);
     }
 }
