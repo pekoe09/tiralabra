@@ -12,14 +12,19 @@ public class Messenger {
         System.out.println("0. " + startNode.getName());
         int stageCounter = 0;
         double totalDistance = 0.0;
+        double distance = 0.0;
         String previousPlaceName = startNode.getName();
         while(!path.isEmpty()) {
             stageCounter++;
             PlaceNode nextPlace = path.pop();
-            double distance = nextPlace.getDistanceToNeighbour(previousPlaceName);
+            distance = nextPlace.getDistanceToNeighbour(previousPlaceName);
+            previousPlaceName = nextPlace.getName();
+            totalDistance += distance;
             System.out.println(stageCounter + ". " + nextPlace.getName() + " välimatka " + distance);
         }
-        System.out.println((stageCounter + 1) + ". " + endNode.getName() + " välimatka " + endNode.getDistanceToNeighbour(previousPlaceName));
+        distance = endNode.getDistanceToNeighbour(previousPlaceName);
+        System.out.println((stageCounter + 1) + ". " + endNode.getName() + " välimatka " + distance);
+        totalDistance += distance;
         System.out.println("Kokonaisvälimatka: " + totalDistance);
     }
     

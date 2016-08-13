@@ -186,7 +186,7 @@ public class DijkstraTest {
         graph.add(node3);
         graph.add(node4);
         graph.add(node5);
-        dijkstra.run(graph, node2);
+        dijkstra.run(graph, node2, node4, AlgorithmAlternative.Dijkstra);
         
 //        for(PlaceNode node : dijkstra.getSolvedNodes()) {
 //            System.out.println(node.getName() + " " + node.getStartDistance()

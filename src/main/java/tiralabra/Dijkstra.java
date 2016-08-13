@@ -21,7 +21,16 @@ public class Dijkstra {
      * @param graph     Verkko kuvattuna PlaceNode-olioita sisältävänä List-oliona.
      * @param startNode Polun alkupisteenä oleva paikka PlaceNode-oliona.
      */
-    public void run(List<PlaceNode> graph, PlaceNode startNode) {
+    public void run(List<PlaceNode> graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
+        if(graph == null) {
+            throw new IllegalArgumentException("Verkko ei voi olla null");
+        }
+        if(startNode == null) {
+            throw new IllegalArgumentException("Aloituspaikka ei voi olla null");
+        }
+        if(endNode == null && algorithm == AlgorithmAlternative.AStar) {
+            throw new IllegalArgumentException("Maalipaikka ei voi olla null A*-algoritmilla");
+        }
         initialize(graph, startNode);
         solvedNodes = new PlaceNode[graph.size()]; 
         solvedNodeIndex = 0;
