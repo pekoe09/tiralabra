@@ -13,22 +13,19 @@ luokkaan, muutama testi lisää ja pientä viilailua.
 muokkausta.
 
 Ohjelman toteutus etenee hyvin aikataulussa. Viikon alussa korjasin ensin
-minimikeossa sekä Dijkstra-algortimissa olleet virheet. Samassa 
+minimikeossa sekä Dijkstra-algoritmissa olleet virheet. Samassa 
 yhteydessä kirjoitin näille lisää testejä (sen lisäksi että korjasin
-myös testeissä olleita virheitä). A*-algoritmin toteutin ensin omana
+myös testeissä olleita virheitä). A-tähti-algoritmin toteutin ensin omana
 luokkanaan; koska se on suurelta osin identtinen Dijkstra-algoritmin
-kanssa, yhdistin A*- ja Dijkstra-luokat yhdeksi PathAlgorithm-luokaksi.
+kanssa, yhdistin A-tähti- ja Dijkstra-luokat yhdeksi PathAlgorithm-luokaksi.
 Refaktoroin hieman koodia muutoinkin pahimmiksi katsomistani paikoista.
 
-Kun ajoin molempia algoritmeja data-kansiossa olevalla testgraph.data-
-tiedostolla, ne antoivat eri tuloksia - ko. tiedostossa on kuitenkin
+Kun ajoin molempia algoritmeja data-kansiossa olevalla testgraph.data -tiedostolla, ne antoivat eri tuloksia - ko. tiedostossa on kuitenkin
 täysin hihasta vedettyjä koordinaatteja ja etäisyyksiä naapureihin, mikä
-näyttää hämäävän AStaria. Aitoa dataa sisältävällä metropolitan.data -tiedostolla
+näyttää hämäävän A-tähti-algoritmia. Aitoa dataa sisältävällä metropolitan.data -tiedostolla
 molemmat algoritmit tuottavat samat polut.
 
 Seuraavalle viikolle luvassa lisää testien kirjoittamista, algoritmien
 ajon kellotus ja käytetyn ajan lisääminen tuloksiin, ajonaikaisen tuloshistorian
 tallentaminen ja esittäminen sekä edellisen sisäänluetun datatiedoston
-mukaisen verkon käyttö uudelleen polun etsinnässä. Minimikeko- ja pino-
-rakenteet onkin jo toteutettu mutta verkko tallennetaan edelleen ArrayList-
-rakenteeseen; tämä pitää korvata itse toteutetulla rakenteella.
+mukaisen verkon käyttö uudelleen polun etsinnässä. Minimikeko- ja pino-rakenteet onkin jo toteutettu mutta verkko tallennetaan edelleen ArrayList-rakenteeseen; tämä pitää korvata itse toteutetulla rakenteella.
