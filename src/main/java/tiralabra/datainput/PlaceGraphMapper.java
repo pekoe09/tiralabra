@@ -29,7 +29,7 @@ public class PlaceGraphMapper implements IDataMapper {
      * @param data          Sisäänluettu paikkatieto merkkijonomuotoisena.
      * @param rowCounter    Laskuri sisäänluettujen rivien määrälle.
      * @param target        ReadTarget-enumin arvo: NODE_BASIC_DATA kun luetaan paikkojen omat tiedot sisään
-     * (ensimmäinen kierros) ja NODE_NEIGHBOUR_DATA kun luetaan paikkojen naapuruustiedot (toinen kierros).
+     *                      (ensimmäinen kierros) ja NODE_NEIGHBOUR_DATA kun luetaan paikkojen naapuruustiedot (toinen kierros).
      */
     @Override
     public void mapData(String data, Integer rowCounter, ReadTarget target) {   

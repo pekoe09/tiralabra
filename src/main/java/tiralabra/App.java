@@ -1,16 +1,32 @@
 package tiralabra;
 
+import tiralabra.datastructures.PathStack;
 import tiralabra.datainput.PlaceGraphMapper;
 import tiralabra.datainput.GraphFileHandler;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
 import java.util.List;
 import java.util.Scanner;
+import tiralabra.datainput.IDataMapper;
 
 public class App 
 {
     public static void main( String[] args )
     {        
+        runInputLoop();
+        System.exit(0);
+    }
+    
+    /**
+     * Suorittaa input-loopia, jossa käyttäjältä kysytään seuraavaa toimenpidettä.
+     * Inputilla "[tiedostopolku] [paikka1] [paikka2]" luetaan sisään tiedostopolku-parametrin
+     * määrittämä tiedosto ja haetaan sitten lyhin reitti paikka1:stä paikka2:een. 
+     * Inputilla "+ [paikka1] [paikka2]" käytetään viimeksi sisään luetun tiedoston
+     * määrittämää verkkoa ja haetaan lyhin reitti siitä. Inputilla "=" näytetään kaikki
+     * ohjelman suorituksen aikana saadut lyhin polku -tulokset. Inputilla "q" ohjelman ajo 
+     * lopetetaan.
+     */
+    public static void runInputLoop() {
         Scanner in = new Scanner(System.in);
         Messenger.printPrompt();
         String input = in.nextLine().trim().toLowerCase();
@@ -18,50 +34,67 @@ public class App
             if(input.equals("="))  {
                 Messenger.printAllResults();
             } else {
-                String[] params = input.split(" ");
-                if(params.length != 3) {
-                    Messenger.printParamError();
-                } else {  
-                    PlaceGraphMapper mapper = new PlaceGraphMapper();
-                    String filePath = params[0];
-                    String startPlaceName = params[1];
-                    String endPlaceName = params[2];
-                    boolean errorsEncountered = false;
-
-                    try {
-                        GraphFileHandler.readGraphFile(filePath, mapper);
-                    } catch (IllegalArgumentException exc) {
-                        Messenger.printFileError(exc.getMessage(), filePath);
-                        errorsEncountered = true;
-                    }                   
-                    
-                    if (!errorsEncountered) {
-                        try {
-                            GraphUtils.findPlace(mapper.getData(), startPlaceName);
-                            GraphUtils.findPlace(mapper.getData(), endPlaceName); 
-                        } catch (Exception exc) {
-                            Messenger.printError(exc.getMessage());
-                            errorsEncountered = true;
-                        }
-                        if (!errorsEncountered) {
-                            runAlgos(mapper.getData(), startPlaceName, endPlaceName);
-                        }
-                    }
-                }
+                handleShortestPathQuery(input);
             }
             Messenger.printPrompt();
             input = in.nextLine().trim().toLowerCase();
         }      
         Messenger.printGoodbye();
-        System.exit(0);
+    }
+    
+    /**
+     * Käsittelee käyttäjän tekemän pyynnön lyhimmän polun selvittämisestä.
+     * @param input Käyttäjän syöte; muotoa "[tiedostopolku] [lähtöpaikka] [maalipaikka]",
+     *              missä [tiedostopolku]-osa voidaan korvata pelkällä +-merkillä; 
+     *              tällöin polkua etsitään viimeksi sisään luetun datatiedoston 
+     *              muodostamasta verkosta.
+     */
+    public static void handleShortestPathQuery(String input) {
+        String[] params = input.split(" ");
+        if(params.length != 3) {
+            Messenger.printParamError();
+        } else if(params[0].equals("+")) {
+            Messenger.printError("toimintoa ei ole vielä toteutettu");
+        } else {  
+            String startPlaceName = params[1];
+            String endPlaceName = params[2];
+            IDataMapper mapper = readDataFile(params[0], startPlaceName, endPlaceName);
+            if (mapper != null) {
+                try{
+                    runAlgos(mapper.getData(), startPlaceName, endPlaceName);
+                } catch (Exception exc) {
+                    Messenger.printError(exc.getMessage());
+                }
+            }
+        }
+    }
+    
+    /**
+     * Lukee paikkadataa sisältävän tiedoston  sisään ja muodostaa siitä verkon.
+     * @param filePath          Datatiedoston tiedostopolku.
+     * @param startPlaceName    Etsittävän polun lähtöpaikka.
+     * @param endPlaceName      Etsittävän polun maalipaikka.
+     * @return                  IDataMapper-olio, joka sisältää paikkojen ja niiden välisten yhteyksien
+     *                          muodostaman verkon.
+     */
+    public static IDataMapper readDataFile(String filePath, String startPlaceName, String endPlaceName) {
+        PlaceGraphMapper mapper = new PlaceGraphMapper();
+        try {
+            GraphFileHandler.readGraphFile(filePath, mapper);
+        } catch (IllegalArgumentException exc) {
+            Messenger.printFileError(exc.getMessage(), filePath);
+            return null;
+        }    
+        return mapper;
     }
 
     /**
      * Tämä metodi vastaa algoritmien ajamisesta, niiden tulosten tallentamisesta sekä esittämisestä.
-     * 
-     * @param graphData Paikkatiedot List-rakenteessa, jonka elementteinä on PlaceNode-
-     * olioita.
-     * @param startPlaceName Polun aloituspaikan nimi.
+     * Metodi ajaa sekä Dijkstra- että A*-algoritmit.
+     * @param graphData         Paikkatiedot List-rakenteessa, jonka elementteinä on PlaceNode-
+     *                          olioita.
+     * @param startPlaceName    Polun aloituspaikan nimi.
+     * @param endPlaceName      Polun lopetuspaikan nimi.
      */
     public static void runAlgos(List<PlaceNode> graphData, String startPlaceName, String endPlaceName) {
         System.out.println("Suoritetaan algoritmit...");
@@ -76,7 +109,7 @@ public class App
         aStar.run(graphData, startPlace, endPlace, AlgorithmAlternative.ASTAR);
         PathStack shortestAStarPath = aStar.getShortestPath(startPlace, endPlace);
         
-        Messenger.printShortestPath(shortestDijkstraPath, startPlace, endPlace);
-        Messenger.printShortestPath(shortestAStarPath, startPlace, endPlace);
+        Messenger.printShortestPath(shortestDijkstraPath, startPlace, endPlace, AlgorithmAlternative.DIJKSTRA);
+        Messenger.printShortestPath(shortestAStarPath, startPlace, endPlace, AlgorithmAlternative.ASTAR);
     }
 }

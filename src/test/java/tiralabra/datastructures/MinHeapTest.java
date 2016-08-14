@@ -1,5 +1,6 @@
-package tiralabra;
+package tiralabra.datastructures;
 
+import tiralabra.datastructures.MinHeap;
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import org.junit.Before;

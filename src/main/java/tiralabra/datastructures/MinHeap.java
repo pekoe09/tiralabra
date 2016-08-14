@@ -1,12 +1,11 @@
-package tiralabra;
+package tiralabra.datastructures;
 
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 
 /**
  * Minimikeko, joka tallentaa PlaceNode-olioina kuvattuja paikkoja niihin
- * liitetyn etäisyystiedon mukaisessa prioriteettijärjestyksessä; PlaceNode-etäisyys-pari
- * kuvataan NeighbourNode-oliona.
+ * liitetyn etäisyystiedon mukaisessa prioriteettijärjestyksessä.
  */
 public class MinHeap {
     
@@ -15,8 +14,8 @@ public class MinHeap {
     
     /**
      * Minimikeko-olion konstruktori.
-     * @param size Minimikekoon tallennettavaksi aiottujen PlaceNode-olioiden lukumäärä.
-     * @throws IllegalArgumentException Jos keon kooksi annetaan negatiivinen luku.
+     * @param size  Minimikekoon tallennettavaksi aiottujen PlaceNode-olioiden lukumäärä.
+     * @throws      IllegalArgumentException Jos keon kooksi annetaan negatiivinen luku.
      */
     public MinHeap(int size) {
         if(size < 0) {
@@ -28,9 +27,9 @@ public class MinHeap {
     
     /**
      * Palauttaa annetun indeksin mukaisen keon alkion vasemman lapsen indeksin keon taulukossa.
-     * @param heapindex Tutkittavan alkion 0-pohjainen indeksi keon taulukossa.
-     * @return Tutkittavan alkion vasemman lapsen 0-pohjainen indeksi keon taulukossa.
-     * @throws IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
+     * @param heapindex     Tutkittavan alkion 0-pohjainen indeksi keon taulukossa.
+     * @return              Tutkittavan alkion vasemman lapsen 0-pohjainen indeksi keon taulukossa.
+     * @throws              IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
      */
     public int left(int heapindex) {
         if(heapindex < 0) {
@@ -42,8 +41,8 @@ public class MinHeap {
     /**
      * Palauttaa annetun indeksin mukaisen keon alkion oikean lapsen indeksin keon taulukossa.
      * @param heapindex Tutkittavan alkion 0-pohjainen indeksi keon taulukossa.
-     * @return Tutkittavan alkion oikean lapsen 0-pohjainen indeksi keon taulukossa.
-     * @throws IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
+     * @return          Tutkittavan alkion oikean lapsen 0-pohjainen indeksi keon taulukossa.
+     * @throws          IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
      */
     public int right(int heapindex) {
         if(heapindex < 0) {
@@ -55,8 +54,8 @@ public class MinHeap {
     /**
      * Palauttaa annetun indeksin mukaisen keon alkion vanhemman indeksin keon taulukossa.
      * @param heapindex Tutkittavan alkion 0-pohjainen indeksi keon taulukossa.
-     * @return Tutkittavan alkion vanhemman 0-pohjainen indeksi keon taulukossa.
-     * @throws IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
+     * @return          Tutkittavan alkion vanhemman 0-pohjainen indeksi keon taulukossa.
+     * @throws          IllegalArgumentException Jos annettu tutkittava indeksi on negatiivinen.
      */
     public int parent(int heapindex) {
         if(heapindex < 0) {
@@ -67,10 +66,10 @@ public class MinHeap {
 
     /**
      * Lisää annetun PlaceNode-olion kekoon ja asettaa sen avaintiedoksi annetun etäisyystiedon.
-     * @param node  PlaceNode-olio, joka halutaan lisätä kekoon.
-     * @param distance PlaceNode-olioon liittyvä etäisyystieto, jota käytetään sen avaimena keossa.
-     * HUOM! Etäisyystiedon on oltava positiivinen.
-     * @throws IllegalArgumentException Jos etäisyystieto on negatiivinen.
+     * @param node      PlaceNode-olio, joka halutaan lisätä kekoon.
+     * @param distance  PlaceNode-olioon liittyvä etäisyystieto, jota käytetään sen avaimena keossa.
+     *                  Etäisyystiedon on oltava positiivinen.
+     * @throws          IllegalArgumentException Jos etäisyystieto on negatiivinen.
      */
     public void insert(PlaceNode node, double distance) {
         if(distance < 0) {
@@ -92,7 +91,7 @@ public class MinHeap {
     /**
      * Metodi, joka korjaa kekoehdon jos se on rikki annetun indeksin kohdalla.
      * @param heapindex Keon taulukon 0-pohjainen indeksi, jonka kohdalta kekoehtoa korjataan.
-     * @throws IllegalArgumentException Jos annettu taulukon indeksi on negatiivinen.
+     * @throws          IllegalArgumentException Jos annettu taulukon indeksi on negatiivinen.
      */
     public void heapify(int heapindex) {
         if(heapindex < 0) {
@@ -115,7 +114,7 @@ public class MinHeap {
      * Vaihtaa kahden keon alkion paikkaa päittäin ja päivittää niihin liitetyn kekoindeksitiedon.
      * @param index1    Ensimmäisen päittäin vaihdettavan alkion 0-pohjainen indeksi keon taulukossa.
      * @param index2    Toisen päittäin vaihdettavan alkion 0-pohjainen indeksi keon taulukossa.
-     * @throws IllegalArgumentException Jos jompi kumpi annetuista indekseistä on negatiivinen.
+     * @throws          IllegalArgumentException Jos jompi kumpi annetuista indekseistä on negatiivinen.
      */
     public void exchange(int index1, int index2) {
         if(index1 < 0 || index2 < 0) {
@@ -160,8 +159,8 @@ public class MinHeap {
      * Pienentää annettuun PlaceNode-alkioon liitettyä etäisyystietoa ja korjaa tämän
      * jälkeen kekoa niin että kekoehto säilyy.
      * @param neighbour PlaceNode-olio, johon liitettyä etäisyystietoa on tarkoitus muuttaa.
-     * @param distance Uusi etäisyystieto; ei voi olla negatiivinen luku.
-     * @throws IllegalArgumentException Jos annettu alkio on null tai annettu etäisyys on negatiivinen
+     * @param distance  Uusi etäisyystieto; ei voi olla negatiivinen luku.
+     * @throws          IllegalArgumentException Jos annettu alkio on null tai annettu etäisyys on negatiivinen
      */
     public void decrease_key(PlaceNode neighbour, double distance) {
         if(neighbour == null) {

@@ -1,4 +1,4 @@
-package tiralabra;
+package tiralabra.datastructures;
 
 import tiralabra.domain.PlaceNode;
 
@@ -12,9 +12,9 @@ public class PathStack {
     
     /**
      * Konstruktori alustaa olion kentät.
-     * @param size Tallennettavaksi aiottavan polun pituus paikkasolmujen lukumääränä.
-     * Oltava suurempi kuin 0.
-     * @throws IllegalArgumentException Jos annettu pituus on pienempi kuin 1.
+     * @param size  Tallennettavaksi aiottavan polun pituus paikkasolmujen lukumääränä.
+     *              Oltava suurempi kuin 0.
+     * @throws      IllegalArgumentException Jos annettu pituus on pienempi kuin 1.
      */
     public PathStack(int size) {
         if(size < 1) {
@@ -27,7 +27,7 @@ public class PathStack {
     /**
      * Lisää polkuun uuden paikan.
      * @param place Polkuun lisättävä paikka.
-     * @throws IllegalArgumentException Jos polkuun yritetään lisätä null.
+     * @throws      IllegalArgumentException Jos polkuun yritetään lisätä null.
      */
     public void push(PlaceNode place) {
         if(place == null) {

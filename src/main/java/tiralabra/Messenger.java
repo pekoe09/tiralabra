@@ -1,15 +1,30 @@
 package tiralabra;
 
+import tiralabra.datastructures.PathStack;
 import tiralabra.domain.PlaceNode;
 import java.util.List;
+import tiralabra.enums.AlgorithmAlternative;
 
 /**
  * Apuluokka, jonka metodit esittävät käyttäjälle näytettävän informaation.
  */
 public class Messenger {
     
-    public static void printShortestPath(PathStack path, PlaceNode startNode, PlaceNode endNode) {
-        System.out.println("Lyhin polku paikasta " + startNode.getName() + " paikkaan " + endNode.getName() + ":");
+    /**
+     * Tulostaa lyhimmän polun tiedot; jokaisesta paikasta näytetään nimi ja etäisyys
+     * edelliseen paikkaan ja lopuksi koko polun pituus.
+     * @param path      PathStack-pino, joka sisältää lyhimmän polun paikat.
+     * @param startNode Polun lähtöpaikka.
+     * @param endNode   Polun maalipaikka.
+     * @param algorithm Polun etsimisessä käytetty algoritmi (AlgorithmAlternative.DIJKSTRA
+     *                  tai AlgorithmiAlternative.ASTAR)
+     */
+    public static void printShortestPath(PathStack path, PlaceNode startNode, 
+            PlaceNode endNode, AlgorithmAlternative algorithm) {
+        System.out.println(String.format("Lyhin polku paikasta %s paikkaan %s %s-algoritmin mukaan", 
+                startNode.getName(),
+                endNode.getName(),
+                algorithm.toString().toLowerCase()));
         System.out.println("0. " + startNode.getName());
         int stageCounter = 0;
         double totalDistance = 0.0;
@@ -31,6 +46,7 @@ public class Messenger {
     
     /**
      * Näyttää kaikki polunetsintätulokset ohjelman käynnistyksestä lähtien.
+     * (Ei vielä toteutettu)
      */
     public static void printAllResults() {
        System.out.println("Kaikki tulokset...");
@@ -55,7 +71,7 @@ public class Messenger {
      * Näyttää käyttäjälle ohjelman käyttöohjeen.
      */
     public static void printPrompt() {
-        System.out.println("Ohje: [tiedostopolku] [lähtöpaikka] [kohdepaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset");
+        System.out.println("Anna seuraava komento!\nOhje: [tiedostopolku] [lähtöpaikka] [kohdepaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset");
     }  
 
     /**

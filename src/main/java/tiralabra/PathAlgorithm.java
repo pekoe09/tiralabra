@@ -1,12 +1,15 @@
 package tiralabra;
 
+import tiralabra.datastructures.MinHeap;
+import tiralabra.datastructures.PathStack;
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
 import java.util.List;
 
 /**
- * DIJKSTRA-luokka sisältää DIJKSTRA-algoritmin logiikan.
+ * Luokan tehtävä on etsiä lyhin polku annetusta paikkatietoverkosta. 
+ * Sisältää sekä Dijkstra- että A*-algoritmien logiikan.
  */
 public class PathAlgorithm {
     
@@ -19,15 +22,15 @@ public class PathAlgorithm {
     }
     
     /**
-     * Run-metodilla suoritetaan DIJKSTRA-algoritmin mukainen lyhimmän polun etsintä
- annetulla verkolla ja aloitussolmulla.
+     * Run-metodilla suoritetaan valitun algoritmin mukainen lyhimmän polun etsintä
+     * annetulla verkolla ja aloitussolmulla.
      * @param graph     Verkko kuvattuna PlaceNode-olioita sisältävänä List-oliona.
      * @param startNode Polun alkupisteenä oleva paikka PlaceNode-oliona.
      * @param endNode   Polun päätepisteenä oleva paikka PlaceNode-oliona.
      * @param algorithm Algoritmivaihtoehto, joka halutaan ajaa 
-     * (AlgorithmAlternative.DIJKSTRA tai AlgorithmAlternative.ASTAR).
+     *                  (AlgorithmAlternative.DIJKSTRA tai AlgorithmAlternative.ASTAR).
      * @throws          IllegalArgumentException Jos verkko tai aloitussolmu on null tai jos
-     * lopetussolmu on null kun yritetään suorittaa A*-algoritmia.
+     *                  lopetussolmu on null kun yritetään suorittaa A*-algoritmia.
      */
     public void run(List<PlaceNode> graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
         if(graph == null) {
@@ -66,10 +69,15 @@ public class PathAlgorithm {
      * Initialize-metodi alustaa verkon solmujen tiedot: kaikkien solmujen etäisyys
      * aloitussolmusta asetetaan Double.MAX_VALUE:ksi lukuunottamatta aloitussolmua,
      * jonka etäisyydeksi itsestään asetetaan 0.0. Lisäksi kaikkiin solmuihin asetetaan
-     * edeltäjäsolmutieto nulliksi.
+     * edeltäjäsolmutieto nulliksi. Jos ollaan ajamassa A*-algoritmia, kaikkien solmujen
+     * etäisyysarvioksi maalisolmusta asetetaan ko. solmun ja maalisolmun heuristinen
+     * etäisyys.
      * @param graph     Verkko ilmaistuna PlaceNode-olioita sisältävänä List-oliona.
-     * @param startNode Aloitussolmuna käytettävä PlaceNode.
-     * @throws IllegalArgumentException Jos verkko tai aloitussolmu on null.
+     * @param startNode Lähtösolmuna käytettävä PlaceNode.
+     * @param endNode   Maalisolmuna käytettävä PlaceNode.
+     * @param algorithm Ajettava algoritmi.
+     * @throws          IllegalArgumentException Jos verkko tai lähtösolmu on null tai
+     *                  jos maalisolmu on null ja algoritmi on A*.
      */
     public void initialize(List<PlaceNode> graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
         if(graph == null) {
@@ -112,9 +120,9 @@ public class PathAlgorithm {
     
     /**
      * Metodi, joka tutkii minimikeon kärjessä olevaa solmua ja selvittää sen naapureiden etäisyyden aloitussolmusta.
-     * @param heap Minimikeko, joka sisältää verkon solmut aloitussolmuetäisyyden mukaisessa järjestyksessä.
+     * @param heap      Minimikeko, joka sisältää verkon solmut aloitussolmuetäisyyden mukaisessa järjestyksessä.
      * @param algorithm Algoritmivaihtoehto, jota ollaan ajamassa (AlgorithmAlternative.DIJKSTRA tai .ASTAR)
-     * @throws IllegalArgumentException Jos keko on null.
+     * @throws          IllegalArgumentException Jos keko on null.
      */
     public void solveNode(MinHeap heap, AlgorithmAlternative algorithm) {
         if(heap == null) {
@@ -135,9 +143,9 @@ public class PathAlgorithm {
     
     /**
      * Tutkii, onko annettu solmu jo ratkaistujen joukossa.
-     * @param node Solmu, jota etsitään ratkaistujen joukosta.
-     * @return True, jos annettu solmu on jo ratkaistu, muutoin false.
-     * @throws IllegalArgumentException Jos parametrina annetaan null.
+     * @param node  Solmu, jota etsitään ratkaistujen joukosta.
+     * @return      True, jos annettu solmu on jo ratkaistu, muutoin false.
+     * @throws      IllegalArgumentException Jos parametrina annetaan null.
      */
     public boolean nodeIsSolved(PlaceNode node) {
         if(node == null) {
@@ -154,11 +162,11 @@ public class PathAlgorithm {
     
     /**
      * Palauttaa lyhimmän polun solmut PathStack-muotoisena pinona.
-     * @param startNode Polun aloituspaikka.
+     * @param startNode Polun lähtöpaikka.
      * @param endNode   Polun maalipaikka.
      * @return          Polun sisältämät solmut PathStack-pinona.
      * @throws          IllegalArgumentException Jos jompi kumpi parametrina
-     * annettavista solmuista on null.
+     *                  annettavista solmuista on null.
      */
     public PathStack getShortestPath(PlaceNode startNode, PlaceNode endNode) {
         if(startNode == null || endNode == null) {
@@ -175,11 +183,11 @@ public class PathAlgorithm {
         
     /**
      * Laskee kahden paikkasolmun sijaintikoordinaattien välimatkan kilometreinä.
-     * (https://rosettacode.org/wiki/Haversine_formula#Java)
-     * @param node1
-     * @param node2
-     * @return Annettujen paikkasolmujen välimatka kilometreinä.
-     * @throws IllegalArgumentException Jos jompi kumpi paikkasolmuparametreista on null.
+     * (lähde: https://rosettacode.org/wiki/Haversine_formula#Java)
+     * @param node1 Ensimmäinen paikkasolmu.
+     * @param node2 Toinen paikkasolmu.
+     * @return      Annettujen paikkasolmujen välimatka kilometreinä.
+     * @throws      IllegalArgumentException Jos jompi kumpi paikkasolmuparametreista on null.
      */
     public double calculateHeuristic(PlaceNode node1, PlaceNode node2) {
         if(node1 == null || node2 == null) {

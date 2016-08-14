@@ -1,5 +1,7 @@
 package tiralabra;
 
+import tiralabra.datastructures.MinHeap;
+import tiralabra.datastructures.PathStack;
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
@@ -13,6 +15,7 @@ public class PathAlgorithmTest {
     
     PathAlgorithm dijkstra;
     PlaceNode node0, node1, node2, node3, node4, node5;
+    PlaceNode helsinki, espoo, vantaa, kauniainen, sipoo;
     
     public PathAlgorithmTest() { }
     
@@ -41,11 +44,35 @@ public class PathAlgorithmTest {
         node3.setNeighbours(new NeighbourNode[]{
                                 new NeighbourNode(node0, 3.0)});
         node4.setNeighbours(new NeighbourNode[]{
-                                new NeighbourNode(node4, 4.0), 
+                                new NeighbourNode(node0, 4.0), 
+                                new NeighbourNode(node1, 1.0),
                                 new NeighbourNode(node5, 1.0)});
         node5.setNeighbours(new NeighbourNode[]{
                                 new NeighbourNode(node0, 5.0), 
                                 new NeighbourNode(node4, 1.0)});
+        
+        helsinki = new PlaceNode("Helsinki", 60.171160, 24.932580);
+        espoo = new PlaceNode("Espoo", 60.206780, 24.655780);
+        vantaa = new PlaceNode("Vantaa", 60.289348, 25.029676);
+        kauniainen = new PlaceNode("Kauniainen", 60.211642, 24.729048);
+        sipoo = new PlaceNode("Sipoo", 60.376721, 25.260191);
+        helsinki.setNeighbours(new NeighbourNode[] {
+                                new NeighbourNode(espoo, 15.805679),
+                                new NeighbourNode(vantaa, 14.193181),
+                                new NeighbourNode(sipoo, 29.133081)});
+        espoo.setNeighbours(new NeighbourNode[] {
+                                new NeighbourNode(helsinki, 15.805679),
+                                new NeighbourNode((vantaa), 22.582160),
+                                new NeighbourNode(kauniainen, 4.083670)});
+        vantaa.setNeighbours(new NeighbourNode[]{
+                                new NeighbourNode(espoo, 22.582160),
+                                new NeighbourNode(helsinki, 14.193181),
+                                new NeighbourNode(sipoo, 15.979494)});
+        kauniainen.setNeighbours(new NeighbourNode[]{
+                                new NeighbourNode(espoo, 4.083670)});
+        sipoo.setNeighbours(new NeighbourNode[]{
+                                new NeighbourNode(helsinki, 29.133081),
+                                new NeighbourNode(vantaa, 15.979494)});
     }
 
     @Test
@@ -279,6 +306,36 @@ public class PathAlgorithmTest {
         PathStack path = dijkstra.getShortestPath(node0, null);
     }
     
+    @Test
+    public void runningDijkstraCreatesShortestPath() {
+        List<PlaceNode> graph = new ArrayList<>();
+        graph.add(helsinki);
+        graph.add(espoo);
+        graph.add(vantaa);
+        graph.add(kauniainen);
+        graph.add(sipoo);
+        dijkstra.run(graph, sipoo, kauniainen, AlgorithmAlternative.DIJKSTRA);
+        
+        assertEquals("Lopetussolmun edeltäjä on väärin", espoo, kauniainen.getPathPredecessor());
+        assertEquals("Kolmannen solmun edeltäjä ei ole toinen solmu", vantaa, espoo.getPathPredecessor());
+        assertEquals("Toisen solmun edeltäjä ei ole aloitussolmu", sipoo, vantaa.getPathPredecessor());
+    }
+    
+    @Test
+    public void runningAStarCreatesShortestPath() {
+        List<PlaceNode> graph = new ArrayList<>();
+        graph.add(helsinki);
+        graph.add(espoo);
+        graph.add(vantaa);
+        graph.add(kauniainen);
+        graph.add(sipoo);
+        dijkstra.run(graph, sipoo, kauniainen, AlgorithmAlternative.ASTAR);
+        
+        assertEquals("Lopetussolmun edeltäjä on väärin", espoo, kauniainen.getPathPredecessor());
+        assertEquals("Kolmannen solmun edeltäjä ei ole toinen solmu", vantaa, espoo.getPathPredecessor());
+        assertEquals("Toisen solmun edeltäjä ei ole aloitussolmu", sipoo, vantaa.getPathPredecessor());
+    }
+    
     @Test(expected = IllegalArgumentException.class)
     public void runThrowsExceptionIfGraphIsNull() {
         dijkstra.run(null, node1, node2, AlgorithmAlternative.DIJKSTRA);
@@ -292,5 +349,10 @@ public class PathAlgorithmTest {
     @Test(expected = IllegalArgumentException.class)
     public void runThrowsExceptionIfEndNodeIsNullRunningAStar() {
         dijkstra.run(new ArrayList<PlaceNode>(), node1, null, AlgorithmAlternative.ASTAR);
+    }
+    
+    @Test
+    public void runDoesNotThrowErrorIfEndNodeIsNullRunningDijkstra() {
+        dijkstra.run(new ArrayList<PlaceNode>(), node1, null, AlgorithmAlternative.DIJKSTRA);
     }
 }

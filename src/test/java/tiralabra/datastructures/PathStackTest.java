@@ -1,5 +1,6 @@
-package tiralabra;
+package tiralabra.datastructures;
 
+import tiralabra.datastructures.PathStack;
 import tiralabra.domain.PlaceNode;
 import org.junit.Before;
 import org.junit.Test;

@@ -17,7 +17,7 @@ public class GraphFileHandler {
      * sisäänluvun.
      * @param filePath  Luettavan tiedoston sijaintipolku.
      * @param mapper    IDataMapper-rajapinnan toteuttava luokka, joka tulkitsee sisäänluetut tiedot.
-     * @throws IllegalArgumentException Jos tiedoston avaaminen/sulkeminen ei onnistu.
+     * @throws          IllegalArgumentException Jos tiedoston avaaminen/sulkeminen ei onnistu.
      */
     public static void readGraphFile(String filePath, IDataMapper mapper) {        
         try {
@@ -40,8 +40,9 @@ public class GraphFileHandler {
      * @param reader    BufferedReader, joka on linkattu avattuun datatiedostoon.
      * @param mapper    IDataMapper-rajapinnan toteuttava luokka, joka tulkitsee luetut tiedot.
      * @param target    ReadTarget-enumin arvo: NODE_BASIC_DATA kun luetaan paikkojen omat tiedot sisään
-     * (ensimmäinen kierros) ja NODE_NEIGHBOUR_DATA kun luetaan paikkojen naapuruustiedot (toinen kierros).
-     * @throws IllegalArgumentException Jos rivin sisäänluvussa tapahtui virhe.
+     *                  (ensimmäinen kierros) ja NODE_NEIGHBOUR_DATA kun luetaan paikkojen naapuruustiedot 
+     *                  (toinen kierros).
+     * @throws          IllegalArgumentException Jos rivin sisäänluvussa tapahtui virhe.
      */
     public static void readLines(BufferedReader reader, IDataMapper mapper, ReadTarget target) {                
         Integer rowCounter = 0;
