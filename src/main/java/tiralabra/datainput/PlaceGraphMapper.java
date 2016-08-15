@@ -123,4 +123,8 @@ public class PlaceGraphMapper implements IDataMapper {
         return numberOfEdgeEndPoints / 2;
     }
     
+    @Override
+    public String toString() {
+        return String.format("verkossa on %d solmua ja %d kaarta", graph.size(), getNumberOfEdges());
+    }
 }

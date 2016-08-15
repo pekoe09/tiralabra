@@ -351,8 +351,8 @@ public class PathAlgorithmTest {
         dijkstra.run(new ArrayList<PlaceNode>(), node1, null, AlgorithmAlternative.ASTAR);
     }
     
-    @Test
-    public void runDoesNotThrowErrorIfEndNodeIsNullRunningDijkstra() {
+    @Test(expected = IllegalArgumentException.class)
+    public void runThrowsExceptionIfEndNodeIsNullRunningDijkstra() {
         dijkstra.run(new ArrayList<PlaceNode>(), node1, null, AlgorithmAlternative.DIJKSTRA);
     }
 }

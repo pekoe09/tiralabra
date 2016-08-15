@@ -6,6 +6,7 @@ import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
 import java.util.List;
+import tiralabra.domain.PathSearchResult;
 
 /**
  * Luokan tehtävä on etsiä lyhin polku annetusta paikkatietoverkosta. 
@@ -16,7 +17,7 @@ public class PathAlgorithm {
     private PlaceNode[] solvedNodes;
     private int solvedNodeIndex;
     private int nodeAmount;
-    private long runTime;
+    private long runTimeNanoSecs;
     
     public PathAlgorithm() {
         this.solvedNodes = new PlaceNode[10];
@@ -33,15 +34,15 @@ public class PathAlgorithm {
      * @throws          IllegalArgumentException Jos verkko tai aloitussolmu on null tai jos
      *                  lopetussolmu on null kun yritetään suorittaa A*-algoritmia.
      */
-    public void run(List<PlaceNode> graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
+    public PathSearchResult run(List<PlaceNode> graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
         if(graph == null) {
             throw new IllegalArgumentException("Verkko ei voi olla null");
         }
         if(startNode == null) {
             throw new IllegalArgumentException("Aloituspaikka ei voi olla null");
         }
-        if(endNode == null && algorithm == AlgorithmAlternative.ASTAR) {
-            throw new IllegalArgumentException("Maalipaikka ei voi olla null A*-algoritmilla");
+        if(endNode == null) {
+            throw new IllegalArgumentException("Maalipaikka ei voi olla null");
         }
         
         initialize(graph, startNode, endNode, algorithm);
@@ -65,7 +66,17 @@ public class PathAlgorithm {
                 solveNode(heap, AlgorithmAlternative.ASTAR);
             }
         }
-        runTime = System.nanoTime() - startTime;
+        runTimeNanoSecs = System.nanoTime() - startTime;
+        
+        PathSearchResult result = new PathSearchResult();
+        result.setGraph(graph);
+        result.setNodeCount(graph.size());
+        result.setStartPlace(startNode);
+        result.setEndPlace(endNode);
+        result.setShortestPath(getShortestPath(startNode, endNode));
+        result.setAlgorithm(algorithm);
+        result.setRunTimeNanoSecs(runTimeNanoSecs);
+        return result;
     }
     
     /**
@@ -223,7 +234,7 @@ public class PathAlgorithm {
         return solvedNodeIndex;
     }
 
-    public long getRunTime() {
-        return runTime;
+    public long getRunTimeNanoSecs() {
+        return runTimeNanoSecs;
     }    
 }

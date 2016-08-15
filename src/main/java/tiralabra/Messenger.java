@@ -44,7 +44,7 @@ public class Messenger {
         System.out.println(String.format("%d. %s, välimatka %.1f km", ++stageCounter, endNode.getName(), distance));
         totalDistance += distance;
         System.out.println(String.format("Kokonaisvälimatka: %.1f km", totalDistance));
-        System.out.println(String.format("Algoritmin suoritukseen meni %,d nanosekuntia.", runTimeNanoSecs));
+        System.out.println(String.format("Algoritmin suoritukseen meni %,.1f millisekuntia.", runTimeNanoSecs / 10000.0));
         printSeparator();
     }
     
@@ -60,7 +60,9 @@ public class Messenger {
      * Näyttää ilmoituksen ajoparametrejä koskevasta virheestä.
      */
     public static void printParamError() {
-        System.out.println("Parametrivirhe!");
+        System.out.println("Anna polun etsintäkäsky muodossa [tiedostopolku] [lähtöpaikka] [maalipaikka]!");
+        System.out.println("Jos haluat käyttää edellistä datatiedostoa, voit korvata tiedostopolun +-merkillä.");
+        System.out.println("Voit tulostaa kaikki tähänastiset tulokset '=':lla ja lopettaa 'q':lla.");
     }
     
     /**
