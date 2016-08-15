@@ -44,7 +44,7 @@ public class Messenger {
         System.out.println(String.format("%d. %s, välimatka %.1f km", ++stageCounter, endNode.getName(), distance));
         totalDistance += distance;
         System.out.println(String.format("Kokonaisvälimatka: %.1f km", totalDistance));
-        System.out.println(String.format("Algoritmin suoritukseen meni %,.1f millisekuntia.", runTimeNanoSecs / 10000.0));
+        System.out.println(String.format("Algoritmin suoritukseen meni %,.3f millisekuntia.", runTimeNanoSecs / 1000000.0));
         printSeparator();
     }
     
