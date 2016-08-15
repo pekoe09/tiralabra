@@ -24,4 +24,6 @@ public interface IDataMapper {
      */
     public List<PlaceNode> getData();
     
+    public long getNumberOfEdges();
+    
 }

@@ -13,14 +13,16 @@ public class Messenger {
     /**
      * Tulostaa lyhimmän polun tiedot; jokaisesta paikasta näytetään nimi ja etäisyys
      * edelliseen paikkaan ja lopuksi koko polun pituus.
-     * @param path      PathStack-pino, joka sisältää lyhimmän polun paikat.
-     * @param startNode Polun lähtöpaikka.
-     * @param endNode   Polun maalipaikka.
-     * @param algorithm Polun etsimisessä käytetty algoritmi (AlgorithmAlternative.DIJKSTRA
-     *                  tai AlgorithmiAlternative.ASTAR)
+     * @param path              PathStack-pino, joka sisältää lyhimmän polun paikat.
+     * @param startNode         Polun lähtöpaikka.
+     * @param endNode           Polun maalipaikka.
+     * @param runTimeNanoSecs   Algoritmin suoritusaika nanosekunteina.
+     * @param algorithm         Polun etsimisessä käytetty algoritmi (AlgorithmAlternative.DIJKSTRA
+     *                          tai AlgorithmiAlternative.ASTAR)
      */
     public static void printShortestPath(PathStack path, PlaceNode startNode, 
-            PlaceNode endNode, AlgorithmAlternative algorithm) {
+            PlaceNode endNode, long runTimeNanoSecs, AlgorithmAlternative algorithm) {
+        printSeparator();
         System.out.println(String.format("Lyhin polku paikasta %s paikkaan %s %s-algoritmin mukaan", 
                 startNode.getName(),
                 endNode.getName(),
@@ -36,12 +38,14 @@ public class Messenger {
             distance = nextPlace.getDistanceToNeighbour(previousPlaceName);
             previousPlaceName = nextPlace.getName();
             totalDistance += distance;
-            System.out.println(stageCounter + ". " + nextPlace.getName() + " välimatka " + distance);
+            System.out.println(String.format("%d. %s, välimatka %.1f km", stageCounter, nextPlace.getName(), distance));
         }
         distance = endNode.getDistanceToNeighbour(previousPlaceName);
-        System.out.println((stageCounter + 1) + ". " + endNode.getName() + " välimatka " + distance);
+        System.out.println(String.format("%d. %s, välimatka %.1f km", ++stageCounter, endNode.getName(), distance));
         totalDistance += distance;
-        System.out.println("Kokonaisvälimatka: " + totalDistance);
+        System.out.println(String.format("Kokonaisvälimatka: %.1f km", totalDistance));
+        System.out.println(String.format("Algoritmin suoritukseen meni %,d nanosekuntia.", runTimeNanoSecs));
+        printSeparator();
     }
     
     /**
@@ -60,10 +64,10 @@ public class Messenger {
     }
     
     /**
-     * Näyttää annetun virheilmoituksen. 
-     * @param message Käyttäjälle näytettävä virheilmoitus merkkijonona,
+     * Näyttää annetun viestin. 
+     * @param message Käyttäjälle näytettävä viesti merkkijonona,
      */
-    public static void printError(String message) {
+    public static void printMessage(String message) {
         System.out.println(message);
     }
 
@@ -71,9 +75,13 @@ public class Messenger {
      * Näyttää käyttäjälle ohjelman käyttöohjeen.
      */
     public static void printPrompt() {
-        System.out.println("Anna seuraava komento!\nOhje: [tiedostopolku] [lähtöpaikka] [kohdepaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset");
+        System.out.println("Anna seuraava komento!\nOhje: [tiedostopolku] [lähtöpaikka] [maalipaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset");
     }  
 
+    public static void printSeparator() {
+        System.out.println("----------------------------------------------------------------------------");
+    }
+    
     /**
      * Näyttää ilmoituksen tiedoston lukuun liittyvästä virheestä.
      * @param message   Virheeseen liittyviä lisätietoja sisältävä merkkijono, joka

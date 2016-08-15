@@ -54,16 +54,19 @@ public class App
         if(params.length != 3) {
             Messenger.printParamError();
         } else if(params[0].equals("+")) {
-            Messenger.printError("toimintoa ei ole vielä toteutettu");
+            Messenger.printMessage("toimintoa ei ole vielä toteutettu");
         } else {  
             String startPlaceName = params[1];
             String endPlaceName = params[2];
             IDataMapper mapper = readDataFile(params[0], startPlaceName, endPlaceName);
+            String fileMessage = String.format("Tiedosto luettu; verkossa on %d solmua ja %d kaarta.",
+                                                mapper.getData().size(), mapper.getNumberOfEdges());
+            Messenger.printMessage(fileMessage);
             if (mapper != null) {
                 try{
                     runAlgos(mapper.getData(), startPlaceName, endPlaceName);
                 } catch (Exception exc) {
-                    Messenger.printError(exc.getMessage());
+                    Messenger.printMessage(exc.getMessage());
                 }
             }
         }
@@ -104,12 +107,14 @@ public class App
         PathAlgorithm dijkstra = new PathAlgorithm();
         dijkstra.run(graphData, startPlace, endPlace, AlgorithmAlternative.DIJKSTRA);
         PathStack shortestDijkstraPath = dijkstra.getShortestPath(startPlace, endPlace);
+        long dijkstraRunTime = dijkstra.getRunTime();
         
         PathAlgorithm aStar = new PathAlgorithm();
         aStar.run(graphData, startPlace, endPlace, AlgorithmAlternative.ASTAR);
         PathStack shortestAStarPath = aStar.getShortestPath(startPlace, endPlace);
-        
-        Messenger.printShortestPath(shortestDijkstraPath, startPlace, endPlace, AlgorithmAlternative.DIJKSTRA);
-        Messenger.printShortestPath(shortestAStarPath, startPlace, endPlace, AlgorithmAlternative.ASTAR);
+        long aStarRunTime = aStar.getRunTime();
+
+        Messenger.printShortestPath(shortestDijkstraPath, startPlace, endPlace, dijkstraRunTime, AlgorithmAlternative.DIJKSTRA);
+        Messenger.printShortestPath(shortestAStarPath, startPlace, endPlace, aStarRunTime, AlgorithmAlternative.ASTAR);
     }
 }

@@ -16,6 +16,7 @@ public class PathAlgorithm {
     private PlaceNode[] solvedNodes;
     private int solvedNodeIndex;
     private int nodeAmount;
+    private long runTime;
     
     public PathAlgorithm() {
         this.solvedNodes = new PlaceNode[10];
@@ -42,12 +43,13 @@ public class PathAlgorithm {
         if(endNode == null && algorithm == AlgorithmAlternative.ASTAR) {
             throw new IllegalArgumentException("Maalipaikka ei voi olla null A*-algoritmilla");
         }
+        
         initialize(graph, startNode, endNode, algorithm);
         solvedNodes = new PlaceNode[graph.size()]; 
         solvedNodeIndex = 0;
         nodeAmount = graph.size();
         MinHeap heap = new MinHeap(graph.size());
-        
+        long startTime = System.nanoTime();
         if(algorithm == AlgorithmAlternative.DIJKSTRA) {
             for (PlaceNode node : graph) {
                 heap.insert(node, node.getStartDistance());
@@ -63,6 +65,7 @@ public class PathAlgorithm {
                 solveNode(heap, AlgorithmAlternative.ASTAR);
             }
         }
+        runTime = System.nanoTime() - startTime;
     }
     
     /**
@@ -219,5 +222,8 @@ public class PathAlgorithm {
     public int getSolvedNodeIndex() {
         return solvedNodeIndex;
     }
-    
+
+    public long getRunTime() {
+        return runTime;
+    }    
 }

@@ -16,6 +16,7 @@ public class PlaceGraphMapper implements IDataMapper {
     
     private List<PlaceNode> graph;
     private final int BASIC_FIELDS = 3;
+    private long numberOfEdgeEndPoints = 0;
     
     /**
      * Konstruktori asettaa paikkojen muodostamaa verkkoa kuvaavan List-olion tyhjäksi listaksi.
@@ -114,5 +115,12 @@ public class PlaceGraphMapper implements IDataMapper {
             }                     
         }
         place.setNeighbours(neighbours);
+        numberOfEdgeEndPoints += neighbours.length;
     }
+
+    @Override
+    public long getNumberOfEdges() {
+        return numberOfEdgeEndPoints / 2;
+    }
+    
 }
