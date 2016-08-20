@@ -3,6 +3,7 @@ package tiralabra;
 import tiralabra.datastructures.PathStack;
 import tiralabra.domain.PlaceNode;
 import java.util.List;
+import tiralabra.domain.PathSearchResult;
 import tiralabra.enums.AlgorithmAlternative;
 
 /**
@@ -32,13 +33,26 @@ public class Messenger {
         double totalDistance = 0.0;
         double distance = 0.0;
         String previousPlaceName = startNode.getName();
+        // polkupinon PlaceNode-oliot on otettava talteen ja palautettava polun
+        // lukemisen jälkeen takaisin polkupinoon (muuten polkua ei enää 
+        // myöhemmin voi lukea uudelleen
+        PathStack pathCopy = null;
+        if(!path.isEmpty()) {
+            pathCopy = new PathStack(path.getTop() + 1);
+        }
         while(!path.isEmpty()) {
             stageCounter++;
             PlaceNode nextPlace = path.pop();
+            pathCopy.push(nextPlace);
             distance = nextPlace.getDistanceToNeighbour(previousPlaceName);
             previousPlaceName = nextPlace.getName();
             totalDistance += distance;
             System.out.println(String.format("%d. %s, välimatka %.1f km", stageCounter, nextPlace.getName(), distance));
+        }
+        if(pathCopy != null) {
+            while(!pathCopy.isEmpty()) {
+                path.push(pathCopy.pop());
+            }
         }
         distance = endNode.getDistanceToNeighbour(previousPlaceName);
         System.out.println(String.format("%d. %s, välimatka %.1f km", ++stageCounter, endNode.getName(), distance));
@@ -49,11 +63,14 @@ public class Messenger {
     }
     
     /**
-     * Näyttää kaikki polunetsintätulokset ohjelman käynnistyksestä lähtien.
-     * (Ei vielä toteutettu)
+     * Näyttää annetusta polunetsintätulosten joukosta metatiedot eli mihin
+     * datatiedostoon perustuen etsintäpohjana ollut verkko on luotu sekä kuinka
+     * monta solmua ja kaarta tässä verkossa on.
+     * @param resultSet Polunetsintätulosten joukko.
      */
-    public static void printAllResults() {
-       System.out.println("Kaikki tulokset...");
+    public static void printResultMetaData(PathSearchResult[] resultSet) {
+       System.out.println(String.format("Datatiedosto: %s", resultSet[0].getFilePath()));
+       System.out.println(String.format("Verkossa on %d solmua ja %d kaarta", resultSet[0].getNodeCount(), resultSet[0].getEdgeCount()));
     }
 
     /**

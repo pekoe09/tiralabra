@@ -55,23 +55,41 @@ public class App
         String[] params = input.split(" ");
         if(params.length != 3) {
             Messenger.printParamError();
-        } else if(params[0].equals("+")) {
-            Messenger.printMessage("toimintoa ei ole vielä toteutettu");
-        } else {  
-            String startPlaceName = params[1];
-            String endPlaceName = params[2];
-            IDataMapper mapper = readDataFile(params[0], startPlaceName, endPlaceName);
+            return;
+        } 
+        String filePath = params[0];
+        String startPlaceName = params[1];
+        String endPlaceName = params[2];
+        PathSearchResult[] results = null;
+        
+        if(filePath.equals("+")) {
+            int resultCount = allResults.size();
+            if(resultCount == 0) {
+                Messenger.printMessage("Aiempia sisäänluettuja datatiedostoja ei ole.");
+                return;
+            }
+            try {                
+                PathSearchResult latestResult = allResults.get(resultCount - 1)[0];
+                results = runAlgos(latestResult.getGraph(), startPlaceName, endPlaceName, 
+                        latestResult.getFilePath(), latestResult.getEdgeCount(), latestResult.getNodeCount());
+            } catch (Exception exc) {
+                Messenger.printMessage(exc.getMessage());
+            }
+        
+        } else {              
+            IDataMapper mapper = readDataFile(filePath, startPlaceName, endPlaceName);
             if (mapper != null) {
                 Messenger.printMessage("Tiedosto luettu; " + mapper.toString());            
-                try{
-                    PathSearchResult[] results = runAlgos(mapper, startPlaceName, endPlaceName, params[0]);
-                    allResults.add(results);
-                    showResults(results);
+                try {
+                    results = runAlgos(mapper, startPlaceName, endPlaceName, filePath);                    
                 } catch (Exception exc) {
                     Messenger.printMessage(exc.getMessage());
                 }
             }
         }
+        
+        allResults.add(results);
+        showResults(results);
     }
     
     /**
@@ -101,16 +119,21 @@ public class App
      * @param endPlaceName      Polun lopetuspaikan nimi.
      * @param filePath          Verkon muodostamiseen käytetyn datatiedoston polku.
      */
-    public static PathSearchResult[] runAlgos(IDataMapper mapper, String startPlaceName, String endPlaceName, String filePath) {
-        PlaceNode startPlace = GraphUtils.findPlace(mapper.getData(), startPlaceName);
-        PlaceNode endPlace = GraphUtils.findPlace(mapper.getData(), endPlaceName);
+    public static PathSearchResult[] runAlgos(IDataMapper mapper, String startPlaceName, String endPlaceName, String filePath) {        
+        return runAlgos(mapper.getData(), startPlaceName, endPlaceName, filePath, mapper.getNumberOfEdges(), mapper.getData().size());
+    }
+    
+    public static PathSearchResult[] runAlgos(List<PlaceNode> graph, String startPlaceName, 
+            String endPlaceName, String filePath, long edgeCount, int nodeCount) {
+        PlaceNode startPlace = GraphUtils.findPlace(graph, startPlaceName);
+        PlaceNode endPlace = GraphUtils.findPlace(graph, endPlaceName);
         
         AlgorithmAlternative[] alternatives = new AlgorithmAlternative[]{AlgorithmAlternative.ASTAR, AlgorithmAlternative.DIJKSTRA};
         PathSearchResult[] results = new PathSearchResult[alternatives.length];
         for(int i = 0; i < alternatives.length; i++) {
-            PathSearchResult result = new PathAlgorithm().run(mapper.getData(), startPlace, endPlace, alternatives[i]);
-            result.setEdgeCount(mapper.getNumberOfEdges());
-            result.setNodeCount(mapper.getData().size());
+            PathSearchResult result = new PathAlgorithm().run(graph, startPlace, endPlace, alternatives[i]);
+            result.setEdgeCount(edgeCount);
+            result.setNodeCount(nodeCount);
             result.setFilePath(filePath);
             results[i] = result;
         }
@@ -130,6 +153,14 @@ public class App
     }
     
     public static void showAllResults() {
-        Messenger.printAllResults();
+        if(allResults.size() == 0) {
+            Messenger.printMessage("Et ole tehnyt vielä polunetsintäkyselyitä.");
+        } else {
+            Messenger.printMessage("Kaikki tekemäsi polunetsintäkyselyt:");
+            for(PathSearchResult[] resultSet : allResults) {
+                Messenger.printResultMetaData(resultSet);
+                showResults(resultSet);
+            }
+        }
     }
 }
