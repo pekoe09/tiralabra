@@ -1,5 +1,6 @@
-package tiralabra;
+package tiralabra.search;
 
+import tiralabra.search.PathAlgorithm;
 import tiralabra.datastructures.MinHeap;
 import tiralabra.datastructures.PathStack;
 import tiralabra.domain.NeighbourNode;

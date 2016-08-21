@@ -1,4 +1,4 @@
-package tiralabra;
+package tiralabra.search;
 
 import tiralabra.datastructures.MinHeap;
 import tiralabra.datastructures.PathStack;

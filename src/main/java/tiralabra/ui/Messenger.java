@@ -1,5 +1,6 @@
-package tiralabra;
+package tiralabra.ui;
 
+import tiralabra.datastructures.NamedArrayList;
 import tiralabra.datastructures.PathStack;
 import tiralabra.domain.PlaceNode;
 import tiralabra.domain.PathSearchResult;
@@ -10,6 +11,31 @@ import tiralabra.enums.AlgorithmAlternative;
  * Apuluokka, jonka metodit esittävät käyttäjälle näytettävän informaation.
  */
 public class Messenger {
+    
+        
+    public static void showResults(PathSearchResultSet results) {
+        for(int i = 0; i < results.size(); i++) {
+            PathSearchResult result = results.get(i);
+            Messenger.printShortestPath(
+                    result.getShortestPath(), 
+                    result.getStartPlace(), 
+                    result.getEndPlace(), 
+                    result.getRunTimeNanoSecs(), 
+                    result.getAlgorithm());
+        }
+    }
+    
+    public static void showAllResults(NamedArrayList allResults) {
+        if(allResults.size() == 0) {
+            Messenger.printMessage("Et ole tehnyt vielä polunetsintäkyselyitä.");
+        } else {
+            Messenger.printMessage("Kaikki tekemäsi polunetsintäkyselyt:");
+            for(int i = 0; i < allResults.size(); i++) {
+                Messenger.printResultMetaData((PathSearchResultSet)allResults.get(i));
+                showResults((PathSearchResultSet)allResults.get(i));
+            }
+        }
+    }
     
     /**
      * Tulostaa lyhimmän polun tiedot; jokaisesta paikasta näytetään nimi ja etäisyys

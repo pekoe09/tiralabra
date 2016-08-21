@@ -5,12 +5,33 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import tiralabra.ui.Messenger;
 
 /**
  * GraphFileHandler-luokan tehtävänä on käsitellä verkon tiedot sisältävä data-tiedosto
  * ja lukea sen sisältö.
  */
 public class GraphFileHandler {
+    
+        
+    /**
+     * Lukee paikkadataa sisältävän tiedoston  sisään ja muodostaa siitä verkon.
+     * @param filePath          Datatiedoston tiedostopolku.
+     * @param startPlaceName    Etsittävän polun lähtöpaikka.
+     * @param endPlaceName      Etsittävän polun maalipaikka.
+     * @return                  IDataMapper-olio, joka sisältää paikkojen ja niiden välisten yhteyksien
+     *                          muodostaman verkon.
+     */
+    public static IDataMapper readDataFile(String filePath, String startPlaceName, String endPlaceName) {
+        PlaceGraphMapper mapper = new PlaceGraphMapper();
+        try {
+            GraphFileHandler.readGraphFile(filePath, mapper);
+        } catch (IllegalArgumentException exc) {
+            Messenger.printFileError(exc.getMessage(), filePath);
+            return null;
+        }    
+        return mapper;
+    }
 
     /**
      * ReadGraphFile-metodi avaa luettavan tiedoston ja kutsuu readLines-metodia, joka suorittaa
