@@ -10,9 +10,9 @@ public class NeighbourNodeTest {
     
     public NeighbourNodeTest() { }
     
-    NeighbourNode testNeighbour;
-    PlaceNode testPlace = new PlaceNode("Raatala", 60.532, 23.169);  
-    double testDistance = 36.2;
+    private NeighbourNode testNeighbour;
+    private PlaceNode testPlace = new PlaceNode("Raatala", 60.532, 23.169);  
+    private double testDistance = 36.2;
     
     @Before
     public void setUp() {

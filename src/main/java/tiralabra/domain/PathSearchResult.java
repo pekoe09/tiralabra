@@ -1,10 +1,11 @@
 package tiralabra.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 import tiralabra.datastructures.PathStack;
 import tiralabra.enums.AlgorithmAlternative;
 
-public class PathSearchResult {
+public class PathSearchResult implements INamedObject {
     
     private String filePath;
     private List<PlaceNode> graph;
@@ -15,6 +16,10 @@ public class PathSearchResult {
     private PathStack shortestPath;
     private AlgorithmAlternative algorithm;
     private long runTimeNanoSecs;
+    
+    public PathSearchResult() {
+        graph = new ArrayList<>();
+    }
 
     public String getFilePath() {
         return filePath;
@@ -86,6 +91,11 @@ public class PathSearchResult {
 
     public void setRunTimeNanoSecs(long runTimeNanoSecs) {
         this.runTimeNanoSecs = runTimeNanoSecs;
+    }
+
+    @Override
+    public String getName() {
+        return String.format("%s, paikasta %s paikkaan %s", filePath, startPlace.getName(), endPlace.getName());
     }
     
 }

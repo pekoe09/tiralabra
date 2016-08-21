@@ -1,6 +1,5 @@
 package tiralabra;
 
-import java.util.ArrayList;
 import java.util.List;
 import tiralabra.datainput.PlaceGraphMapper;
 import tiralabra.datainput.GraphFileHandler;
@@ -8,11 +7,13 @@ import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
 import java.util.Scanner;
 import tiralabra.datainput.IDataMapper;
+import tiralabra.datastructures.NamedArrayList;
 import tiralabra.domain.PathSearchResult;
+import tiralabra.domain.PathSearchResultSet;
 
 public class App 
 {
-    private static List<PathSearchResult[]> allResults;
+    private static NamedArrayList allResults;
     
     public static void main( String[] args )
     {        
@@ -27,7 +28,7 @@ public class App
      * lähdetään suorittamaan lyhimmän polun etsintää annettujen parametrien mukaan.
      */
     public static void runInputLoop() {
-        allResults = new ArrayList<>();
+        allResults = new NamedArrayList();
         Scanner in = new Scanner(System.in);
         Messenger.printPrompt();
         String input = in.nextLine().trim().toLowerCase();
@@ -69,7 +70,7 @@ public class App
                 return;
             }
             try {                
-                PathSearchResult latestResult = allResults.get(resultCount - 1)[0];
+                PathSearchResult latestResult = ((PathSearchResultSet)allResults.get(resultCount - 1)).get(0);
                 results = runAlgos(latestResult.getGraph(), startPlaceName, endPlaceName, 
                         latestResult.getFilePath(), latestResult.getEdgeCount(), latestResult.getNodeCount());
             } catch (Exception exc) {
@@ -87,9 +88,9 @@ public class App
                 }
             }
         }
-        
-        allResults.add(results);
-        showResults(results);
+        PathSearchResultSet resultSet = new PathSearchResultSet(results);
+        allResults.add(resultSet);
+        showResults(resultSet);
     }
     
     /**
@@ -141,8 +142,9 @@ public class App
         return results;
     }
     
-    public static void showResults(PathSearchResult[] results) {
-        for(PathSearchResult result : results) {
+    public static void showResults(PathSearchResultSet results) {
+        for(int i = 0; i < results.size(); i++) {
+            PathSearchResult result = results.get(i);
             Messenger.printShortestPath(
                     result.getShortestPath(), 
                     result.getStartPlace(), 
@@ -157,9 +159,9 @@ public class App
             Messenger.printMessage("Et ole tehnyt vielä polunetsintäkyselyitä.");
         } else {
             Messenger.printMessage("Kaikki tekemäsi polunetsintäkyselyt:");
-            for(PathSearchResult[] resultSet : allResults) {
-                Messenger.printResultMetaData(resultSet);
-                showResults(resultSet);
+            for(int i = 0; i < allResults.size(); i++) {
+                Messenger.printResultMetaData((PathSearchResultSet)allResults.get(i));
+                showResults((PathSearchResultSet)allResults.get(i));
             }
         }
     }

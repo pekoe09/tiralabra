@@ -2,8 +2,8 @@ package tiralabra;
 
 import tiralabra.datastructures.PathStack;
 import tiralabra.domain.PlaceNode;
-import java.util.List;
 import tiralabra.domain.PathSearchResult;
+import tiralabra.domain.PathSearchResultSet;
 import tiralabra.enums.AlgorithmAlternative;
 
 /**
@@ -68,9 +68,9 @@ public class Messenger {
      * monta solmua ja kaarta tässä verkossa on.
      * @param resultSet Polunetsintätulosten joukko.
      */
-    public static void printResultMetaData(PathSearchResult[] resultSet) {
-       System.out.println(String.format("Datatiedosto: %s", resultSet[0].getFilePath()));
-       System.out.println(String.format("Verkossa on %d solmua ja %d kaarta", resultSet[0].getNodeCount(), resultSet[0].getEdgeCount()));
+    public static void printResultMetaData(PathSearchResultSet resultSet) {
+       System.out.println(String.format("Datatiedosto: %s", resultSet.get(0).getFilePath()));
+       System.out.println(String.format("Verkossa on %d solmua ja %d kaarta", resultSet.get(0).getNodeCount(), resultSet.get(0).getEdgeCount()));
     }
 
     /**
@@ -95,6 +95,7 @@ public class Messenger {
      */
     public static void printPrompt() {
         System.out.println("Anna seuraava komento!\nOhje: [tiedostopolku] [lähtöpaikka] [maalipaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset");
+        System.out.print("> ");
     }  
 
     public static void printSeparator() {

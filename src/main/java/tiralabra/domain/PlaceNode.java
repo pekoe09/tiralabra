@@ -6,7 +6,7 @@ package tiralabra.domain;
  * tieto paikasta, joka edeltää tätä paikkaa lyhimmällä polulla lähtöpaikasta,
  * sekä tiedon, missä kohtaa kaikki verkon paikat sisältävässä minimikeossa tämä paikka on. 
  */
-public class PlaceNode {
+public class PlaceNode implements INamedObject {
     
     private String name;
     private Double latitude;
