@@ -3,9 +3,8 @@ package tiralabra.datainput;
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.ReadTarget;
-import java.util.ArrayList;
-import java.util.List;
 import tiralabra.GraphUtils;
+import tiralabra.datastructures.NamedArrayList;
 
 /**
  * IDataMapper-rajapinnan toteuttava luokka, jonka tehtävänä on tulkita datatiedostosta
@@ -13,7 +12,7 @@ import tiralabra.GraphUtils;
  */
 public class PlaceGraphMapper implements IDataMapper {
     
-    private List<PlaceNode> graph;
+    private NamedArrayList graph;
     private final int BASIC_FIELDS = 3;
     private long numberOfEdgeEndPoints = 0;
     
@@ -21,7 +20,7 @@ public class PlaceGraphMapper implements IDataMapper {
      * Konstruktori asettaa paikkojen muodostamaa verkkoa kuvaavan List-olion tyhjäksi listaksi.
      */
     public PlaceGraphMapper() {
-        this.graph = new ArrayList<>();
+        this.graph = new NamedArrayList();
     }
 
     /**
@@ -83,7 +82,7 @@ public class PlaceGraphMapper implements IDataMapper {
      * @return Verkko PlaceNode-olioita sisältävän List-olion muodossa.
      */
     @Override
-    public List<PlaceNode> getData() {
+    public NamedArrayList getData() {
         return this.graph;
     }    
 
@@ -101,11 +100,11 @@ public class PlaceGraphMapper implements IDataMapper {
      * parsittavissa liukuluvuksi tai se on negatiivinen.
      */
     public void addNeighbours(String[] placeData) {
-        PlaceNode place = GraphUtils.findPlace(graph, (String)placeData[0]);        
+        PlaceNode place = (PlaceNode)graph.findByName((String)placeData[0]);       
         NeighbourNode[] neighbours = new NeighbourNode[placeData.length - BASIC_FIELDS];
         for(int i = BASIC_FIELDS; i < placeData.length; i++) {
             String[] neighbourData = placeData[i].split("/");
-            PlaceNode neighbour = GraphUtils.findPlace(graph, neighbourData[0]);
+            PlaceNode neighbour = (PlaceNode)graph.findByName(neighbourData[0]);
             try {
                 double distance = Double.parseDouble(neighbourData[1]);
                 neighbours[i - BASIC_FIELDS] = new NeighbourNode(neighbour, distance);   
@@ -125,5 +124,11 @@ public class PlaceGraphMapper implements IDataMapper {
     @Override
     public String toString() {
         return String.format("verkossa on %d solmua ja %d kaarta", graph.size(), getNumberOfEdges());
+    }
+    
+    @Override
+    public void resetMapper() {
+        graph = new NamedArrayList();
+        numberOfEdgeEndPoints = 0;
     }
 }

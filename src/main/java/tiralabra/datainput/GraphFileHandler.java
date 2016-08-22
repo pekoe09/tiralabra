@@ -28,6 +28,7 @@ public class GraphFileHandler {
      *                          muodostaman verkon.
      */
     public IDataMapper readDataFile(String filePath, String startPlaceName, String endPlaceName) {
+        mapper.resetMapper();
         try {
             readGraphFile(filePath, mapper);
         } catch (IllegalArgumentException exc) {

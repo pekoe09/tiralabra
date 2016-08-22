@@ -1,16 +1,14 @@
 package tiralabra.search;
 
-import tiralabra.search.PathAlgorithm;
 import tiralabra.datastructures.MinHeap;
 import tiralabra.datastructures.PathStack;
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tiralabra.datastructures.NamedArrayList;
 
 public class PathAlgorithmTest {
     
@@ -78,14 +76,15 @@ public class PathAlgorithmTest {
 
     @Test
     public void testInitialize() {
-        List<PlaceNode> testGraph = new ArrayList<>();
+        NamedArrayList testGraph = new NamedArrayList();
         testGraph.add(node1);
         testGraph.add(node2);
         testGraph.add(node3);
         testGraph.add(node4);
         
         dijkstra.initialize(testGraph, node2, node4, AlgorithmAlternative.DIJKSTRA);
-        for(PlaceNode node : testGraph) {
+        for(Object object : testGraph) {
+            PlaceNode node = (PlaceNode)object;
             if(node == node2) {
                 assertTrue("Aloitussolmulla etäisyystieto ei ole nolla", Math.abs(node.getStartDistance()) < 0.00001);
             } else {
@@ -102,7 +101,7 @@ public class PathAlgorithmTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void initializeThrowsExceptionIfStartNodeIsNull() {
-        List<PlaceNode> testGraph = new ArrayList<>();
+        NamedArrayList testGraph = new NamedArrayList();
         testGraph.add(node1);
         testGraph.add(node2);
         testGraph.add(node3);
@@ -112,7 +111,7 @@ public class PathAlgorithmTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void initializeThrowsExceptionIfEndNodeIsNullWithAStartAlgorithm() {
-        List<PlaceNode> testGraph = new ArrayList<>();
+        NamedArrayList testGraph = new NamedArrayList();
         testGraph.add(node1);
         testGraph.add(node2);
         testGraph.add(node3);
@@ -275,7 +274,7 @@ public class PathAlgorithmTest {
     
     @Test
     public void shortestPathCanBeGot() {
-        List<PlaceNode> graph = new ArrayList<>();
+        NamedArrayList graph = new NamedArrayList();
         graph.add(node0);
         graph.add(node1);
         graph.add(node2);
@@ -309,7 +308,7 @@ public class PathAlgorithmTest {
     
     @Test
     public void runningDijkstraCreatesShortestPath() {
-        List<PlaceNode> graph = new ArrayList<>();
+        NamedArrayList graph = new NamedArrayList();
         graph.add(helsinki);
         graph.add(espoo);
         graph.add(vantaa);
@@ -324,7 +323,7 @@ public class PathAlgorithmTest {
     
     @Test
     public void runningAStarCreatesShortestPath() {
-        List<PlaceNode> graph = new ArrayList<>();
+        NamedArrayList graph = new NamedArrayList();
         graph.add(helsinki);
         graph.add(espoo);
         graph.add(vantaa);
@@ -344,16 +343,16 @@ public class PathAlgorithmTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void runThrowsExceptionIfStartNodeIsNull() {
-        dijkstra.run(new ArrayList<PlaceNode>(), null, node2, AlgorithmAlternative.DIJKSTRA);
+        dijkstra.run(new NamedArrayList(), null, node2, AlgorithmAlternative.DIJKSTRA);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void runThrowsExceptionIfEndNodeIsNullRunningAStar() {
-        dijkstra.run(new ArrayList<PlaceNode>(), node1, null, AlgorithmAlternative.ASTAR);
+        dijkstra.run(new NamedArrayList(), node1, null, AlgorithmAlternative.ASTAR);
     }
     
     @Test(expected = IllegalArgumentException.class)
     public void runThrowsExceptionIfEndNodeIsNullRunningDijkstra() {
-        dijkstra.run(new ArrayList<PlaceNode>(), node1, null, AlgorithmAlternative.DIJKSTRA);
+        dijkstra.run(new NamedArrayList(), node1, null, AlgorithmAlternative.DIJKSTRA);
     }
 }

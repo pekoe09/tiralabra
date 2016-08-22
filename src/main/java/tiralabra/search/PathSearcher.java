@@ -1,9 +1,7 @@
 package tiralabra.search;
 
-import tiralabra.search.PathAlgorithm;
-import java.util.List;
-import tiralabra.GraphUtils;
 import tiralabra.datainput.IDataMapper;
+import tiralabra.datastructures.NamedArrayList;
 import tiralabra.domain.PathSearchResult;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
@@ -22,10 +20,10 @@ public class PathSearcher {
         return runAlgos(mapper.getData(), startPlaceName, endPlaceName, filePath, mapper.getNumberOfEdges(), mapper.getData().size());
     }
     
-    public PathSearchResult[] runAlgos(List<PlaceNode> graph, String startPlaceName, 
+    public PathSearchResult[] runAlgos(NamedArrayList graph, String startPlaceName, 
             String endPlaceName, String filePath, long edgeCount, int nodeCount) {
-        PlaceNode startPlace = GraphUtils.findPlace(graph, startPlaceName);
-        PlaceNode endPlace = GraphUtils.findPlace(graph, endPlaceName);
+        PlaceNode startPlace = (PlaceNode)graph.findByName(startPlaceName);
+        PlaceNode endPlace = (PlaceNode)graph.findByName(endPlaceName);
         
         AlgorithmAlternative[] alternatives = new AlgorithmAlternative[]{AlgorithmAlternative.ASTAR, AlgorithmAlternative.DIJKSTRA};
         PathSearchResult[] results = new PathSearchResult[alternatives.length];

@@ -1,10 +1,10 @@
 package tiralabra.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.sun.org.apache.bcel.internal.generic.NamedAndTyped;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tiralabra.datastructures.NamedArrayList;
 import tiralabra.datastructures.PathStack;
 import tiralabra.enums.AlgorithmAlternative;
 
@@ -19,7 +19,7 @@ public class PathSearchResultTest {
     private Long runtime;
     private int edgeCount;
     private int nodeCount;
-    private List<PlaceNode> graph;
+    private NamedArrayList graph;
     private PathStack shortestPath;
     private AlgorithmAlternative algorithm;
     private String filePath;
@@ -32,7 +32,7 @@ public class PathSearchResultTest {
         runtime = 350000L;
         edgeCount = 25;
         nodeCount = 10;
-        graph = new ArrayList<>();
+        graph = new NamedArrayList();
         graph.add(startPlace);
         graph.add(endPlace);
         shortestPath = new PathStack(nodeCount);
@@ -81,7 +81,7 @@ public class PathSearchResultTest {
 
     @Test
     public void testSetGraph() {
-        List<PlaceNode> newGraph = new ArrayList<>();
+        NamedArrayList newGraph = new NamedArrayList();
         newGraph.add(endPlace);
         testResult.setGraph(newGraph);
         assertEquals("Graafi on väärän mittainen", newGraph.size(), testResult.getGraph().size());

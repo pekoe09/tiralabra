@@ -5,7 +5,8 @@ import tiralabra.datastructures.PathStack;
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
-import java.util.List;
+import tiralabra.datastructures.NamedArrayList;
+import tiralabra.domain.INamedObject;
 import tiralabra.domain.PathSearchResult;
 
 /**
@@ -34,7 +35,7 @@ public class PathAlgorithm {
      * @throws          IllegalArgumentException Jos verkko tai aloitussolmu on null tai jos
      *                  lopetussolmu on null kun yritetään suorittaa A*-algoritmia.
      */
-    public PathSearchResult run(List<PlaceNode> graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
+    public PathSearchResult run(NamedArrayList graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
         if(graph == null) {
             throw new IllegalArgumentException("Verkko ei voi olla null");
         }
@@ -52,14 +53,16 @@ public class PathAlgorithm {
         MinHeap heap = new MinHeap(graph.size());
         long startTime = System.nanoTime();
         if(algorithm == AlgorithmAlternative.DIJKSTRA) {
-            for (PlaceNode node : graph) {
+            for (Object object : graph) {
+                PlaceNode node = (PlaceNode)object;
                 heap.insert(node, node.getStartDistance());
             }
             while (!heap.isEmpty()) {
                 solveNode(heap, AlgorithmAlternative.DIJKSTRA);
             }
         } else if(algorithm == AlgorithmAlternative.ASTAR){
-            for(PlaceNode node : graph) {
+            for(Object object : graph) {
+                PlaceNode node = (PlaceNode)object;
                 heap.insert(node, node.getStartDistance() + node.getEndDistance());
             }        
             while(!nodeIsSolved(endNode)) {
@@ -93,7 +96,7 @@ public class PathAlgorithm {
      * @throws          IllegalArgumentException Jos verkko tai lähtösolmu on null tai
      *                  jos maalisolmu on null ja algoritmi on A*.
      */
-    public void initialize(List<PlaceNode> graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
+    public void initialize(NamedArrayList graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
         if(graph == null) {
             throw new IllegalArgumentException("Verkko ei voi olla null");
         }
@@ -103,7 +106,8 @@ public class PathAlgorithm {
         if(endNode == null && algorithm == AlgorithmAlternative.ASTAR) {
             throw new IllegalArgumentException("Maalisolmu ei voi olla null A*-algoritmissa");
         }
-        for(PlaceNode node : graph){
+        for(Object object : graph){  
+            PlaceNode node = (PlaceNode)object;
             node.setStartDistance(Double.MAX_VALUE);
             if(algorithm == AlgorithmAlternative.ASTAR) {
                node.setEndDistance(calculateHeuristic(node, endNode)); 

@@ -1,8 +1,13 @@
 package tiralabra.datastructures;
 
+import java.util.Iterator;
 import tiralabra.domain.INamedObject;
 
-public class NamedArrayList {
+/**
+ * 
+ * Iterator-implementointi: http://stackoverflow.com/questions/5849154/can-we-write-our-own-iterator-in-java
+ */
+public class NamedArrayList implements Iterable {
     
     private INamedObject[] array;
     private int size;
@@ -40,7 +45,7 @@ public class NamedArrayList {
             throw new IllegalArgumentException("Nimi ei voi olla tyhjä!");
         }
         for(int i = 0; i < size; i++) {
-            if(array[i].getName().equals(name)) {
+            if(array[i].getName().toLowerCase().equals(name.toLowerCase())) {
                 return array[i];
             }
         }        
@@ -62,5 +67,24 @@ public class NamedArrayList {
     public INamedObject[] getArray() {
         return array;
     }
-    
+
+    @Override
+    public Iterator iterator() {
+        Iterator it = new Iterator() {
+            
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < size && array[currentIndex] != null;
+            }
+
+            @Override
+            public Object next() {
+                return array[currentIndex++];
+            }            
+        };       
+        
+        return it;
+    }    
 }

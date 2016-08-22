@@ -1,6 +1,5 @@
 package tiralabra.datainput;
 
-import tiralabra.datainput.PlaceGraphMapper;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.ReadTarget;
 import org.junit.Test;
@@ -79,7 +78,7 @@ public class PlaceGraphMapperTest {
         instance.addPlace(placeData3);
         
         instance.addNeighbours(placeData1);
-        PlaceNode place1 = GraphUtils.findPlace(instance.getData(), placeData1[0]);
+        PlaceNode place1 = (PlaceNode)instance.getData().findByName(placeData1[0]);
         assertNotNull("Paikkaa ei ole listalla", place1);
         assertNotNull("Paikalla ei ole naapuritietoja", place1.getNeighbours());
         assertEquals("Paikalla on väärä määrä naapureita", 2, place1.getNeighbours().length);

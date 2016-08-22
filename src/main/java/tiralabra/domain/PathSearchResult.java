@@ -1,14 +1,13 @@
 package tiralabra.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import tiralabra.datastructures.NamedArrayList;
 import tiralabra.datastructures.PathStack;
 import tiralabra.enums.AlgorithmAlternative;
 
 public class PathSearchResult implements INamedObject {
     
     private String filePath;
-    private List<PlaceNode> graph;
+    private NamedArrayList graph;
     private int nodeCount;
     private long edgeCount;
     private PlaceNode startPlace;
@@ -18,7 +17,7 @@ public class PathSearchResult implements INamedObject {
     private long runTimeNanoSecs;
     
     public PathSearchResult() {
-        graph = new ArrayList<>();
+        graph = new NamedArrayList();
     }
 
     public String getFilePath() {
@@ -29,11 +28,11 @@ public class PathSearchResult implements INamedObject {
         this.filePath = filePath;
     }
     
-    public List<PlaceNode> getGraph() {
+    public NamedArrayList getGraph() {
         return graph;
     }
 
-    public void setGraph(List<PlaceNode> graph) {
+    public void setGraph(NamedArrayList graph) {
         this.graph = graph;
     }
 

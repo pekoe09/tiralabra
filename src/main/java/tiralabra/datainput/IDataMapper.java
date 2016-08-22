@@ -1,8 +1,7 @@
 package tiralabra.datainput;
 
-import tiralabra.domain.PlaceNode;
 import tiralabra.enums.ReadTarget;
-import java.util.List;
+import tiralabra.datastructures.NamedArrayList;
 
 /**
  * Rajapinta luokille, joiden tehtävä on tulkita datatiedostoista sisäänluettuja 
@@ -20,10 +19,12 @@ public interface IDataMapper {
     public void mapData(String data, Integer counter, ReadTarget target);
     /**
      * Palauttaa luetut tiedot verkkona, joka on PlaceNode-olioita sisältävän List-olion muodossa.
-     * @return Verkko PlaceNode-olioita sisältävän List-olion muodossa.
+     * @return Verkko PlaceNode-olioita sisältävän NamedArrayList-olion muodossa.
      */
-    public List<PlaceNode> getData();
+    public NamedArrayList getData();
     
     public long getNumberOfEdges();
+    
+    public void resetMapper();
     
 }
