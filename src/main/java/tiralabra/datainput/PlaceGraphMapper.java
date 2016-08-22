@@ -1,6 +1,5 @@
 package tiralabra.datainput;
 
-import tiralabra.datainput.IDataMapper;
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.ReadTarget;

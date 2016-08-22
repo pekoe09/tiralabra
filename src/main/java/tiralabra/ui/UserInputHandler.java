@@ -11,6 +11,15 @@ import tiralabra.domain.PathSearchResultSet;
 public class UserInputHandler {
     
     private NamedArrayList allResults;
+    private PathSearcher pathSearcher;
+    private GraphFileHandler graphFileHandler;
+    private IDataMapper mapper;
+    
+    public UserInputHandler(PathSearcher pathSearcher, GraphFileHandler graphFileHandler, IDataMapper mapper) {
+        this.pathSearcher = pathSearcher;
+        this.graphFileHandler = graphFileHandler;
+        this.mapper = mapper;
+    }
         
     /**
      * Suorittaa input-loopia, jossa käyttäjältä kysytään seuraavaa toimenpidettä.
@@ -53,7 +62,6 @@ public class UserInputHandler {
         String startPlaceName = params[1];
         String endPlaceName = params[2];
         PathSearchResult[] results = null;
-        PathSearcher searcher = new PathSearcher();
         
         if(filePath.equals("+")) {
             int resultCount = allResults.size();
@@ -63,18 +71,18 @@ public class UserInputHandler {
             }
             try {                
                 PathSearchResult latestResult = ((PathSearchResultSet)allResults.get(resultCount - 1)).get(0);
-                results = searcher.runAlgos(latestResult.getGraph(), startPlaceName, endPlaceName, 
+                results = pathSearcher.runAlgos(latestResult.getGraph(), startPlaceName, endPlaceName, 
                         latestResult.getFilePath(), latestResult.getEdgeCount(), latestResult.getNodeCount());
             } catch (Exception exc) {
                 Messenger.printMessage(exc.getMessage());
             }
         
         } else {              
-            IDataMapper mapper = GraphFileHandler.readDataFile(filePath, startPlaceName, endPlaceName);
+            IDataMapper mapper = graphFileHandler.readDataFile(filePath, startPlaceName, endPlaceName);
             if (mapper != null) {
                 Messenger.printMessage("Tiedosto luettu; " + mapper.toString());            
                 try {
-                    results = searcher.runAlgos(mapper, startPlaceName, endPlaceName, filePath);                    
+                    results = pathSearcher.runAlgos(mapper, startPlaceName, endPlaceName, filePath);                    
                 } catch (Exception exc) {
                     Messenger.printMessage(exc.getMessage());
                 }

@@ -13,6 +13,11 @@ import tiralabra.ui.Messenger;
  */
 public class GraphFileHandler {
     
+    IDataMapper mapper;
+    
+    public GraphFileHandler(IDataMapper mapper) {
+        this.mapper = mapper;
+    }
         
     /**
      * Lukee paikkadataa sisältävän tiedoston  sisään ja muodostaa siitä verkon.
@@ -22,10 +27,9 @@ public class GraphFileHandler {
      * @return                  IDataMapper-olio, joka sisältää paikkojen ja niiden välisten yhteyksien
      *                          muodostaman verkon.
      */
-    public static IDataMapper readDataFile(String filePath, String startPlaceName, String endPlaceName) {
-        PlaceGraphMapper mapper = new PlaceGraphMapper();
+    public IDataMapper readDataFile(String filePath, String startPlaceName, String endPlaceName) {
         try {
-            GraphFileHandler.readGraphFile(filePath, mapper);
+            readGraphFile(filePath, mapper);
         } catch (IllegalArgumentException exc) {
             Messenger.printFileError(exc.getMessage(), filePath);
             return null;
@@ -40,7 +44,7 @@ public class GraphFileHandler {
      * @param mapper    IDataMapper-rajapinnan toteuttava luokka, joka tulkitsee sisäänluetut tiedot.
      * @throws          IllegalArgumentException Jos tiedoston avaaminen/sulkeminen ei onnistu.
      */
-    public static void readGraphFile(String filePath, IDataMapper mapper) {        
+    public void readGraphFile(String filePath, IDataMapper mapper) {        
         try {
             FileReader reader = new FileReader(filePath);
             readLines(new BufferedReader(reader), mapper, ReadTarget.NODE_BASIC_DATA);
@@ -65,7 +69,7 @@ public class GraphFileHandler {
      *                  (toinen kierros).
      * @throws          IllegalArgumentException Jos rivin sisäänluvussa tapahtui virhe.
      */
-    public static void readLines(BufferedReader reader, IDataMapper mapper, ReadTarget target) {                
+    public void readLines(BufferedReader reader, IDataMapper mapper, ReadTarget target) {                
         Integer rowCounter = 0;
 
         try {
