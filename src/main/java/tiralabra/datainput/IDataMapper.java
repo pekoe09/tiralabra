@@ -22,8 +22,7 @@ public interface IDataMapper {
      * @return Verkko PlaceNode-olioita sisältävän NamedArrayList-olion muodossa.
      */
     public NamedArrayList getData();
-    
-    public long getNumberOfEdges();
+
     
     public void resetMapper();
     

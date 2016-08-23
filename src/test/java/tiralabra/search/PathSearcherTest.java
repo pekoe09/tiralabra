@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import static org.mockito.Mockito.when;
 import tiralabra.datainput.IDataMapper;
+import tiralabra.datainput.IGraphMapper;
 import tiralabra.datainput.PlaceGraphMapper;
 import tiralabra.datastructures.NamedArrayList;
 import tiralabra.domain.NeighbourNode;
@@ -16,7 +17,7 @@ import tiralabra.domain.PlaceNode;
 public class PathSearcherTest {
     
     private PathSearcher testSearcher;
-    private IDataMapper mapper;
+    private IGraphMapper mapper;
     private NamedArrayList graph;
     private String startPlaceName;
     private String endPlaceName;

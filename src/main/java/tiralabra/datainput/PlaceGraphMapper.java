@@ -10,7 +10,7 @@ import tiralabra.datastructures.NamedArrayList;
  * IDataMapper-rajapinnan toteuttava luokka, jonka tehtävänä on tulkita datatiedostosta
  * sisäänluettuja paikkatietueita.
  */
-public class PlaceGraphMapper implements IDataMapper {
+public class PlaceGraphMapper implements IGraphMapper {
     
     private NamedArrayList graph;
     private final int BASIC_FIELDS = 3;

@@ -8,14 +8,14 @@ import java.io.IOException;
 import tiralabra.ui.Messenger;
 
 /**
- * GraphFileHandler-luokan tehtävänä on käsitellä verkon tiedot sisältävä data-tiedosto
- * ja lukea sen sisältö.
+ * DataFileHandler-luokan tehtävänä on käsitellä verkon tiedot sisältävä tiedosto
+ * tai skriptin sisältävä tiedosto ja lukea sen sisältö.
  */
-public class GraphFileHandler {
+public class DataFileHandler {
     
     IDataMapper mapper;
     
-    public GraphFileHandler(IDataMapper mapper) {
+    public DataFileHandler(IDataMapper mapper) {
         this.mapper = mapper;
     }
         
@@ -27,10 +27,10 @@ public class GraphFileHandler {
      * @return                  IDataMapper-olio, joka sisältää paikkojen ja niiden välisten yhteyksien
      *                          muodostaman verkon.
      */
-    public IDataMapper readDataFile(String filePath, String startPlaceName, String endPlaceName) {
+    public IDataMapper readDataFile(String filePath) {
         mapper.resetMapper();
         try {
-            readGraphFile(filePath, mapper);
+            processFile(filePath, mapper);
         } catch (IllegalArgumentException exc) {
             Messenger.printFileError(exc.getMessage(), filePath);
             return null;
@@ -39,19 +39,23 @@ public class GraphFileHandler {
     }
 
     /**
-     * ReadGraphFile-metodi avaa luettavan tiedoston ja kutsuu readLines-metodia, joka suorittaa
+     * Metodi avaa luettavan tiedoston ja kutsuu readLines-metodia, joka suorittaa
      * sisäänluvun.
      * @param filePath  Luettavan tiedoston sijaintipolku.
      * @param mapper    IDataMapper-rajapinnan toteuttava luokka, joka tulkitsee sisäänluetut tiedot.
      * @throws          IllegalArgumentException Jos tiedoston avaaminen/sulkeminen ei onnistu.
      */
-    public void readGraphFile(String filePath, IDataMapper mapper) {        
+    public void processFile(String filePath, IDataMapper mapper) {        
         try {
             FileReader reader = new FileReader(filePath);
-            readLines(new BufferedReader(reader), mapper, ReadTarget.NODE_BASIC_DATA);
-            reader.close();
-            reader = new FileReader(filePath);
-            readLines(new BufferedReader(reader), mapper, ReadTarget.NODE_NEIGHBOUR_DATA);
+            if(mapper instanceof IGraphMapper) {                
+                readLines(new BufferedReader(reader), mapper, ReadTarget.NODE_BASIC_DATA);
+                reader.close();
+                reader = new FileReader(filePath);
+                readLines(new BufferedReader(reader), mapper, ReadTarget.NODE_NEIGHBOUR_DATA);                
+            } else {
+                readLines(new BufferedReader(reader), mapper, ReadTarget.SCRIPT);
+            }
             reader.close();
         } catch (FileNotFoundException exc) {
             throw new IllegalArgumentException(String.format("Tiedostoa %s ei voi avata!", filePath));

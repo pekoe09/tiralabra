@@ -2,9 +2,11 @@ package tiralabra.ui;
 
 import java.util.Scanner;
 import tiralabra.search.PathSearcher;
-import tiralabra.datainput.GraphFileHandler;
+import tiralabra.datainput.DataFileHandler;
 import tiralabra.datainput.IDataMapper;
+import tiralabra.datainput.IGraphMapper;
 import tiralabra.datastructures.NamedArrayList;
+import tiralabra.domain.Command;
 import tiralabra.domain.PathSearchResult;
 import tiralabra.domain.PathSearchResultSet;
 
@@ -12,13 +14,18 @@ public class UserInputHandler {
     
     private NamedArrayList allResults;
     private PathSearcher pathSearcher;
-    private GraphFileHandler graphFileHandler;
-    private IDataMapper mapper;
+    private DataFileHandler graphFileHandler;
+    private DataFileHandler scriptFileHandler;
+    private IGraphMapper graphMapper;
+    private IDataMapper scriptMapper;
     
-    public UserInputHandler(PathSearcher pathSearcher, GraphFileHandler graphFileHandler, IDataMapper mapper) {
+    public UserInputHandler(PathSearcher pathSearcher, DataFileHandler graphFileHandler, 
+        IGraphMapper graphMapper, DataFileHandler scriptFileHandler, IDataMapper scriptMapper) {
         this.pathSearcher = pathSearcher;
         this.graphFileHandler = graphFileHandler;
-        this.mapper = mapper;
+        this.graphMapper = graphMapper;
+        this.scriptFileHandler = scriptFileHandler;
+        this.scriptMapper = scriptMapper;
     }
         
     /**
@@ -35,6 +42,8 @@ public class UserInputHandler {
         while(!input.equals("q")) {
             if(input.equals("="))  {
                 Messenger.showAllResults(allResults);
+            } else if(input.startsWith("*")) {
+                handleScript(input);
             } else {
                 handleShortestPathQuery(input);
             }
@@ -78,11 +87,11 @@ public class UserInputHandler {
             }
         
         } else {              
-            IDataMapper mapper = graphFileHandler.readDataFile(filePath, startPlaceName, endPlaceName);
+            IDataMapper mapper = graphFileHandler.readDataFile(filePath);
             if (mapper != null) {
                 Messenger.printMessage("Tiedosto luettu; " + mapper.toString());            
                 try {
-                    results = pathSearcher.runAlgos(mapper, startPlaceName, endPlaceName, filePath);                    
+                    results = pathSearcher.runAlgos((IGraphMapper)mapper, startPlaceName, endPlaceName, filePath);                    
                 } catch (Exception exc) {
                     Messenger.printMessage(exc.getMessage());
                 }
@@ -92,5 +101,34 @@ public class UserInputHandler {
         allResults.add(resultSet);
         Messenger.showResults(resultSet);
     }
-    
+
+    public void handleScript(String input) {
+        String[] params = input.split(" ");
+        if(params.length != 3) {
+            Messenger.printParamError();
+            return;
+        } 
+        String filePath = params[1];
+        int algorithmRepeatTimes = Integer.parseInt(params[2]);
+        
+        scriptFileHandler.readDataFile(filePath);
+        for(Command command : (Command[])scriptMapper.getData().getArray()) {
+            PathSearchResult[] results = null;
+            try {
+                graphFileHandler.readDataFile(command.getFilePath());
+                results = pathSearcher.runRepeatedAlgos(
+                                            graphMapper, 
+                                            command.getStartPlaceName(), 
+                                            command.getEndPlaceName(), 
+                                            command.getFilePath(), 
+                                            algorithmRepeatTimes);
+            } catch (Exception exc) {
+                Messenger.printMessage(exc.getMessage());
+                break;
+            }
+            PathSearchResultSet resultSet = new PathSearchResultSet(results);
+            allResults.add(resultSet);
+            Messenger.showResults(resultSet);
+        }
+    }    
 }
