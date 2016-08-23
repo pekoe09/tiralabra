@@ -7,6 +7,7 @@ import tiralabra.datainput.IDataMapper;
 import tiralabra.datainput.IGraphMapper;
 import tiralabra.datastructures.NamedArrayList;
 import tiralabra.domain.Command;
+import tiralabra.domain.INamedObject;
 import tiralabra.domain.PathSearchResult;
 import tiralabra.domain.PathSearchResultSet;
 
@@ -112,7 +113,8 @@ public class UserInputHandler {
         int algorithmRepeatTimes = Integer.parseInt(params[2]);
         
         scriptFileHandler.readDataFile(filePath);
-        for(Command command : (Command[])scriptMapper.getData().getArray()) {
+        for(Object object : scriptMapper.getData()) {
+            Command command = (Command)object;
             PathSearchResult[] results = null;
             try {
                 graphFileHandler.readDataFile(command.getFilePath());
@@ -128,6 +130,7 @@ public class UserInputHandler {
             }
             PathSearchResultSet resultSet = new PathSearchResultSet(results);
             allResults.add(resultSet);
+            
             Messenger.showResults(resultSet);
         }
     }    

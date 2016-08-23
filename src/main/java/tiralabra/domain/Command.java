@@ -2,13 +2,14 @@ package tiralabra.domain;
 
 public class Command implements INamedObject{
     
-    private String commandText;
     private String filePath;
     private String startPlaceName;
     private String endPlaceName;
     
-    public Command(String commandText) {
-        this.commandText = commandText;
+    public Command(String filePath, String startPlaceName, String endPlaceName) {
+        this.filePath = filePath;
+        this.startPlaceName = startPlaceName;
+        this.endPlaceName = endPlaceName;
     }
 
     public String getFilePath() {
@@ -25,6 +26,6 @@ public class Command implements INamedObject{
     
     @Override
     public String getName() {
-        return commandText;
+        return String.format("%s %s %s", filePath, startPlaceName, endPlaceName);
     }    
 }
