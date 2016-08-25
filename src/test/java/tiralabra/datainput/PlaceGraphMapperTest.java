@@ -3,12 +3,9 @@ package tiralabra.datainput;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.ReadTarget;
 import org.junit.Test;
-import tiralabra.GraphUtils;
 import static org.junit.Assert.*;
 
 public class PlaceGraphMapperTest {
-    
-    public PlaceGraphMapperTest() { }    
     
     @Test
     public void placeGraphMapperIsCreatedProperly() {

@@ -1,14 +1,10 @@
 package tiralabra.domain;
 
-import tiralabra.domain.NeighbourNode;
-import tiralabra.domain.PlaceNode;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class NeighbourNodeTest {
-    
-    public NeighbourNodeTest() { }
     
     private NeighbourNode testNeighbour;
     private PlaceNode testPlace = new PlaceNode("Raatala", 60.532, 23.169);  

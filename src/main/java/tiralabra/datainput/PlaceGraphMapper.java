@@ -3,7 +3,6 @@ package tiralabra.datainput;
 import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.ReadTarget;
-import tiralabra.GraphUtils;
 import tiralabra.datastructures.NamedArrayList;
 
 /**
@@ -17,7 +16,7 @@ public class PlaceGraphMapper implements IGraphMapper {
     private long numberOfEdgeEndPoints = 0;
     
     /**
-     * Konstruktori asettaa paikkojen muodostamaa verkkoa kuvaavan List-olion tyhjäksi listaksi.
+     * Konstruktori asettaa paikkojen muodostamaa verkkoa kuvaavan NamedArrayList-olion tyhjäksi listaksi.
      */
     public PlaceGraphMapper() {
         this.graph = new NamedArrayList();
@@ -77,8 +76,7 @@ public class PlaceGraphMapper implements IGraphMapper {
     }
         
     /**
-     * IDataMapper-rajapinnan metodi, joka palauttaa luetut tiedot verkkona, 
-     * joka on PlaceNode-olioita sisältävän List-olion muodossa.
+     * IDataMapper-rajapinnan metodi, joka palauttaa luetut tiedot verkkona.
      * @return Verkko PlaceNode-olioita sisältävän List-olion muodossa.
      */
     @Override
@@ -116,6 +114,10 @@ public class PlaceGraphMapper implements IGraphMapper {
         numberOfEdgeEndPoints += neighbours.length;
     }
 
+    /**
+     * IGraphMapper-rajapinnan metodi, joka kertoo verkon kaarien lukumäärän.
+     * @return Verkon kaarien lukumäärä.
+     */
     @Override
     public long getNumberOfEdges() {
         return numberOfEdgeEndPoints / 2;
@@ -126,6 +128,9 @@ public class PlaceGraphMapper implements IGraphMapper {
         return String.format("verkossa on %d solmua ja %d kaarta", graph.size(), getNumberOfEdges());
     }
     
+    /**
+     * IDataMapper-rajapinnan metodi, joka tyhjentää luetut tiedot.
+     */
     @Override
     public void resetMapper() {
         graph = new NamedArrayList();

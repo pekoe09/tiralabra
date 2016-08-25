@@ -22,8 +22,6 @@ public class DataFileHandler {
     /**
      * Lukee paikkadataa sisältävän tiedoston  sisään ja muodostaa siitä verkon.
      * @param filePath          Datatiedoston tiedostopolku.
-     * @param startPlaceName    Etsittävän polun lähtöpaikka.
-     * @param endPlaceName      Etsittävän polun maalipaikka.
      * @return                  IDataMapper-olio, joka sisältää paikkojen ja niiden välisten yhteyksien
      *                          muodostaman verkon.
      */

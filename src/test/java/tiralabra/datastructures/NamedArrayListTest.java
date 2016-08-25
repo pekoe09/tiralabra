@@ -1,19 +1,14 @@
 package tiralabra.datastructures;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import java.util.Iterator;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import tiralabra.domain.INamedObject;
 import tiralabra.domain.PlaceNode;
 
 public class NamedArrayListTest {
-    
-    public NamedArrayListTest() {
-    }
-    
+
     private NamedArrayList testList;
     private PlaceNode node1;
     private PlaceNode node2;
@@ -140,4 +135,29 @@ public class NamedArrayListTest {
         assertEquals("Taulukkoa ei ole kasvatettu", 200, newList.getArray().length);
     }
     
+    @Test
+    public void hasNextReturnsFalseForEmptyList() {
+        assertFalse(null, new NamedArrayList().iterator().hasNext());
+    }
+    
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void nextThrowsExceptionForEmptyList() {
+        NamedArrayList arrayList = new NamedArrayList();
+        Iterator iterator = arrayList.iterator();
+        for(int i = 0; i < 100; i++) {
+            iterator.next();
+        }
+    }
+    
+    @Test
+    public void iteratorProcessesListCorrectly() {
+        Iterator iterator = testList.iterator();
+        assertTrue("Listaa väitetään tyhjäksi vaikka siinä on 3 alkiota", iterator.hasNext());
+        assertEquals("1. solmun sijasta tuli väärä solmu", "joku", ((PlaceNode)iterator.next()).getName());
+        assertTrue("Listaa väitetään tyhjäksi vaikka siinä on 2 alkiota",iterator.hasNext());
+        assertEquals("2. solmun sijasta tuli väärä solmu", "muu", ((PlaceNode)iterator.next()).getName());
+        assertTrue("Listaa väitetään tyhjäksi vaikka siinä on 1 alkio",iterator.hasNext());
+        assertEquals("3. solmun sijasta tuli väärä solmu", "jossain", ((PlaceNode)iterator.next()).getName());
+        assertFalse("Tyhjällä listalla väitetään olevan alkioita", iterator.hasNext());
+    }
 }

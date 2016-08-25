@@ -1,6 +1,5 @@
 package tiralabra.datastructures;
 
-import tiralabra.datastructures.PathStack;
 import tiralabra.domain.PlaceNode;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,9 +8,6 @@ import static org.junit.Assert.*;
 public class PathStackTest {
     
     PlaceNode newPlace, nextPlace, lastPlace;
-    
-    public PathStackTest() {
-    }
     
     @Before
     public void setUp() {

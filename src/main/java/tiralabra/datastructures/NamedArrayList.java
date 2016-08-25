@@ -81,6 +81,9 @@ public class NamedArrayList implements Iterable {
 
             @Override
             public Object next() {
+                if(currentIndex + 1 > array.length - 1) {
+                    throw new IndexOutOfBoundsException();
+                }
                 return array[currentIndex++];
             }            
         };       
