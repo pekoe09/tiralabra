@@ -19,14 +19,17 @@ public class UserInputHandler {
     private DataFileHandler scriptFileHandler;
     private IGraphMapper graphMapper;
     private IDataMapper scriptMapper;
+    private Messenger messenger;
     
     public UserInputHandler(PathSearcher pathSearcher, DataFileHandler graphFileHandler, 
-        IGraphMapper graphMapper, DataFileHandler scriptFileHandler, IDataMapper scriptMapper) {
+        IGraphMapper graphMapper, DataFileHandler scriptFileHandler, IDataMapper scriptMapper, 
+        Messenger messenger) {
         this.pathSearcher = pathSearcher;
         this.graphFileHandler = graphFileHandler;
         this.graphMapper = graphMapper;
         this.scriptFileHandler = scriptFileHandler;
         this.scriptMapper = scriptMapper;
+        this.messenger = messenger;
     }
         
     /**
@@ -38,20 +41,20 @@ public class UserInputHandler {
     public void runInputLoop() {
         allResults = new NamedArrayList();
         Scanner in = new Scanner(System.in);
-        Messenger.printPrompt();
+        messenger.printPrompt();
         String input = in.nextLine().trim().toLowerCase();
         while(!input.equals("q")) {
             if(input.equals("="))  {
-                Messenger.showAllResults(allResults);
+                messenger.showAllResults(allResults);
             } else if(input.startsWith("*")) {
                 handleScript(input);
             } else {
                 handleShortestPathQuery(input);
             }
-            Messenger.printPrompt();
+            messenger.printPrompt();
             input = in.nextLine().trim().toLowerCase();
         }      
-        Messenger.printGoodbye();
+        messenger.printGoodbye();
     }
     
     /**
@@ -65,7 +68,7 @@ public class UserInputHandler {
     public void handleShortestPathQuery(String input) {
         String[] params = input.split(" ");
         if(params.length != 3) {
-            Messenger.printParamError();
+            messenger.printParamError();
             return;
         } 
         String filePath = params[0];
@@ -76,7 +79,7 @@ public class UserInputHandler {
         if(filePath.equals("+")) {
             int resultCount = allResults.size();
             if(resultCount == 0) {
-                Messenger.printMessage("Aiempia sisäänluettuja datatiedostoja ei ole.");
+                messenger.printMessage("Aiempia sisäänluettuja datatiedostoja ei ole.");
                 return;
             }
             try {                
@@ -84,29 +87,29 @@ public class UserInputHandler {
                 results = pathSearcher.runAlgos(latestResult.getGraph(), startPlaceName, endPlaceName, 
                         latestResult.getFilePath(), latestResult.getEdgeCount(), latestResult.getNodeCount());
             } catch (Exception exc) {
-                Messenger.printMessage(exc.getMessage());
+                messenger.printMessage(exc.getMessage());
             }
         
         } else {              
             IDataMapper mapper = graphFileHandler.readDataFile(filePath);
             if (mapper != null) {
-                Messenger.printMessage("Tiedosto luettu; " + mapper.toString());            
+                messenger.printMessage("Tiedosto luettu; " + mapper.toString());            
                 try {
                     results = pathSearcher.runAlgos((IGraphMapper)mapper, startPlaceName, endPlaceName, filePath);                    
                 } catch (Exception exc) {
-                    Messenger.printMessage(exc.getMessage());
+                    messenger.printMessage(exc.getMessage());
                 }
             }
         }
         PathSearchResultSet resultSet = new PathSearchResultSet(results);
         allResults.add(resultSet);
-        Messenger.showResults(resultSet);
+        messenger.showResults(resultSet);
     }
 
     public void handleScript(String input) {
         String[] params = input.split(" ");
         if(params.length != 3) {
-            Messenger.printParamError();
+            messenger.printParamError();
             return;
         } 
         String filePath = params[1];
@@ -125,13 +128,13 @@ public class UserInputHandler {
                                             command.getFilePath(), 
                                             algorithmRepeatTimes);
             } catch (Exception exc) {
-                Messenger.printMessage(exc.getMessage());
+                messenger.printMessage(exc.getMessage());
                 break;
             }
             PathSearchResultSet resultSet = new PathSearchResultSet(results);
             allResults.add(resultSet);
             
-            Messenger.showResults(resultSet);
+            messenger.showResults(resultSet);
         }
     }    
 }

@@ -65,6 +65,21 @@ public class ScriptMapperTest {
         assertEquals("Komentolistan 2. komennon lähtöpaikka on väärin", startPlaceName2, command2.getStartPlaceName());
         assertEquals("Komentolistan 2. komennon maalipaikka on väärin", endPlaceName2, command2.getEndPlaceName());
     }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void mapDataThrowsExceptionIfCommandIsNull() {
+        mapper.mapData(null, rowCounter1, target);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void mapDataThrowsExceptionIfCommandIsWhitespace() {
+        mapper.mapData("   ", rowCounter1, target);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void mapDataThrowsExceptionIfCommandIsTooShort() {
+        mapper.mapData("virheellinen komento", rowCounter1, target);
+    }
 
     @Test
     public void testResetMapper() {

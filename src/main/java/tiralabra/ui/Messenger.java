@@ -13,10 +13,10 @@ import tiralabra.enums.AlgorithmAlternative;
 public class Messenger {
     
         
-    public static void showResults(PathSearchResultSet results) {
+    public void showResults(PathSearchResultSet results) {
         for(int i = 0; i < results.size(); i++) {
             PathSearchResult result = results.get(i);
-            Messenger.printShortestPath(
+            printShortestPath(
                     result.getShortestPath(), 
                     result.getStartPlace(), 
                     result.getEndPlace(), 
@@ -25,13 +25,13 @@ public class Messenger {
         }
     }
     
-    public static void showAllResults(NamedArrayList allResults) {
+    public void showAllResults(NamedArrayList allResults) {
         if(allResults.size() == 0) {
-            Messenger.printMessage("Et ole tehnyt vielä polunetsintäkyselyitä.");
+            printMessage("Et ole tehnyt vielä polunetsintäkyselyitä.");
         } else {
-            Messenger.printMessage("Kaikki tekemäsi polunetsintäkyselyt:");
+            printMessage("Kaikki tekemäsi polunetsintäkyselyt:");
             for(int i = 0; i < allResults.size(); i++) {
-                Messenger.printResultMetaData((PathSearchResultSet)allResults.get(i));
+                printResultMetaData((PathSearchResultSet)allResults.get(i));
                 showResults((PathSearchResultSet)allResults.get(i));
             }
         }
@@ -47,7 +47,7 @@ public class Messenger {
      * @param algorithm         Polun etsimisessä käytetty algoritmi (AlgorithmAlternative.DIJKSTRA
      *                          tai AlgorithmiAlternative.ASTAR)
      */
-    public static void printShortestPath(PathStack path, PlaceNode startNode, 
+    public void printShortestPath(PathStack path, PlaceNode startNode, 
             PlaceNode endNode, long runTimeNanoSecs, AlgorithmAlternative algorithm) {
         printSeparator();
         System.out.println(String.format("Lyhin polku paikasta %s paikkaan %s %s-algoritmin mukaan", 
@@ -94,7 +94,7 @@ public class Messenger {
      * monta solmua ja kaarta tässä verkossa on.
      * @param resultSet Polunetsintätulosten joukko.
      */
-    public static void printResultMetaData(PathSearchResultSet resultSet) {
+    public void printResultMetaData(PathSearchResultSet resultSet) {
        System.out.println(String.format("Datatiedosto: %s", resultSet.get(0).getFilePath()));
        System.out.println(String.format("Verkossa on %d solmua ja %d kaarta", resultSet.get(0).getNodeCount(), resultSet.get(0).getEdgeCount()));
     }
@@ -102,7 +102,7 @@ public class Messenger {
     /**
      * Näyttää ilmoituksen ajoparametrejä koskevasta virheestä.
      */
-    public static void printParamError() {
+    public void printParamError() {
         System.out.println("Anna polun etsintäkäsky muodossa [tiedostopolku] [lähtöpaikka] [maalipaikka]!");
         System.out.println("Jos haluat käyttää edellistä datatiedostoa, voit korvata tiedostopolun +-merkillä.");
         System.out.println("Voit tulostaa kaikki tähänastiset tulokset '=':lla ja lopettaa 'q':lla.");
@@ -112,19 +112,19 @@ public class Messenger {
      * Näyttää annetun viestin. 
      * @param message Käyttäjälle näytettävä viesti merkkijonona,
      */
-    public static void printMessage(String message) {
+    public void printMessage(String message) {
         System.out.println(message);
     }
 
     /**
      * Näyttää käyttäjälle ohjelman käyttöohjeen.
      */
-    public static void printPrompt() {
+    public void printPrompt() {
         System.out.println("Anna seuraava komento!\nOhje: [tiedostopolku] [lähtöpaikka] [maalipaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset");
         System.out.print("> ");
     }  
 
-    public static void printSeparator() {
+    public void printSeparator() {
         System.out.println("----------------------------------------------------------------------------");
     }
     
@@ -134,14 +134,14 @@ public class Messenger {
      * näytetään yleisluontoisen virheilmoituksen perässä.
      * @param filepath  Sen tiedoston sijaintipolku, jonka luku aiheutti virheen.
      */
-    public static void printFileError(String message, String filepath) {
+    public void printFileError(String message, String filepath) {
         System.out.printf("Datatiedoston %s luku ei onnistunut:\n%s\n", filepath, message);
     }
     
     /**
      * Näyttää ilmoituksen ohjelman suorituksen päättymisestä.
      */
-    public static void printGoodbye() {
+    public void printGoodbye() {
         System.out.println("Tack och välkommen åter!");
     }
 

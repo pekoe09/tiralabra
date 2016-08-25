@@ -125,7 +125,11 @@ public class PlaceGraphMapper implements IGraphMapper {
     
     @Override
     public String toString() {
-        return String.format("verkossa on %d solmua ja %d kaarta", graph.size(), getNumberOfEdges());
+        return String.format("verkossa on %d %s ja %d %s", 
+                graph.size(), 
+                graph.size() == 1 ? "solmu" : "solmua",
+                getNumberOfEdges(),
+                getNumberOfEdges() == 1 ? "kaari" : "kaarta");
     }
     
     /**

@@ -28,6 +28,7 @@ public class MessengerTest {
     private long runTimeNanoSecs;
     private AlgorithmAlternative algorithm;
     private String filePath = "c://joku/tiedosto.data";
+    private Messenger messenger = new Messenger();
     
     @Before
     public void setUp() {
@@ -64,7 +65,7 @@ public class MessengerTest {
     @Test
     public void testPrintResultMetaData() {
         String expected = "Tack och välkommen åter!\n";
-        Messenger.printGoodbye();
+        messenger.printGoodbye();
         assertEquals("Tulostettu hyvästely on väärin", expected, outContent.toString());
     }
 
@@ -73,28 +74,28 @@ public class MessengerTest {
         String expected = "Anna polun etsintäkäsky muodossa [tiedostopolku] [lähtöpaikka] [maalipaikka]!\n";
         expected += "Jos haluat käyttää edellistä datatiedostoa, voit korvata tiedostopolun +-merkillä.\n";
         expected += "Voit tulostaa kaikki tähänastiset tulokset '=':lla ja lopettaa 'q':lla.\n";
-        Messenger.printParamError();
+        messenger.printParamError();
         assertEquals(expected, outContent.toString());
     }
 
     @Test
     public void testPrintMessage() {
         String expected = "Joku odotettu viesti.";
-        Messenger.printMessage(expected);
+        messenger.printMessage(expected);
         assertEquals("Tulostettu viesti on väärin", expected  + "\n", outContent.toString());
     }
 
     @Test
     public void testPrintPrompt() {
         String expected = "Anna seuraava komento!\nOhje: [tiedostopolku] [lähtöpaikka] [maalipaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset\n> ";
-        Messenger.printPrompt();
+        messenger.printPrompt();
         assertEquals("Tulostettu ohje/kehote on väärin", expected, outContent.toString());
     }
 
     @Test
     public void testPrintSeparator() {
         String expected = "----------------------------------------------------------------------------\n";
-        Messenger.printSeparator();
+        messenger.printSeparator();
         assertEquals("Tulostettu erotin on väärin", expected, outContent.toString());
     }
 
@@ -102,14 +103,14 @@ public class MessengerTest {
     public void testPrintFileError() {
         String message = "Tiedostoa ei voitu avata.";        
         String expected = "Datatiedoston c://joku/tiedosto.data luku ei onnistunut:\nTiedostoa ei voitu avata.\n";
-        Messenger.printFileError(message, filePath);
+        messenger.printFileError(message, filePath);
         assertEquals("Tulostettu tiedostovirheilmoitus on väärin", expected, outContent.toString());
     }
 
     @Test
     public void testPrintGoodbye() {
         String expected = "Tack och välkommen åter!\n";
-        Messenger.printGoodbye();
+        messenger.printGoodbye();
         assertEquals("Tulostettu hyvästely on väärin", expected, outContent.toString());
     }
     

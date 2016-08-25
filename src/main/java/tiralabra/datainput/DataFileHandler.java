@@ -13,9 +13,10 @@ import tiralabra.ui.Messenger;
  */
 public class DataFileHandler {
     
-    IDataMapper mapper;
+    private IDataMapper mapper;
+    private Messenger messenger;
     
-    public DataFileHandler(IDataMapper mapper) {
+    public DataFileHandler(IDataMapper mapper, Messenger messenger) {
         this.mapper = mapper;
     }
         
@@ -30,7 +31,7 @@ public class DataFileHandler {
         try {
             processFile(filePath, mapper);
         } catch (IllegalArgumentException exc) {
-            Messenger.printFileError(exc.getMessage(), filePath);
+            messenger.printFileError(exc.getMessage(), filePath);
             return null;
         }    
         return mapper;

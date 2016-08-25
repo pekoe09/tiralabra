@@ -4,18 +4,33 @@ import tiralabra.domain.PlaceNode;
 import tiralabra.enums.ReadTarget;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 public class PlaceGraphMapperTest {
     
+    private PlaceGraphMapper mapper;
+    private String[] placeData;
+    String[] placeData1;
+    String[] placeData2;
+    String[] placeData3;
+    
+    @Before
+    public void setUp() {
+        mapper = new PlaceGraphMapper();
+        placeData = new String[]{"Raatala", "60.532", "23.169"};
+        placeData1 = new String[]{"Raatala", "60.532", "23.169", "Kiikala/32.6", "Kruusila/35.3"};
+        placeData2 = new String[]{"Kiikala", "60.463", "23.550", "Raatala/32.6", "Kruusila/13.0"};
+        placeData3 = new String[]{"Kruusila", "60.373", "23.488", "Raatala/35.3", "Kiikala/13.0"};
+    }
+    
     @Test
     public void placeGraphMapperIsCreatedProperly() {
-        PlaceGraphMapper mapper = new PlaceGraphMapper();        
-        assertNotNull("PlaceGraphMapperilla ei ole paikkalistaa", mapper.getData());
+        PlaceGraphMapper newMapper = new PlaceGraphMapper();        
+        assertNotNull("PlaceGraphMapperilla ei ole paikkalistaa", newMapper.getData());
     }
 
     @Test
     public void placeDataCanBeAddedIntoPlaceList() {        
-        String[] placeData = {"Raatala", "60.532", "23.169"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
         instance.addPlace(placeData);        
@@ -26,7 +41,7 @@ public class PlaceGraphMapperTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void placeDataAddingThrowsExceptionIfNoName() {        
-        String[] placeData = {" ", "60.532", "23.169"};
+        placeData = new String[]{" ", "60.532", "23.169"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
         instance.addPlace(placeData);        
@@ -34,7 +49,7 @@ public class PlaceGraphMapperTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void placeDataAddingThrowsExceptionIfWrongLatitude() {        
-        String[] placeData = {"Raatala", "a", "23.169"};
+        placeData = new String[]{"Raatala", "a", "23.169"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
         instance.addPlace(placeData);        
@@ -42,7 +57,7 @@ public class PlaceGraphMapperTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void placeDataAddingThrowsExceptionIfNoLatitude() {        
-        String[] placeData = {"Raatala", "", "23.169"};
+        placeData = new String[]{"Raatala", "", "23.169"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
         instance.addPlace(placeData);        
@@ -50,7 +65,7 @@ public class PlaceGraphMapperTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void placeDataAddingThrowsExceptionIfWrongLongitude() {        
-        String[] placeData = {"Raatala", "60.532", "a"};
+        placeData = new String[]{"Raatala", "60.532", "a"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
         instance.addPlace(placeData);        
@@ -58,7 +73,7 @@ public class PlaceGraphMapperTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void placeDataAddingThrowsExceptionIfNoLongitude() {        
-        String[] placeData = {"Raatala", "60.532", ""};
+        placeData = new String[]{"Raatala", "60.532", ""};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         
         instance.addPlace(placeData);        
@@ -66,9 +81,6 @@ public class PlaceGraphMapperTest {
     
     @Test
     public void neighboursCanBeAdded() {
-        String[] placeData1 = {"Raatala", "60.532", "23.169", "Kiikala/32.6", "Kruusila/35.3"};
-        String[] placeData2 = {"Kiikala", "60.463", "23.550", "Raatala/32.6", "Kruusila/13.0"};
-        String[] placeData3 = {"Kruusila", "60.373", "23.488", "Raatala/35.3", "Kiikala/13.0"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         instance.addPlace(placeData1);
         instance.addPlace(placeData2);
@@ -85,8 +97,8 @@ public class PlaceGraphMapperTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void neighbourAddingThrowsExceptionIfInvalidDistance() {
-        String[] placeData1 = {"Raatala", "60.532", "23.169", "Kiikala/"};
-        String[] placeData2 = {"Kiikala", "60.463", "23.550", "Raatala/32.6"};
+        placeData1 = new String[]{"Raatala", "60.532", "23.169", "Kiikala/"};
+        placeData2 = new String[]{"Kiikala", "60.463", "23.550", "Raatala/32.6"};
         PlaceGraphMapper instance = new PlaceGraphMapper();
         instance.addPlace(placeData1);
         instance.addPlace(placeData2);
@@ -131,4 +143,52 @@ public class PlaceGraphMapperTest {
         
         instance.mapData(data, rowCounter, ReadTarget.NODE_BASIC_DATA);
     }     
+    
+    @Test
+    public void testGetNumberOfEdges() {
+        String data = "Raatala;60.532;23.169";
+        String data2 = "Kiikala;60.532;23.169;Kruusila/13.0";
+        String data3 = "Kruusila;60.532;23.169;Kiikala/13.0";
+        Integer rowCounter = 1;
+        PlaceGraphMapper instance = new PlaceGraphMapper();
+        instance.mapData(data, rowCounter++, ReadTarget.NODE_BASIC_DATA);
+        assertEquals("Verkossa on väärä määrä solmuja", 1, instance.getData().size());
+        instance.mapData(data2, rowCounter++, ReadTarget.NODE_BASIC_DATA);
+        assertEquals("Verkossa on väärä määrä solmuja", 2, instance.getData().size());
+        instance.mapData(data3, rowCounter++, ReadTarget.NODE_BASIC_DATA);
+        assertEquals("Verkossa on väärä määrä solmuja", 3, instance.getData().size());
+        instance.mapData(data, rowCounter++, ReadTarget.NODE_NEIGHBOUR_DATA);
+        assertEquals("Verkossa on väärä määrä solmuja", 3, instance.getData().size());
+        instance.mapData(data2, rowCounter++, ReadTarget.NODE_NEIGHBOUR_DATA);
+        assertEquals("Verkossa on väärä määrä solmuja", 3, instance.getData().size());
+        instance.mapData(data3, rowCounter++, ReadTarget.NODE_NEIGHBOUR_DATA);
+        assertEquals("Verkossa on väärä määrä solmuja", 3, instance.getData().size());
+        assertEquals("Verkossa väitetään olevan väärä määrä kaaria", 1, instance.getNumberOfEdges());
+    }
+    
+    @Test
+    public void testToString() {
+        String data = "Raatala;60.532;23.169;";
+        String data2 = "Kiikala;60.532;23.169;Kruusila/13.0";
+        String data3 = "Kruusila;60.532;23.169;Kiikala/13.0";
+        Integer rowCounter = 1;
+        PlaceGraphMapper instance = new PlaceGraphMapper();
+        instance.mapData(data, rowCounter++, ReadTarget.NODE_BASIC_DATA);
+        assertEquals("Verkon kuvausteksti on väärin", "verkossa on 1 solmu ja 0 kaarta", instance.toString());
+        instance.mapData(data2, rowCounter++, ReadTarget.NODE_BASIC_DATA);
+        instance.mapData(data3, rowCounter++, ReadTarget.NODE_BASIC_DATA);
+        instance.mapData(data, rowCounter++, ReadTarget.NODE_NEIGHBOUR_DATA);
+        instance.mapData(data2, rowCounter++, ReadTarget.NODE_NEIGHBOUR_DATA);
+        instance.mapData(data3, rowCounter++, ReadTarget.NODE_NEIGHBOUR_DATA);
+        assertEquals("Verkon kuvausteksti on väärin", "verkossa on 3 solmua ja 1 kaari", instance.toString());
+    }
+    
+    @Test
+    public void testResetMapper() {
+        mapper.addPlace(placeData1);
+        mapper.addPlace(placeData2);
+        mapper.resetMapper();
+        assertEquals("Verkkoon on vielä jäänyt solmuja", 0, mapper.getData().size());
+        assertEquals("Verkossa väitetään olevan kaaria", 0, mapper.getNumberOfEdges());
+    }
 }

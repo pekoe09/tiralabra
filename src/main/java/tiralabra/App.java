@@ -6,6 +6,7 @@ import tiralabra.datainput.IGraphMapper;
 import tiralabra.datainput.PlaceGraphMapper;
 import tiralabra.datainput.ScriptMapper;
 import tiralabra.search.PathSearcher;
+import tiralabra.ui.Messenger;
 import tiralabra.ui.UserInputHandler;
 
 public class App 
@@ -15,15 +16,18 @@ public class App
         PathSearcher pathSearcher = new PathSearcher();
         IGraphMapper graphMapper = new PlaceGraphMapper();
         IDataMapper scriptMapper = new ScriptMapper();
-        DataFileHandler graphFileHandler = new DataFileHandler(graphMapper);  
-        DataFileHandler scriptFileHandler = new DataFileHandler(scriptMapper);
+        Messenger messenger = new Messenger();
+        DataFileHandler graphFileHandler = new DataFileHandler(graphMapper, messenger);  
+        DataFileHandler scriptFileHandler = new DataFileHandler(scriptMapper, messenger);
+        
         
         UserInputHandler handler = new UserInputHandler(
             pathSearcher, 
             graphFileHandler, 
             graphMapper, 
             scriptFileHandler,
-            scriptMapper);
+            scriptMapper,
+            messenger);
         handler.runInputLoop();
         System.exit(0);
     }
