@@ -36,8 +36,7 @@ public class MessengerTest {
         oldErr = System.err;
         System.setErr(new PrintStream(errContent));
         
-        resultSet = Mockito.mock(PathSearchResultSet.class);
-        
+        resultSet = Mockito.mock(PathSearchResultSet.class);        
     }
     
     @After

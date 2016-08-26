@@ -1,6 +1,5 @@
 package tiralabra.domain;
 
-import com.sun.org.apache.bcel.internal.generic.NamedAndTyped;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

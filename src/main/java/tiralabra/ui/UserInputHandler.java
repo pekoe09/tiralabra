@@ -7,7 +7,6 @@ import tiralabra.datainput.IDataMapper;
 import tiralabra.datainput.IGraphMapper;
 import tiralabra.datastructures.NamedArrayList;
 import tiralabra.domain.Command;
-import tiralabra.domain.INamedObject;
 import tiralabra.domain.PathSearchResult;
 import tiralabra.domain.PathSearchResultSet;
 
@@ -30,6 +29,7 @@ public class UserInputHandler {
         this.scriptFileHandler = scriptFileHandler;
         this.scriptMapper = scriptMapper;
         this.messenger = messenger;
+        this.allResults = new NamedArrayList();
     }
         
     /**
@@ -88,6 +88,7 @@ public class UserInputHandler {
                         latestResult.getFilePath(), latestResult.getEdgeCount(), latestResult.getNodeCount());
             } catch (Exception exc) {
                 messenger.printMessage(exc.getMessage());
+                return;
             }
         
         } else {              
@@ -98,6 +99,7 @@ public class UserInputHandler {
                     results = pathSearcher.runAlgos((IGraphMapper)mapper, startPlaceName, endPlaceName, filePath);                    
                 } catch (Exception exc) {
                     messenger.printMessage(exc.getMessage());
+                    return;
                 }
             }
         }
