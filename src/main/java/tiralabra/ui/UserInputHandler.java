@@ -103,9 +103,11 @@ public class UserInputHandler {
                 }
             }
         }
-        PathSearchResultSet resultSet = new PathSearchResultSet(results);
-        allResults.add(resultSet);
-        messenger.showResults(resultSet);
+        if(results != null) {
+            PathSearchResultSet resultSet = new PathSearchResultSet(results);
+            allResults.add(resultSet);
+            messenger.showResults(resultSet);
+        }
     }
 
     public void handleScript(String input) {

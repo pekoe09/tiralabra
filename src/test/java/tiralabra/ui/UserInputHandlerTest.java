@@ -93,6 +93,11 @@ public class UserInputHandlerTest {
             eq("turku.data"),
             eq(10))).thenReturn(resultsB);
         when(pathSearcher.runAlgos(
+            any(IGraphMapper.class),
+            eq("Helsinki"),
+            anyString(),
+            anyString())).thenReturn(resultsA);
+        when(pathSearcher.runAlgos(
             any(IGraphMapper.class), 
             endsWith("irhe"), 
             anyString(), 

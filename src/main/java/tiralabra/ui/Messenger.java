@@ -26,7 +26,7 @@ public class Messenger {
     }
     
     public void showAllResults(NamedArrayList allResults) {
-        if(allResults.size() == 0) {
+        if(allResults == null || allResults.size() == 0) {
             printMessage("Et ole tehnyt vielä polunetsintäkyselyitä.");
         } else {
             printMessage("Kaikki tekemäsi polunetsintäkyselyt:");

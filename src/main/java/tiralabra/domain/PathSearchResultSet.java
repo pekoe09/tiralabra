@@ -9,6 +9,9 @@ public class PathSearchResultSet implements INamedObject {
     }
 
     public PathSearchResult get(int index) {
+        if(results == null) {
+            throw new IllegalArgumentException("Tuloksia ei vielä ole.");
+        }
         if(index > results.length - 1) {
             throw new IndexOutOfBoundsException(
                     String.format("Tulossetin suurin indeksi on %d mutta pyydetään indeksiä %d",

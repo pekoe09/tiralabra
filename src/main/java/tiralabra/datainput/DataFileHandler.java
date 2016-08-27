@@ -18,6 +18,7 @@ public class DataFileHandler {
     
     public DataFileHandler(IDataMapper mapper, Messenger messenger) {
         this.mapper = mapper;
+        this.messenger = messenger;
     }
         
     /**
@@ -30,7 +31,7 @@ public class DataFileHandler {
         mapper.resetMapper();
         try {
             processFile(filePath, mapper);
-        } catch (IllegalArgumentException exc) {
+        } catch (Exception exc) {
             messenger.printFileError(exc.getMessage(), filePath);
             return null;
         }    
@@ -56,11 +57,12 @@ public class DataFileHandler {
                 readLines(new BufferedReader(reader), mapper, ReadTarget.SCRIPT);
             }
             reader.close();
-        } catch (FileNotFoundException exc) {
-            throw new IllegalArgumentException(String.format("Tiedostoa %s ei voi avata!", filePath));
-        } catch (IOException exc) {
-            throw new IllegalArgumentException(String.format("Tiedostoa %s ei voi sulkea!", filePath));
-        }          
+        } catch (Exception exc) {
+            throw new IllegalArgumentException(String.format("Tiedostoa %s ei voi lukea!", filePath));
+        }
+//        } catch (IOException exc) {
+//            throw new IllegalArgumentException(String.format("Tiedostoa %s ei voi sulkea!", filePath));
+//        }          
     }    
     
     /**
