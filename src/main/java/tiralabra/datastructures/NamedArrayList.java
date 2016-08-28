@@ -45,7 +45,7 @@ public class NamedArrayList implements Iterable {
             throw new IllegalArgumentException("Nimi ei voi olla tyhjä!");
         }
         for(int i = 0; i < size; i++) {
-            if(array[i].getName().toLowerCase().equals(name.toLowerCase())) {
+            if(array[i].getName().equalsIgnoreCase(name)) {
                 return array[i];
             }
         }        

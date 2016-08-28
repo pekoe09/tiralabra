@@ -10,8 +10,7 @@ import tiralabra.enums.AlgorithmAlternative;
 /**
  * Apuluokka, jonka metodit esittävät käyttäjälle näytettävän informaation.
  */
-public class Messenger {
-    
+public class Messenger {    
         
     public void showResults(PathSearchResultSet results) {
         for(int i = 0; i < results.size(); i++) {

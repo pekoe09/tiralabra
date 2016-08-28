@@ -14,7 +14,7 @@ public class NamedArrayListTest {
     private PlaceNode node2;
     private PlaceNode node3;
     private PlaceNode node4;
-    PlaceNode[] nodes;
+    private PlaceNode[] nodes;
     
     @Before
     public void setUp() {

@@ -2,9 +2,9 @@ package tiralabra.domain;
 
 public class Command implements INamedObject{
     
-    private String filePath;
-    private String startPlaceName;
-    private String endPlaceName;
+    private final String filePath;
+    private final String startPlaceName;
+    private final String endPlaceName;
     
     public Command(String filePath, String startPlaceName, String endPlaceName) {
         this.filePath = filePath;

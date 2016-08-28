@@ -9,8 +9,6 @@ import tiralabra.enums.AlgorithmAlternative;
 
 public class PathSearchResultTest {
     
-    public PathSearchResultTest() { }
-    
     private PathSearchResult testResult;
     private PlaceNode startPlace;
     private PlaceNode endPlace;

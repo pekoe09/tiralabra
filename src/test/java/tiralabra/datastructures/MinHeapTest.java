@@ -13,8 +13,6 @@ public class MinHeapTest {
     int testSize;
     PlaceNode node1, node2, node3, node4, node5;
     
-    public MinHeapTest() { }
-    
     @Before
     public void setUp() {
         testSize = 3;
@@ -225,7 +223,7 @@ public class MinHeapTest {
     public void isEmptyReturnsFalseForNonEmptyHeap() {
         MinHeap newHeap = new MinHeap(1);
         newHeap.insert(node1, 1.0);
-        assertTrue("Kekoa väitetään tyhjäksi", !newHeap.isEmpty());
+        assertFalse("Kekoa väitetään tyhjäksi", newHeap.isEmpty());
     }
     
     @Test
@@ -330,7 +328,7 @@ public class MinHeapTest {
         heap.insert(node4, 4.0); 
         heap.insert(node3, 3.0); 
         
-        PlaceNode returnedNode = heap.del_min();
+        PlaceNode returnedNode = heap.delMin();
         assertEquals("Muu kuin lähin paikka palautettu", node1, returnedNode);
     }
     
@@ -343,7 +341,7 @@ public class MinHeapTest {
         heap.insert(node4, 4.0); 
         heap.insert(node3, 3.0); 
         
-        PlaceNode returnedNode = heap.del_min();
+        PlaceNode returnedNode = heap.delMin();
         
         NeighbourNode[] heapArray = heap.getHeap();
         assertEquals("Keon kokotieto on virheellinen", 4, heap.getHeapsize());
@@ -361,7 +359,7 @@ public class MinHeapTest {
     @Test(expected = IndexOutOfBoundsException.class)
     public void delMinThrowsExceptionIfHeapIsEmpty() {
         MinHeap heap = new MinHeap(5); 
-        PlaceNode returnedNode = heap.del_min();
+        PlaceNode returnedNode = heap.delMin();
     }
 
     @Test
@@ -373,7 +371,7 @@ public class MinHeapTest {
         heap.insert(node4, 4.0); 
         heap.insert(node3, 3.0);  
         
-        heap.decrease_key(node5, 0.5);
+        heap.decreaseKey(node5, 0.5);
         
         NeighbourNode[] heapArray = heap.getHeap();
         assertEquals("Keon kokotieto on virheellinen", 5, heap.getHeapsize());
@@ -400,7 +398,7 @@ public class MinHeapTest {
         heap.insert(node4, 4.0); 
         heap.insert(node3, 3.0);  
         
-        heap.decrease_key(node5, 5.0);      
+        heap.decreaseKey(node5, 5.0);      
         NeighbourNode[] heapArray = heap.getHeap();
         assertEquals("Keon kokotieto on virheellinen", 5, heap.getHeapsize());
         assertEquals("Kekotaulukon pituus on väärä", 5, heapArray.length);
@@ -426,7 +424,7 @@ public class MinHeapTest {
         heap.insert(node4, 4.0); 
         heap.insert(node3, 3.0);  
         
-        heap.decrease_key(null, 5.0);
+        heap.decreaseKey(null, 5.0);
     }
     
     @Test(expected = IllegalArgumentException.class)
@@ -438,6 +436,6 @@ public class MinHeapTest {
         heap.insert(node4, 4.0); 
         heap.insert(node3, 3.0);  
         
-        heap.decrease_key(node5, -5.0);
+        heap.decreaseKey(node5, -5.0);
     }
 }

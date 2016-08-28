@@ -9,8 +9,8 @@ import tiralabra.domain.PlaceNode;
  */
 public class MinHeap {
     
-    NeighbourNode[] heap;
-    int heapsize;
+    private NeighbourNode[] heap;
+    private int heapsize;
     
     /**
      * Minimikeko-olion konstruktori.
@@ -142,7 +142,7 @@ public class MinHeap {
      * @return Keon prioriteettijärjestyksessä ensimmäinen alkio.
      * @throws IndexOutOfBoundsException Jos keossa ei ole alkioita jäljellä.
      */
-    public PlaceNode del_min() {
+    public PlaceNode delMin() {
         if(heapsize == 0) {
             throw new IndexOutOfBoundsException("Keko on tyhjä");
         }
@@ -162,7 +162,7 @@ public class MinHeap {
      * @param distance  Uusi etäisyystieto; ei voi olla negatiivinen luku.
      * @throws          IllegalArgumentException Jos annettu alkio on null tai annettu etäisyys on negatiivinen
      */
-    public void decrease_key(PlaceNode neighbour, double distance) {
+    public void decreaseKey(PlaceNode neighbour, double distance) {
         if(neighbour == null) {
             throw new IllegalArgumentException("Muutettava alkio ei voi olla null");
         }

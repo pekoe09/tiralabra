@@ -12,11 +12,9 @@ import tiralabra.datastructures.NamedArrayList;
 
 public class PathAlgorithmTest {
     
-    PathAlgorithm dijkstra;
-    PlaceNode node0, node1, node2, node3, node4, node5;
-    PlaceNode helsinki, espoo, vantaa, kauniainen, sipoo;
-    
-    public PathAlgorithmTest() { }
+    private PathAlgorithm dijkstra;
+    private PlaceNode node0, node1, node2, node3, node4, node5;
+    private PlaceNode helsinki, espoo, vantaa, kauniainen, sipoo;
     
     @Before
     public void setUp() {
@@ -85,7 +83,7 @@ public class PathAlgorithmTest {
         dijkstra.initialize(testGraph, node2, node4, AlgorithmAlternative.DIJKSTRA);
         for(Object object : testGraph) {
             PlaceNode node = (PlaceNode)object;
-            if(node == node2) {
+            if(node.getName().equals(node2.getName())) {
                 assertTrue("Aloitussolmulla etäisyystieto ei ole nolla", Math.abs(node.getStartDistance()) < 0.00001);
             } else {
                 assertTrue(String.format("Solmun %s etäisyystieto ei ole Double.MAX_VALUE", node.getName()), Math.abs(node.getStartDistance() - Double.MAX_VALUE) < 0.00001);
@@ -264,7 +262,7 @@ public class PathAlgorithmTest {
         dijkstra.solveNode(heap, AlgorithmAlternative.ASTAR);
         PlaceNode[] solvedNodes = dijkstra.getSolvedNodes();
  
-        assertTrue("Solmua väitetään ratkaistuksi", !dijkstra.nodeIsSolved(node2));  
+        assertFalse("Solmua väitetään ratkaistuksi", dijkstra.nodeIsSolved(node2));  
     }
     
     @Test(expected = IllegalArgumentException.class)

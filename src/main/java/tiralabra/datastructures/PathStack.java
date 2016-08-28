@@ -7,8 +7,8 @@ import tiralabra.domain.PlaceNode;
  */
 public class PathStack {
     
-    PlaceNode[] places;
-    int top;
+    private PlaceNode[] places;
+    private int top;
     
     /**
      * Konstruktori alustaa olion kentät.

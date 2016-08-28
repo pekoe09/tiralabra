@@ -2,7 +2,7 @@ package tiralabra.domain;
 
 public class PathSearchResultSet implements INamedObject {
     
-    private PathSearchResult[] results;
+    private final PathSearchResult[] results;
     
     public PathSearchResultSet(PathSearchResult[] results) {
         this.results = results;

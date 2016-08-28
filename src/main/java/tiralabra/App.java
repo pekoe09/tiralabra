@@ -18,8 +18,7 @@ public class App
         IDataMapper scriptMapper = new ScriptMapper();
         Messenger messenger = new Messenger();
         DataFileHandler graphFileHandler = new DataFileHandler(graphMapper, messenger);  
-        DataFileHandler scriptFileHandler = new DataFileHandler(scriptMapper, messenger);
-        
+        DataFileHandler scriptFileHandler = new DataFileHandler(scriptMapper, messenger);        
         
         UserInputHandler handler = new UserInputHandler(
             pathSearcher, 
@@ -29,6 +28,5 @@ public class App
             scriptMapper,
             messenger);
         handler.runInputLoop();
-        System.exit(0);
     }
 }

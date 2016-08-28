@@ -6,7 +6,6 @@ import tiralabra.domain.NeighbourNode;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
 import tiralabra.datastructures.NamedArrayList;
-import tiralabra.domain.INamedObject;
 import tiralabra.domain.PathSearchResult;
 
 /**
@@ -146,7 +145,7 @@ public class PathAlgorithm {
         if(heap == null) {
             throw new IllegalArgumentException("Keko ei voi olla null");
         }
-        PlaceNode nearestNode = heap.del_min();
+        PlaceNode nearestNode = heap.delMin();
         solvedNodes[solvedNodeIndex] = nearestNode;
         solvedNodeIndex++;
         for(NeighbourNode neighbour : nearestNode.getNeighbours()) {
@@ -155,7 +154,7 @@ public class PathAlgorithm {
             if(algorithm == AlgorithmAlternative.ASTAR) {
                 newDistance += neighbour.getNeighbour().getEndDistance();
             }
-            heap.decrease_key(neighbour.getNeighbour(), newDistance);
+            heap.decreaseKey(neighbour.getNeighbour(), newDistance);
         }
     }
     
@@ -192,7 +191,7 @@ public class PathAlgorithm {
         }
         PathStack path = new PathStack(nodeAmount);
         PlaceNode predecessorNode = endNode.getPathPredecessor();
-        while (predecessorNode != startNode) {
+        while (!predecessorNode.getName().equalsIgnoreCase(startNode.getName())) {
             path.push(predecessorNode);
             predecessorNode = predecessorNode.getPathPredecessor();
         }

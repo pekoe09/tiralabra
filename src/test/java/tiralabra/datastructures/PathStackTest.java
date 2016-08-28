@@ -97,16 +97,14 @@ public class PathStackTest {
     @Test
     public void isEmptyReturnsTrueForEmptyPath() {
         PathStack path = new PathStack(3);
-        boolean isEmpty = path.isEmpty();
-        assertTrue("Polkua väitetään virheellisesti ei-tyhjäksi", isEmpty);
+        assertTrue("Polkua väitetään virheellisesti ei-tyhjäksi", path.isEmpty());
     }
     
     @Test
     public void isEmptyReturnsFalseForNonEmptyPath() {
         PathStack path = new PathStack(3);
         path.push(newPlace);
-        boolean isEmpty = path.isEmpty();
-        assertTrue("Polkua väitetään virheellisesti tyhjäksi", !isEmpty);
+        assertFalse("Polkua väitetään virheellisesti tyhjäksi", path.isEmpty());
     }
     
 }

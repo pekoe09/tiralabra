@@ -13,12 +13,12 @@ import tiralabra.domain.PathSearchResultSet;
 public class UserInputHandler {
     
     private NamedArrayList allResults;
-    private PathSearcher pathSearcher;
-    private DataFileHandler graphFileHandler;
-    private DataFileHandler scriptFileHandler;
-    private IGraphMapper graphMapper;
-    private IDataMapper scriptMapper;
-    private Messenger messenger;
+    private final PathSearcher pathSearcher;
+    private final DataFileHandler graphFileHandler;
+    private final DataFileHandler scriptFileHandler;
+    private final IGraphMapper graphMapper;
+    private final IDataMapper scriptMapper;
+    private final Messenger messenger;
     
     public UserInputHandler(PathSearcher pathSearcher, DataFileHandler graphFileHandler, 
         IGraphMapper graphMapper, DataFileHandler scriptFileHandler, IDataMapper scriptMapper, 
@@ -43,8 +43,8 @@ public class UserInputHandler {
         Scanner in = new Scanner(System.in);
         messenger.printPrompt();
         String input = in.nextLine().trim().toLowerCase();
-        while(!input.equals("q")) {
-            if(input.equals("="))  {
+        while(!("q").equals(input)) {
+            if(("=").equals(input))  {
                 messenger.showAllResults(allResults);
             } else if(input.startsWith("*")) {
                 handleScript(input);

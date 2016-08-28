@@ -1,22 +1,18 @@
 package tiralabra.domain;
 
-import tiralabra.domain.NeighbourNode;
-import tiralabra.domain.PlaceNode;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PlaceNodeTest {
-    
-    public PlaceNodeTest() { }
 
-    PlaceNode testNode;
-    String name = "Raatala";
-    Double latitude = 60.532;
-    Double longitude = 23.169;
-    double startDistance = 3.5;
-    double endDistance = 4.5;
-    NeighbourNode neighbour1, neighbour2;
+    private PlaceNode testNode;
+    private String name = "Raatala";
+    private Double latitude = 60.532;
+    private Double longitude = 23.169;
+    private double startDistance = 3.5;
+    private double endDistance = 4.5;
+    private NeighbourNode neighbour1, neighbour2;
     
     @Before
     public void setUp() {        

@@ -8,7 +8,7 @@ import tiralabra.enums.AlgorithmAlternative;
 
 public class PathSearcher {
     
-    private AlgorithmAlternative[] alternatives = new AlgorithmAlternative[]{AlgorithmAlternative.ASTAR, AlgorithmAlternative.DIJKSTRA};
+    private final AlgorithmAlternative[] alternatives = new AlgorithmAlternative[]{AlgorithmAlternative.ASTAR, AlgorithmAlternative.DIJKSTRA};
     
     /**
      * TÃ¤mÃ¤ metodi vastaa algoritmien ajamisesta, niiden tulosten tallentamisesta sekÃ¤ esittÃ¤misestÃ¤.

@@ -2,7 +2,6 @@ package tiralabra.datainput;
 
 import tiralabra.enums.ReadTarget;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import tiralabra.ui.Messenger;
@@ -13,8 +12,8 @@ import tiralabra.ui.Messenger;
  */
 public class DataFileHandler {
     
-    private IDataMapper mapper;
-    private Messenger messenger;
+    private final IDataMapper mapper;
+    private final Messenger messenger;
     
     public DataFileHandler(IDataMapper mapper, Messenger messenger) {
         this.mapper = mapper;

@@ -1,16 +1,11 @@
 package tiralabra.domain;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class PathSearchResultSetTest {
     
-    public PathSearchResultSetTest() {
-    }
     private PathSearchResultSet testSet;
     private PathSearchResult result1;
     private PathSearchResult result2;

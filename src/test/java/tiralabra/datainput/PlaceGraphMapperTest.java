@@ -10,9 +10,9 @@ public class PlaceGraphMapperTest {
     
     private PlaceGraphMapper mapper;
     private String[] placeData;
-    String[] placeData1;
-    String[] placeData2;
-    String[] placeData3;
+    private String[] placeData1;
+    private String[] placeData2;
+    private String[] placeData3;
     
     @Before
     public void setUp() {
