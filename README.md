@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/pekoe09/tiralabra.svg?branch=master)](https://travis-ci.org/pekoe09/tiralabra)
 [![Coverage Status](https://coveralls.io/repos/github/pekoe09/tiralabra/badge.svg?branch=master)](https://coveralls.io/github/pekoe09/tiralabra?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bfd4d851597141fbbe1b57ccc3065785)](https://www.codacy.com/app/juha-kangas/tiralabra?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=pekoe09/tiralabra&amp;utm_campaign=Badge_Grade)
 
 Lyhimmän reitin löytäminen maantieteellisten paikkojen muodostamassa verkossa.
 
