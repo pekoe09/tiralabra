@@ -6,13 +6,16 @@ import tiralabra.domain.PathSearchResult;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
 
+/**
+ * Tämä luokka vastaa algoritmiajon orkestroinnista.
+ */
 public class PathSearcher {
     
     private final AlgorithmAlternative[] alternatives = new AlgorithmAlternative[]{AlgorithmAlternative.ASTAR, AlgorithmAlternative.DIJKSTRA};
     
     /**
-     * TÃ¤mÃ¤ metodi vastaa algoritmien ajamisesta, niiden tulosten tallentamisesta sekÃ¤ esittÃ¤misestÃ¤.
-     * Metodi ajaa sekÃ¤ Dijkstra- ettÃ¤ A*-algoritmit.
+     * Vastaa algoritmien ajamisesta, niiden tulosten tallentamisesta sekä esittämisestä.
+     * Metodi ajaa sekä Dijkstra- että A*-algoritmit.
      * @param mapper            IGraphMapper-rajapinnan toteuttava olio, joka sisÃ¤ltÃ¤Ã¤ verkon tiedot.
      * @param startPlaceName    Polun lähtöpaikan nimi.
      * @param endPlaceName      Polun maalipaikan nimi.
@@ -24,7 +27,7 @@ public class PathSearcher {
     }
     
     /**
-     * Tämä metodi vastaa algoritmien ajamisesta, niiden tulosten tallentamisesta sekä esittämisestä.
+     * Vastaa algoritmien ajamisesta, niiden tulosten tallentamisesta sekä esittämisestä.
      * Metodi ajaa sekjä Dijkstra- että A*-algoritmit.
      * @param graph             Etsinnässä käytettävä verkko PlaceNode-olioita sisältävänä NamedArrayList-oliona.
      * @param startPlaceName    Polun lähtöpaikan nimi.

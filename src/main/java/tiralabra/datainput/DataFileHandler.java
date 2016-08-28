@@ -15,6 +15,11 @@ public class DataFileHandler {
     private final IDataMapper mapper;
     private final Messenger messenger;
     
+    /**
+     * Konstruktori asettaa injektoidut riippuvuudet.
+     * @param mapper    Luetun tiedoston tulkitsemiseen kykenevä IDataMapper-rajapinnan toteuttava luokka.
+     * @param messenger Käyttäjälle näytettävän informaation esittämisestä vastaava luokka.
+     */
     public DataFileHandler(IDataMapper mapper, Messenger messenger) {
         this.mapper = mapper;
         this.messenger = messenger;
@@ -47,6 +52,7 @@ public class DataFileHandler {
     public void processFile(String filePath, IDataMapper mapper) {        
         try {
             FileReader reader = new FileReader(filePath);
+//            InputStreamReader reader = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.ISO_8859_1);
             if(mapper instanceof IGraphMapper) {                
                 readLines(new BufferedReader(reader), mapper, ReadTarget.NODE_BASIC_DATA);
                 reader.close();

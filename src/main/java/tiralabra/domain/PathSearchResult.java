@@ -4,6 +4,9 @@ import tiralabra.datastructures.NamedArrayList;
 import tiralabra.datastructures.PathStack;
 import tiralabra.enums.AlgorithmAlternative;
 
+/**
+ * Polunetsintäpyynnön tulos tietyllä algoritmilla suoritetun ajon mukaan.
+ */
 public class PathSearchResult implements INamedObject {
     
     private String filePath;
@@ -16,6 +19,9 @@ public class PathSearchResult implements INamedObject {
     private AlgorithmAlternative algorithm;
     private long runTimeNanoSecs;
     
+    /**
+     * Konstruktori asettaa verkkoa kuvaavan kentän tyhjäksi NamedArrayListiksi.
+     */
     public PathSearchResult() {
         graph = new NamedArrayList();
     }

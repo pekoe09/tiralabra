@@ -19,6 +19,9 @@ public class PathAlgorithm {
     private int nodeAmount;
     private long runTimeNanoSecs;
     
+    /**
+     * Konstruktori alustaa ratkaistujen solmujen taulukon.
+     */
     public PathAlgorithm() {
         this.solvedNodes = new PlaceNode[10];
     }
@@ -31,6 +34,7 @@ public class PathAlgorithm {
      * @param endNode   Polun päätepisteenä oleva paikka PlaceNode-oliona.
      * @param algorithm Algoritmivaihtoehto, joka halutaan ajaa 
      *                  (AlgorithmAlternative.DIJKSTRA tai AlgorithmAlternative.ASTAR).
+     * @return          Algoritmiajon tulos.
      * @throws          IllegalArgumentException Jos verkko tai aloitussolmu on null tai jos
      *                  lopetussolmu on null kun yritetään suorittaa A*-algoritmia.
      */
@@ -229,6 +233,10 @@ public class PathAlgorithm {
         return R * c;
     }
     
+    /**
+     * Palauttaa ratkaistujen solmujen taulukon.
+     * @return      Taulukko, joka sisältää ratkaistut solmut.
+     */
     public PlaceNode[] getSolvedNodes() {
         return solvedNodes;
     }
@@ -237,6 +245,10 @@ public class PathAlgorithm {
         return solvedNodeIndex;
     }
 
+    /**
+     * Palauttaa algoritmin suoritukseen käytetyn ajan.
+     * @return      Algoritmin suoritusaika nanosekunteina.
+     */
     public long getRunTimeNanoSecs() {
         return runTimeNanoSecs;
     }    

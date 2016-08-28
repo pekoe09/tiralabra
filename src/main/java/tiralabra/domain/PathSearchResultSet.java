@@ -1,13 +1,30 @@
 package tiralabra.domain;
 
+/**
+ * Polunetsintäpyynnön tuottamien, eri algoritmeilla saatujen tulosten joukkoa
+ * kuvaava olio. 
+ */
 public class PathSearchResultSet implements INamedObject {
     
     private final PathSearchResult[] results;
     
+    /**
+     * Konstruktori asettaa tulostaulukoksi parametrina saadun taulukon.
+     * @param results   Eri algoritmien samasta polunetsintäpyynnöstä saamien tulosten 
+     *                  muodostama taulukko
+     */
     public PathSearchResultSet(PathSearchResult[] results) {
         this.results = results;
     }
 
+    /**
+     * Palauttaa tulostaulukon annetussa indeksissä sijaitsevan tuloksen.
+     * @param index     Tulostaulukon indeksi, jossa sijaitseva tulos halutaan.
+     * @return          Polunetsintäpyynnön tulos, joka sijaitsee pyydetyssä indeksissä.
+     * @throws          IllegalArgumentException Jos tulostaulukko on tyhjä.
+     * @throws          IndexOutOfBoundsException Jos pyydetty indeksi on negatiivinen tai
+     *                  suurempi kuin tallennettujen tulosten määrä.
+     */
     public PathSearchResult get(int index) {
         if(results == null) {
             throw new IllegalArgumentException("Tuloksia ei vielä ole.");
@@ -34,6 +51,10 @@ public class PathSearchResultSet implements INamedObject {
                 results[0].getEndPlace().getName());
     }
     
+    /**
+     * Palauttaa tallennettujen tulosten lukumäärän.
+     * @return  Taulukkoon tallennettujen tulosten lukumäärä.
+     */
     public int size() {
         if (results == null) {
             return 0;
@@ -41,6 +62,10 @@ public class PathSearchResultSet implements INamedObject {
         return results.length;
     }
     
+    /**
+     * Palauttaa tulosten tallentamiseen käytetyn taulukon.
+     * @return  Tuloksia sisältävä taulukko.
+     */
     public PathSearchResult[] getResultArray() {
         return results;
     }

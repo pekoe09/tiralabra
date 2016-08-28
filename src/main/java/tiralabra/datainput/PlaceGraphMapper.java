@@ -28,6 +28,7 @@ public class PlaceGraphMapper implements IGraphMapper {
      * @param rowCounter    Laskuri sisäänluettujen rivien määrälle.
      * @param target        ReadTarget-enumin arvo: NODE_BASIC_DATA kun luetaan paikkojen omat tiedot sisään
      *                      (ensimmäinen kierros) ja NODE_NEIGHBOUR_DATA kun luetaan paikkojen naapuruustiedot (toinen kierros).
+     * @throws IllegalArgumentException Jos paikkatiedossa on liian vähän kenttiä, paikkatieto on null tai jonkin rivin luku epäonnistuu.
      */
     @Override
     public void mapData(String data, Integer rowCounter, ReadTarget target) {   

@@ -9,9 +9,9 @@ import static org.junit.Assert.*;
 
 public class MinHeapTest {
     
-    MinHeap testHeap;
-    int testSize;
-    PlaceNode node1, node2, node3, node4, node5;
+    private MinHeap testHeap;
+    private int testSize;
+    private PlaceNode node1, node2, node3, node4, node5;
     
     @Before
     public void setUp() {

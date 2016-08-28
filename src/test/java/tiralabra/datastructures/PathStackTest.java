@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class PathStackTest {
     
-    PlaceNode newPlace, nextPlace, lastPlace;
+    private PlaceNode newPlace, nextPlace, lastPlace;
     
     @Before
     public void setUp() {

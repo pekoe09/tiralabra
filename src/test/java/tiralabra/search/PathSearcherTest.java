@@ -22,7 +22,7 @@ public class PathSearcherTest {
     private String filePath;
     private long edgeCount;
     private int nodeCount;
-    PlaceNode helsinki, espoo, vantaa, kauniainen, sipoo;
+    private PlaceNode helsinki, espoo, vantaa, kauniainen, sipoo;
 
     @Before
     public void setUp() {

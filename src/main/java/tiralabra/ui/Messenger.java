@@ -12,6 +12,10 @@ import tiralabra.enums.AlgorithmAlternative;
  */
 public class Messenger {    
         
+    /**
+     * Esittää kaikki tulossetissä olevat tulokset.
+     * @param results   Tulossetti, jonka tulokset halutaan esittää käyttäjälle.
+     */
     public void showResults(PathSearchResultSet results) {
         for(int i = 0; i < results.size(); i++) {
             PathSearchResult result = results.get(i);
@@ -24,6 +28,10 @@ public class Messenger {
         }
     }
     
+    /**
+     * Esittää kaikki tähän asti saadut tulokset.
+     * @param allResults    Kaikki tähän astiset tulokset sisältävä taulukko.
+     */
     public void showAllResults(NamedArrayList allResults) {
         if(allResults == null || allResults.size() == 0) {
             printMessage("Et ole tehnyt vielä polunetsintäkyselyitä.");

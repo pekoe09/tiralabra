@@ -20,6 +20,15 @@ public class UserInputHandler {
     private final IDataMapper scriptMapper;
     private final Messenger messenger;
     
+    /**
+     * Konstruktori asettaa injektoidut riippuvuudet.
+     * @param pathSearcher          Polun etsintää koordinoivan luokan olio.
+     * @param graphFileHandler      Verkkotiedoston käsittelystä vastaava olio.
+     * @param graphMapper           Verkkotiedoston tietojen tulkitsemisesta vastaava olio.
+     * @param scriptFileHandler     Skriptitiedoston käsittelystä vastaava olio.
+     * @param scriptMapper          Skriptitiedoston tietojen tulkitsemisesta vastaava olio.
+     * @param messenger             Käyttäjälle näytettävien viestien esittämisestä vastaava olio.
+     */
     public UserInputHandler(PathSearcher pathSearcher, DataFileHandler graphFileHandler, 
         IGraphMapper graphMapper, DataFileHandler scriptFileHandler, IDataMapper scriptMapper, 
         Messenger messenger) {
@@ -110,6 +119,10 @@ public class UserInputHandler {
         }
     }
 
+    /**
+     * Käsittelee käyttäjän pyynnön suorittaa skriptitiedosto.
+     * @param input     Käyttäjän antama komento.
+     */
     public void handleScript(String input) {
         String[] params = input.split(" ");
         if(params.length != 3) {

@@ -26,6 +26,7 @@ public class ScriptMapper implements IDataMapper {
      * @param rowCounter    Laskuri sisäänluettujen rivien määrälle.
      * @param target        ReadTarget-enumin arvo: skriptitiedostoa luettaessa
      *                      aina SCRIPT.
+     * @throws IllegalArgumentException Jos komentorivillä on liian vähän kenttiä tai se on null tai tyhjä.
      */
     @Override
     public void mapData(String commandString, Integer rowCounter, ReadTarget target) {
