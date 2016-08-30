@@ -1,5 +1,6 @@
 package tiralabra.ui;
 
+import java.util.Locale;
 import java.util.Scanner;
 import tiralabra.search.PathSearcher;
 import tiralabra.datainput.DataFileHandler;
@@ -52,6 +53,8 @@ public class UserInputHandler {
         Scanner in = new Scanner(System.in);
         messenger.printPrompt();
         String input = in.nextLine().trim().toLowerCase();
+        // testi
+        System.out.println(input);
         while(!("q").equals(input)) {
             if(("=").equals(input))  {
                 messenger.showAllResults(allResults);
@@ -61,7 +64,9 @@ public class UserInputHandler {
                 handleShortestPathQuery(input);
             }
             messenger.printPrompt();
-            input = in.nextLine().trim().toLowerCase();
+            input = in.nextLine().trim();
+            // testi
+            System.out.println(input);
         }      
         messenger.printGoodbye();
     }
