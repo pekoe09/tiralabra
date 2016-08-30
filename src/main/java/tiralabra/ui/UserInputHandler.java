@@ -135,7 +135,13 @@ public class UserInputHandler {
             return;
         } 
         String filePath = params[1];
-        int algorithmRepeatTimes = Integer.parseInt(params[2]);
+        int algorithmRepeatTimes;
+        try {
+            algorithmRepeatTimes = Integer.parseInt(params[2]);
+        } catch (Exception exc) {
+            messenger.printMessage("Kolmas parametri ei ole kokonaisluku");
+            return;
+        }            
         
         scriptFileHandler.readDataFile(filePath);
         for(Object object : scriptMapper.getData()) {
