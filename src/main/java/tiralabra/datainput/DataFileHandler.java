@@ -52,7 +52,6 @@ public class DataFileHandler {
     public void processFile(String filePath, IDataMapper mapper) {        
         try {
             FileReader reader = new FileReader(filePath);
-//            InputStreamReader reader = new InputStreamReader(new FileInputStream(filePath), StandardCharsets.ISO_8859_1);
             if(mapper instanceof IGraphMapper) {                
                 readLines(new BufferedReader(reader), mapper, ReadTarget.NODE_BASIC_DATA);
                 reader.close();
@@ -64,10 +63,7 @@ public class DataFileHandler {
             reader.close();
         } catch (Exception exc) {
             throw new IllegalArgumentException(String.format("Tiedostoa %s ei voi lukea!", filePath));
-        }
-//        } catch (IOException exc) {
-//            throw new IllegalArgumentException(String.format("Tiedostoa %s ei voi sulkea!", filePath));
-//        }          
+        }         
     }    
     
     /**

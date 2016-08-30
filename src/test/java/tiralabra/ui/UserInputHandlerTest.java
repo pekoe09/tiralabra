@@ -58,22 +58,22 @@ public class UserInputHandlerTest {
         
         result1 = new PathSearchResult();
         result1.setAlgorithm(AlgorithmAlternative.ASTAR);
-        result1.setFilePath("metropolitan.data");
+        result1.setFilePath("data/metropolitan.data");
         result1.setStartPlace(new PlaceNode("Helsinki", 0.0, 0.0));
         result1.setEndPlace(new PlaceNode("Vantaa", 0.0, 0.0));
         result2 = new PathSearchResult();
         result2.setAlgorithm(AlgorithmAlternative.DIJKSTRA);
-        result2.setFilePath("metropolitan.data");
+        result2.setFilePath("data/metropolitan.data");
         result2.setStartPlace(new PlaceNode("Helsinki", 0.0, 0.0));
         result2.setEndPlace(new PlaceNode("Vantaa", 0.0, 0.0));
         result3 = new PathSearchResult();
         result3.setAlgorithm(AlgorithmAlternative.ASTAR);
-        result3.setFilePath("turku.data");
+        result3.setFilePath("data/turku.data");
         result3.setStartPlace(new PlaceNode("Turku", 0.0, 0.0));
         result3.setEndPlace(new PlaceNode("Masku", 0.0, 0.0));
         result4 = new PathSearchResult();
         result4.setAlgorithm(AlgorithmAlternative.DIJKSTRA);
-        result4.setFilePath("turku.data");
+        result4.setFilePath("data/turku.data");
         result4.setStartPlace(new PlaceNode("Turku", 0.0, 0.0));
         result4.setEndPlace(new PlaceNode("Masku", 0.0, 0.0));
         resultsA = new PathSearchResult[]{result1, result2};
@@ -249,7 +249,23 @@ public class UserInputHandlerTest {
     
     @Test
     public void handleShortestPathQueryWorksWithPreviousData() {
+        String input = "data/metropolitan.data Helsinki Vantaa";
+        handler.handleShortestPathQuery(input);
+        input = "+ Espoo Sipoo";
+        handler.handleShortestPathQuery(input);
         
+        ArgumentCaptor<String> fileArg = ArgumentCaptor.forClass(String.class);
+        verify(graphFileHandler, times(1)).readDataFile(fileArg.capture());
+        assertEquals("GraphFileHandleria kutsutaan ensin väärällä tiedostolla", "data/metropolitan.data", fileArg.getAllValues().get(0));
+        
+        ArgumentCaptor<String> mapperArg = ArgumentCaptor.forClass(String.class);
+        verify(messenger).printMessage(mapperArg.capture());
+        verify(pathSearcher).runAlgos(eq(placeGraphMapper), eq("Helsinki"), eq("Vantaa"), eq("data/metropolitan.data"));
+        verify(pathSearcher).runAlgos(eq(resultsA[0].getGraph()), eq("Espoo"), eq("Sipoo"), eq("data/metropolitan.data"), eq(0L), eq(0));
+        verify(messenger).showResults(any(PathSearchResultSet.class));
+        verifyNoMoreInteractions(messenger);
+        verifyNoMoreInteractions(pathSearcher);
+        verifyNoMoreInteractions(graphFileHandler);
     }
     
     @Test
@@ -271,7 +287,7 @@ public class UserInputHandlerTest {
         ArgumentCaptor<PathSearchResultSet> resultSetArgument = ArgumentCaptor.forClass(PathSearchResultSet.class);
         verify(messenger, times(2)).showResults(resultSetArgument.capture());
         assertEquals("Toinen näytettävä tulossetti on väärä", 
-            String.format("%s - paikasta %s paikkaan %s", "turku.data", "Turku", "Masku"), 
+            String.format("%s - paikasta %s paikkaan %s", "data/turku.data", "Turku", "Masku"), 
             resultSetArgument.getValue().getName());
         verifyNoMoreInteractions(messenger);
         verifyNoMoreInteractions(scriptFileHandler);

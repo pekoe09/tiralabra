@@ -105,4 +105,18 @@ public class PathSearcherTest {
         assertEquals("Toisen tuloksen tiedostopolku on väärin", filePath, testResults[1].getFilePath());
     }
     
+    @Test
+    public void testRunRepeatedAlgos() {
+        int repeatTimes = 1;
+        PathSearchResult[] testResults1 = testSearcher.runRepeatedAlgos(mapper, startPlaceName, endPlaceName, filePath, repeatTimes);
+        assertNotNull("Algoritmiajo ei palauta lainkaan tuloksia", testResults1);
+        assertEquals("Algoritmiajo ei tuottanut täsmälleen kahta tulosta", 2, testResults1.length);
+        
+        repeatTimes = 10;
+        PathSearchResult[] testResults10 = testSearcher.runRepeatedAlgos(mapper, startPlaceName, endPlaceName, filePath, repeatTimes);
+        assertNotNull("Algoritmiajo ei palauta lainkaan tuloksia", testResults10);
+        assertEquals("Algoritmiajo ei tuottanut täsmälleen kahta tulosta", 2, testResults10.length);
+        
+        assertTrue("Ajoaika kasvaa epäilyttävän paljon", testResults10[0].getRunTimeNanoSecs() < 5 * testResults1[0].getRunTimeNanoSecs());
+    }
 }
