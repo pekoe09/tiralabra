@@ -86,37 +86,57 @@ public class UserInputHandler {
         PathSearchResult[] results = null;
         
         if(filePath.equals("+")) {
-            int resultCount = allResults.size();
-            if(resultCount == 0) {
-                messenger.printMessage("Aiempia sisäänluettuja datatiedostoja ei ole.");
-                return;
-            }
-            try {                
-                PathSearchResult latestResult = ((PathSearchResultSet)allResults.get(resultCount - 1)).get(0);
-                results = pathSearcher.runAlgos(latestResult.getGraph(), startPlaceName, endPlaceName, 
-                        latestResult.getFilePath(), latestResult.getEdgeCount(), latestResult.getNodeCount());
-            } catch (Exception exc) {
-                messenger.printMessage(exc.getMessage());
-                return;
-            }
-        
+            results = queryWithPreviousGraph(startPlaceName, endPlaceName);        
         } else {              
-            IDataMapper mapper = graphFileHandler.readDataFile(filePath);
-            if (mapper != null) {
-                messenger.printMessage("Tiedosto luettu; " + mapper.toString());            
-                try {
-                    results = pathSearcher.runAlgos((IGraphMapper)mapper, startPlaceName, endPlaceName, filePath);                    
-                } catch (Exception exc) {
-                    messenger.printMessage(exc.getMessage());
-                    return;
-                }
-            }
+            results = queryWithNewGraph(filePath, startPlaceName, endPlaceName);
         }
         if(results != null) {
-            PathSearchResultSet resultSet = new PathSearchResultSet(results);
-            allResults.add(resultSet);
-            messenger.showResults(resultSet);
+            processResults(results);
         }
+    }
+    
+    /**
+     * Suorittaa polunetsinnän käyttäen edellisessä etsinnässä käytettyä verkkoa.
+     * @param startPlaceName    Polun lähtöpaikan nimi.
+     * @param endPlaceName      Polun maalipaikan nimi.
+     * @return                  Polunetsintäpyynnön tulokset eri algoritmeilla.
+     */
+    public PathSearchResult[] queryWithPreviousGraph(String startPlaceName, String endPlaceName) {
+        PathSearchResult[] results = null;
+        int resultCount = allResults.size();
+        if(resultCount == 0) {
+            messenger.printMessage("Aiempia sisäänluettuja datatiedostoja ei ole.");
+            return null;
+        }
+        try {                
+            PathSearchResult latestResult = ((PathSearchResultSet)allResults.get(resultCount - 1)).get(0);
+            results = pathSearcher.runAlgos(latestResult.getGraph(), startPlaceName, endPlaceName, 
+                    latestResult.getFilePath(), latestResult.getEdgeCount(), latestResult.getNodeCount());
+        } catch (Exception exc) {
+            messenger.printMessage(exc.getMessage());
+        }
+        return results;
+    }
+    
+    /**
+     * Suorittaa polunetsinnän käyttäen annettua uutta verkon tiedot sisältävää datatiedostoa.
+     * @param filePath          Verkon muodostamiseen käytettävän datatiedoston polku.
+     * @param startPlaceName    Polun lähtöpaikan nimi.
+     * @param endPlaceName      Polun maalipaikan nimi.
+     * @return                  Polunetsintäpyynnön tulokset eri algoritmeilla.
+     */
+    public PathSearchResult[] queryWithNewGraph(String filePath, String startPlaceName, String endPlaceName) {
+        PathSearchResult[] results = null;
+        IDataMapper mapper = graphFileHandler.readDataFile(filePath);
+        if (mapper != null) {
+            messenger.printMessage("Tiedosto luettu; " + mapper.toString());            
+            try {
+                results = pathSearcher.runAlgos((IGraphMapper)mapper, startPlaceName, endPlaceName, filePath);                    
+            } catch (Exception exc) {
+                messenger.printMessage(exc.getMessage());
+            }
+        }
+        return results;
     }
 
     /**
@@ -136,28 +156,43 @@ public class UserInputHandler {
         } catch (Exception exc) {
             messenger.printMessage("Kolmas parametri ei ole kokonaisluku");
             return;
-        }            
-        
+        }                    
         scriptFileHandler.readDataFile(filePath);
         for(Object object : scriptMapper.getData()) {
-            Command command = (Command)object;
-            PathSearchResult[] results = null;
-            try {
-                graphFileHandler.readDataFile(command.getFilePath());
-                results = pathSearcher.runRepeatedAlgos(
-                                            graphMapper, 
-                                            command.getStartPlaceName(), 
-                                            command.getEndPlaceName(), 
-                                            command.getFilePath(), 
-                                            algorithmRepeatTimes);
-            } catch (Exception exc) {
-                messenger.printMessage(exc.getMessage());
-                break;
-            }
-            PathSearchResultSet resultSet = new PathSearchResultSet(results);
-            allResults.add(resultSet);
-            
-            messenger.showResults(resultSet);
+           processCommand((Command)object, algorithmRepeatTimes);
         }
     }    
+    
+    /**
+     * Käsittelee yhden skriptikomennon.
+     * @param command               Skriptikomento.
+     * @param algorithmRepeatTimes  Kuinka monta kertaa polunetsintäalgoritmi ajetaan uudelleen
+     *                              keskimääräisen suoritusajan laskemiseksi.
+     */
+    public void processCommand(Command command, int algorithmRepeatTimes) {
+        PathSearchResult[] results = null;
+        try {
+            graphFileHandler.readDataFile(command.getFilePath());
+            results = pathSearcher.runRepeatedAlgos(
+                                        graphMapper, 
+                                        command.getStartPlaceName(), 
+                                        command.getEndPlaceName(), 
+                                        command.getFilePath(), 
+                                        algorithmRepeatTimes);
+        } catch (Exception exc) {
+            messenger.printMessage(exc.getMessage());
+            return;
+        } 
+        processResults(results);
+    }
+    
+    /**
+     * Tallentaa polunetsintätulokset ja esittää ne käyttäjälle.
+     * @param results   Polunetsintäpyynnön tulokset eri algoritmeilla.
+     */
+    public void processResults(PathSearchResult[] results) {
+        PathSearchResultSet resultSet = new PathSearchResultSet(results);
+        allResults.add(resultSet);            
+        messenger.showResults(resultSet);
+    }
 }

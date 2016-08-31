@@ -131,6 +131,9 @@ public class Messenger {
         System.out.print("> ");
     }  
 
+    /**
+     * Tulostaa erotinrivin.
+     */
     public void printSeparator() {
         System.out.println("----------------------------------------------------------------------------");
     }
