@@ -135,6 +135,17 @@ public class UserInputHandlerTest {
     }
     
     @Test
+    public void testRunInputLoopShowHelpThenQuit() {
+        inputStream = new ByteArrayInputStream("?\nq\n".getBytes());
+        System.setIn(inputStream);
+        handler.runInputLoop();
+        verify(messenger).printHelp();
+        verify(messenger, times(2)).printPrompt();
+        verify(messenger).printGoodbye();
+        verifyNoMoreInteractions(messenger);
+    }
+    
+    @Test
     public void testRunInputLoopShowAllResultsThenQuit() {
         inputStream = new ByteArrayInputStream("=\nq\n".getBytes());
         System.setIn(inputStream);
@@ -330,6 +341,21 @@ public class UserInputHandlerTest {
         String input = "joku toinen syöte lisää";
         handler.handleScript(input);
         verify(messenger).printParamError();
+        verifyNoMoreInteractions(messenger);
+        verifyNoMoreInteractions(scriptFileHandler);
+        verifyNoMoreInteractions(graphFileHandler);
+        verifyNoMoreInteractions(pathSearcher);
+    }
+    
+    @Test
+    public void handleScriptShowsErrorMessageIfRepeatCountIsNotNumber () {
+        String input = "* data/testscript.scr z";
+        handler.handleScript(input);
+        
+        ArgumentCaptor<String> messageArg = ArgumentCaptor.forClass(String.class);
+        verify(messenger).printMessage(messageArg.capture());
+        assertEquals("Näytettävä viesti on väärä","Kolmas parametri ei ole kokonaisluku", 
+            messageArg.getValue());
         verifyNoMoreInteractions(messenger);
         verifyNoMoreInteractions(scriptFileHandler);
         verifyNoMoreInteractions(graphFileHandler);

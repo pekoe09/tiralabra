@@ -55,6 +55,8 @@ public class UserInputHandler {
         while(!("q").equals(input)) {
             if(("=").equals(input))  {
                 messenger.showAllResults(allResults);
+            } else if (("?").equals(input)) {
+                messenger.printHelp();
             } else if(input.startsWith("*")) {
                 handleScript(input);
             } else {

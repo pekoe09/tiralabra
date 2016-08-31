@@ -40,13 +40,13 @@ public class PathAlgorithm {
      */
     public PathSearchResult run(NamedArrayList graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
         if(graph == null) {
-            throw new IllegalArgumentException("Verkko ei voi olla null");
+            throw new IllegalArgumentException("Verkko on tyhjä");
         }
         if(startNode == null) {
-            throw new IllegalArgumentException("Aloituspaikka ei voi olla null");
+            throw new IllegalArgumentException("Aloituspaikka on väärin");
         }
         if(endNode == null) {
-            throw new IllegalArgumentException("Maalipaikka ei voi olla null");
+            throw new IllegalArgumentException("Maalipaikka on väärin");
         }
         
         initialize(graph, startNode, endNode, algorithm);
@@ -101,7 +101,7 @@ public class PathAlgorithm {
      */
     public void initialize(NamedArrayList graph, PlaceNode startNode, PlaceNode endNode, AlgorithmAlternative algorithm) {
         if(graph == null) {
-            throw new IllegalArgumentException("Verkko ei voi olla null");
+            throw new IllegalArgumentException("Verkko on tyhjä");
         }
         if(startNode == null) {
             throw new IllegalArgumentException("Lähtösolmu ei voi olla null");

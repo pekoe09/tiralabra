@@ -64,7 +64,7 @@ public class NamedArrayList implements Iterable {
      */
     public INamedObject findByName(String name) {
         if(name == null || name.trim().length() == 0) {
-            throw new IllegalArgumentException("Nimi ei voi olla tyhjä!");
+            throw new IllegalArgumentException("Nimi on virheellinen!");
         }
         for(int i = 0; i < size; i++) {
             if(array[i].getName().toLowerCase().equals(name.toLowerCase())) {

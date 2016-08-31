@@ -127,9 +127,21 @@ public class Messenger {
      * Näyttää käyttäjälle ohjelman käyttöohjeen.
      */
     public void printPrompt() {
-        System.out.println("Anna seuraava komento!\nOhje: [tiedostopolku] [lähtöpaikka] [maalipaikka] hakee polun, q lopettaa, = näyttää kaikki tulokset");
+        System.out.println("Anna seuraava komento! (q lopettaa, ? näyttää ohjeen)");
         System.out.print("> ");
     }  
+    
+    public void printHelp() {
+        System.out.println("Tällä ohjelmalla voit etsiä lyhimmän polun sisään luettavan verkkotiedoston määrittelemästä maantieteellisten paikkojen verkosta.");
+        System.out.println("Ohjelma etsii polun sekä Dijkstra- että A*-algoritmilla ja näyttää molemmista myös algoritmin suoritusajan.");
+        System.out.println();
+        System.out.println("Käytettävissäsi ovat seuraavat komennot:");
+        System.out.println("[tiedostopolku] [lähtöpaikka] [maalipaikka] : hakee lyhimmän polun [lähtöpaikasta] [maalipaikkaan] käyttäen [tiedostopolun] verkkotiedostoa");
+        System.out.println("+ [lähtöpaikka] [maalipaikka] : hakee lyhimmän polun [lähtöpaikasta] [maalipaikkaan] käyttäen viimeisintä sisään luettua verkkotiedostoa");
+        System.out.println("* [tiedostopolku] [toistokertojen lkm] : suorittaa [tiedostopolun] mukaisen skriptitiedoston, toistaen algoritmien ajot [toistokertojen lkm] -kertaan");
+        System.out.println("= : näyttää kaikki tähänastiset polunetsintätulokset");
+        System.out.println("q : lopettaa ohjelman");
+    }
 
     /**
      * Tulostaa erotinrivin.
