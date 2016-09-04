@@ -62,7 +62,7 @@ public class PlaceNode implements INamedObject {
     /**
      * Asettaa paikan leveysastekoordinaatin.
      * @param latitude Paikan leveysastekoordinaatti desimaalimuodossa.
-     * @throws IllegalArgumentException Jos leveysasteen itseisarvo > 90.
+     * @throws IllegalArgumentException Jos leveysasteen itseisarvo suurempi kuin 90.
      */
     public void setLatitude(Double latitude) {
         if(latitude == null) {
@@ -85,7 +85,7 @@ public class PlaceNode implements INamedObject {
     /**
      * Asettaa paikan pituusasteen.
      * @param longitude Paikan pituusaste desimaalimuodossa.
-     * @throws IllegalArgumentException Jos pituusasteen itseisarvo > 180.
+     * @throws IllegalArgumentException Jos pituusasteen itseisarvo suurempi kuin 180.
      */
     public void setLongitude(Double longitude) {
         if(longitude == null) {

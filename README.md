@@ -11,9 +11,10 @@ Lyhimmän reitin löytäminen maantieteellisten paikkojen muodostamassa verkossa
 - [Määrittelydokumentti](https://github.com/pekoe09/tiralabra/blob/master/docs/M%C3%A4%C3%A4rittelydokumentti.pdf)
 - [Toteutusdokumentti](https://github.com/pekoe09/tiralabra/blob/master/docs/Toteutusdokumentti.pdf)
 - [Testausdokumentti](https://github.com/pekoe09/tiralabra/blob/master/docs/Testausdokumentti.pdf)
+- [Käyttöohje](https://github.com/pekoe09/tiralabra/blob/master/docs/Käyttöohje.pdf)
 - [Viikkoraportti 1](https://github.com/pekoe09/tiralabra/blob/master/docs/Viikkoraportti_1.md)
 - [Viikkoraportti 2](https://github.com/pekoe09/tiralabra/blob/master/docs/Viikkoraportti_2.md)
 - [Viikkoraportti 3](https://github.com/pekoe09/tiralabra/blob/master/docs/Viikkoraportti_3.md)
 - [Viikkoraportti 4](https://github.com/pekoe09/tiralabra/blob/master/docs/Viikkoraportti_4.md)
 - [Viikkoraportti 5](https://github.com/pekoe09/tiralabra/blob/master/docs/Viikkoraportti_5.md)
-
+- [Viikkoraportti 6](https://github.com/pekoe09/tiralabra/blob/master/docs/Viikkoraportti_6.md)
