@@ -115,8 +115,7 @@ public class PathSearcherTest {
         repeatTimes = 10;
         PathSearchResult[] testResults10 = testSearcher.runRepeatedAlgos(mapper, startPlaceName, endPlaceName, filePath, repeatTimes);
         assertNotNull("Algoritmiajo ei palauta lainkaan tuloksia", testResults10);
-        assertEquals("Algoritmiajo ei tuottanut täsmälleen kahta tulosta", 2, testResults10.length);
-        
+        assertEquals("Algoritmiajo ei tuottanut täsmälleen kahta tulosta", 2, testResults10.length);        
         assertTrue("Ajoaika kasvaa epäilyttävän paljon", testResults10[0].getRunTimeNanoSecs() < 5 * testResults1[0].getRunTimeNanoSecs());
     }
 }
