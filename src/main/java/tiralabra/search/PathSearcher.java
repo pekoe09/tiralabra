@@ -5,6 +5,7 @@ import tiralabra.datastructures.NamedArrayList;
 import tiralabra.domain.PathSearchResult;
 import tiralabra.domain.PlaceNode;
 import tiralabra.enums.AlgorithmAlternative;
+import tiralabra.ui.Messenger;
 
 /**
  * Tämä luokka vastaa algoritmiajon orkestroinnista.
@@ -45,7 +46,12 @@ public class PathSearcher {
         
         PathSearchResult[] results = new PathSearchResult[alternatives.length];
         for(int i = 0; i < alternatives.length; i++) {
-            PathSearchResult result = new PathAlgorithm().run(graph, startPlace, endPlace, alternatives[i]);
+            PathSearchResult result = null;
+            try {
+                result = new PathAlgorithm().run(graph, startPlace, endPlace, alternatives[i]);
+            } catch (Exception exc) {
+                throw new IllegalArgumentException("Polkua ei löydy");
+            }
             result.setEdgeCount(edgeCount);
             result.setNodeCount(nodeCount);
             result.setFilePath(filePath);

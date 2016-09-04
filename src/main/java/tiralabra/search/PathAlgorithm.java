@@ -149,6 +149,9 @@ public class PathAlgorithm {
         if(heap == null) {
             throw new IllegalArgumentException("Keko ei voi olla null");
         }
+        if(heap.isEmpty()) {
+            throw new IllegalArgumentException("Keko on tyhjä eikä solmua pystytä ratkaisemaan");
+        }
         PlaceNode nearestNode = heap.delMin();
         solvedNodes[solvedNodeIndex] = nearestNode;
         solvedNodeIndex++;

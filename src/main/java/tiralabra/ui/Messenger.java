@@ -167,4 +167,8 @@ public class Messenger {
         System.out.println("Tack och välkommen åter!");
     }
 
+    void printWelcome() {
+        System.out.println("************  Tervetuloa polunetsintäohjelmaan! ************");
+    }
+
 }

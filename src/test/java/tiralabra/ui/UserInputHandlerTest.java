@@ -129,6 +129,7 @@ public class UserInputHandlerTest {
         inputStream = new ByteArrayInputStream("q\n".getBytes());
         System.setIn(inputStream);
         handler.runInputLoop();
+        verify(messenger).printWelcome();
         verify(messenger).printPrompt();
         verify(messenger).printGoodbye();
         verifyNoMoreInteractions(messenger);
@@ -139,6 +140,7 @@ public class UserInputHandlerTest {
         inputStream = new ByteArrayInputStream("?\nq\n".getBytes());
         System.setIn(inputStream);
         handler.runInputLoop();
+        verify(messenger).printWelcome();
         verify(messenger).printHelp();
         verify(messenger, times(2)).printPrompt();
         verify(messenger).printGoodbye();
@@ -150,6 +152,7 @@ public class UserInputHandlerTest {
         inputStream = new ByteArrayInputStream("=\nq\n".getBytes());
         System.setIn(inputStream);
         handler.runInputLoop();
+        verify(messenger).printWelcome();
         verify(messenger, times(2)).printPrompt();
         ArgumentCaptor<NamedArrayList> arrayArg = ArgumentCaptor.forClass(NamedArrayList.class);
         verify(messenger).showAllResults(arrayArg.capture());
@@ -170,6 +173,7 @@ public class UserInputHandlerTest {
         
         handler.runInputLoop();
         
+        verify(messenger).printWelcome();
         verify(messenger, times(2)).printPrompt();
         verify(messenger).printMessage("Virheviesti");
         verify(messenger).printGoodbye();

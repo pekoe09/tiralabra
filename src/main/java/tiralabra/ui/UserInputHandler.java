@@ -50,6 +50,7 @@ public class UserInputHandler {
     public void runInputLoop() {
         allResults = new NamedArrayList();
         Scanner in = new Scanner(System.in);
+        messenger.printWelcome();
         messenger.printPrompt();
         String input = in.nextLine().trim().toLowerCase();
         while(!("q").equals(input)) {
@@ -85,6 +86,10 @@ public class UserInputHandler {
         String filePath = params[0];
         String startPlaceName = params[1];
         String endPlaceName = params[2];
+        if(startPlaceName.equalsIgnoreCase(endPlaceName)) {
+            messenger.printMessage("Lähtö- ja maalipaikka ovat samat");
+            return;
+        }
         PathSearchResult[] results = null;
         
         if(filePath.equals("+")) {
